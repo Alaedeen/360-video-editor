@@ -22,7 +22,11 @@ export default {
   components: {
     appHeader: Header,
     appSide: SideBar
-  }
+  },
+  created() {
+          this.$store.dispatch('user/initUsers');
+          console.log(this.$store.state.user.users)
+        },
 }
 </script>
 

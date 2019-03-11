@@ -6,9 +6,9 @@
       <nav class="navbar navbar-dark bg-dark">
         <router-link to="/" class="navbar-brand" href="#">360° Videos Editor</router-link >
 
-        <router-link to="/login"  class="btn btn-outline-success">Login</router-link>
+        <router-link to="/login"  class="btn btn-outline-light" v-if="current==null">Login</router-link>
       </nav>
-      
+
     </div>
 
   </div>
@@ -16,7 +16,11 @@
 
 <script>
 export default {
-
+    computed: {
+      current() {
+        return this.$store.state.user.current
+      }
+    },
 }
 </script>
 

@@ -9,10 +9,21 @@
                 <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign in with Google+</span> </button>
             </div>
             <p style="text-align:center"> OR  </p>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+            <input type="email"
+                id="inputEmail"
+                class="form-control"
+                placeholder="Email address"
+                required=""
+                autofocus=""
+                v-model="user.email">
+            <input type="password"
+                  id="inputPassword"
+                  class="form-control"
+                  placeholder="Password"
+                  required=""
+                  v-model="user.password">
 
-            <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+            <button class="btn btn-success btn-block" @click.prevent="checkLogin()"><i class="fas fa-sign-in-alt"></i> Sign in</button>
             <a href="#" id="forgot_pswd">Forgot password?</a>
             <hr>
             <!-- <p>Don't have an account!</p>  -->
@@ -26,6 +37,33 @@
 
 <script>
 export default {
+  data() {
+    return {
+      user: {
+              email: '',
+              password: ''
+            },
+            U: null
+    }
+  },
+  computed: {
+    users(){
+        return this.$store.state.user.users
+    }
+  },
+  methods: {
+    checkLogin(){
+      if (this.user.email==='') {
+        alert('you must enter your mail')
+      }else if (this.user.password==='') {
+        alert('you must enter your password')
+      }else{
+         this.$store.dispatch('user/signIn', this.user);
+         this.$router.push({path:'/'})
+
+      }
+    }
+  },
 
 }
 </script>

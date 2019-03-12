@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "material-design-icons-iconfont": "^4.0.5",
+    "vee-validate": "^2.1.7",
     "vue": "^2.5.11",
     "vue-router": "^3.0.2",
     "vue-sidebar-menu": "^3.6.2",

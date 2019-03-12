@@ -9,19 +9,49 @@
                 <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign in with Google+</span> </button>
             </div>
             <p style="text-align:center"> OR  </p>
-            <input type="email"
-                id="inputEmail"
+            <!-- validate email -->
+            <ValidationProvider name="email"
+            rules="required|email"
+            >
+              <div slot-scope="{ errors }">
+                <input v-model="user.email"
+            placeholder="Email address"
+            id="inputEmail"
                 class="form-control"
-                placeholder="Email address"
-                required=""
-                autofocus=""
-                v-model="user.email">
-            <input type="password"
-                  id="inputPassword"
-                  class="form-control"
-                  placeholder="Password"
-                  required=""
-                  v-model="user.password">
+                :class="{'error' : errors.length!=0}"
+                @keyup="error= errors.length!=0">
+                <b style="color : red">{{ errors[0] }}</b>
+              </div>
+            </ValidationProvider>
+            <!-- validate email -->
+                <br>
+                <!-- validate password -->
+                <ValidationProvider name="password"
+                  rules="required|min:8|verify_password"
+                  >
+                    <div slot-scope="{ errors }">
+                      <div class="password">
+                          <input :type="passwordVisible ? 'text' : 'password'"
+                            id="inputPassword"
+                            class="form-control"
+                            placeholder="Password"
+                            required=""
+                            v-model="user.password"
+                            :class="{'error' : errors.length!=0}"
+                            @keyup="error= errors.length!=0">
+                            <button class="visibility"
+                            tabindex='-1'
+                            @click.prevent='passwordVisible = !passwordVisible'
+                            :arial-label='passwordVisible ? "Hide password" : "Show password"'>
+                              <i class="material-icons">{{ passwordVisible ? "visibility" : "visibility_off" }}</i>
+                            </button>
+
+                      </div>
+                      <b style="color : red">{{ errors[0] }}</b>
+                    </div>
+                  </ValidationProvider>
+                  <!-- validate password -->
+                  <br>
 
             <button class="btn btn-success btn-block" @click.prevent="checkLogin()"><i class="fas fa-sign-in-alt"></i> Sign in</button>
             <a href="#" id="forgot_pswd">Forgot password?</a>
@@ -36,31 +66,34 @@
 </template>
 
 <script>
+import { ValidationProvider } from 'vee-validate';
 export default {
+  components: {
+    ValidationProvider
+  },
   data() {
     return {
       user: {
               email: '',
               password: ''
             },
-            U: null
+        passwordVisible:false,
+        error: false
     }
   },
   computed: {
-    users(){
-        return this.$store.state.user.users
+    current(){
+        return this.$store.state.user.current
     }
+
   },
   methods: {
     checkLogin(){
-      if (this.user.email==='') {
-        alert('you must enter your mail')
-      }else if (this.user.password==='') {
-        alert('you must enter your password')
-      }else{
+      if (!this.error) {
          this.$store.dispatch('user/signIn', this.user);
-         this.$router.push({path:'/'})
-
+         if (this.current!= null) {
+            this.$router.push({path:'/'})
+         }
       }
     }
   },
@@ -69,6 +102,23 @@ export default {
 </script>
 
 <style scoped>
+.visibility {
+	all:unset;
+	background:whitesmoke;
+	display:inline-block;
+	padding:2px .4em 0;
+	vertical-align:center;
+}
+.material-icons {
+	font-size: 1.5em;
+}
+.password {
+	display:flex;
+	align-items:center;
+}
+.error{
+  border-color: red;
+}
 
 /* sign in FORM */
 #logreg-forms{

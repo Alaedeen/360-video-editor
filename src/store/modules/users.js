@@ -25,7 +25,7 @@ const mutations = {
       if (U.length == 0) {
         alert('user does not exist')
       } else {
-        state.current = U
+        state.current = U[0]
 
       }
 

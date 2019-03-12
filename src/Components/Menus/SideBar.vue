@@ -57,7 +57,7 @@
         drawer: true,
         items: [
           { title: 'Home', icon: 'dashboard' , to:'home'},
-          { title: 'Create an account', icon: 'fiber_new' ,to:'login'}
+          { title: 'Create an account', icon: 'fiber_new' ,to:'sign_up'}
         ],
         mini: true,
         right: null
@@ -70,7 +70,7 @@
     },
     computed: {
       current() {
-        return this.$store.state.user.current[0]
+        return this.$store.state.user.current
       }
     },
   }

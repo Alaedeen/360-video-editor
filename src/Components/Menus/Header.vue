@@ -3,7 +3,7 @@
 
     <div class="pos-f-t" >
 
-      <nav class="navbar navbar-dark bg-dark">
+      <nav class="navbar navbar-dark " style="backgroundColor: #444444;">
         <router-link to="/" class="navbar-brand" href="#">360° Videos Editor</router-link >
 
         <router-link to="/login"  class="btn btn-outline-light" v-if="current==null">Login</router-link>

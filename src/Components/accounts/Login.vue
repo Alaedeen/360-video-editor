@@ -5,8 +5,8 @@
         <form class="form-signin">
             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
             <div class="social-login">
-                <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Sign in with Facebook</span> </button>
-                <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign in with Google+</span> </button>
+                <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> <b>Sign in with Facebook</b></span> </button>
+                <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> <b>Sign in with Google+</b></span> </button>
             </div>
             <p style="text-align:center"> OR  </p>
             <!-- validate email -->
@@ -52,7 +52,7 @@
                   </ValidationProvider>
                   <!-- validate password -->
                   <br>
-
+              <b style="color: red" v-if="form!=''"> {{form}} </b>
             <button class="btn btn-success btn-block" @click.prevent="checkLogin()"><i class="fas fa-sign-in-alt"></i> Sign in</button>
             <a href="#" id="forgot_pswd">Forgot password?</a>
             <hr>
@@ -78,7 +78,8 @@ export default {
               password: ''
             },
         passwordVisible:false,
-        error: false
+        error: false,
+        form : ''
     }
   },
   computed: {
@@ -89,7 +90,9 @@ export default {
   },
   methods: {
     checkLogin(){
-      if (!this.error) {
+      if (this.user.email==='' || this.user.password==='' ) {
+          this.form='You must fill all fields'
+      }else if (!this.error) {
          this.$store.dispatch('user/signIn', this.user);
          if (this.current!= null) {
             this.$router.push({path:'/'})

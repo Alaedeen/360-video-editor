@@ -4,7 +4,7 @@
     <div class="col">
       <app-side></app-side>
     </div>
-    <div class="col-9">
+    <div class="col">
       <h1>Content</h1>
     </div>
   </div>

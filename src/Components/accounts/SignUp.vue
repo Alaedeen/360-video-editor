@@ -5,16 +5,75 @@
         <form class="form-signin">
             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign up</h1>
             <div class="social-login">
-                <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Sign up with Facebook</span> </button>
-                <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign up with Google+</span> </button>
+                <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> <b>Sign up with Facebook</b></span> </button>
+                <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> <b>Sign up with Google+</b></span> </button>
             </div>
             <p style="text-align:center"> OR  </p>
-            <input type="text" id="inputEmail" class="form-control" placeholder="First name" required="" autofocus="">
-            <input type="text" id="inputEmail" class="form-control" placeholder="Last name" required="" autofocus="">
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+            <!-- validate name -->
+            <ValidationProvider name="name"
+            rules="required"
+            >
+            <div slot-scope="{ errors }">
+              <input
+              v-model="user.name"
+              type="text"
+              id="inputName"
+              class="form-control"
+              :class="{'error' : errors.length!=0}"
+                @keyup="error= errors.length!=0"
+              placeholder="Full name"
+              >
+              <b style="color : red">{{ errors[0] }}</b>
+              </div>
+            </ValidationProvider>
+             <!-- validate name -->
+            <br>
+            <!-- validate email -->
+            <ValidationProvider name="email"
+            rules="required|email"
+            >
+              <div slot-scope="{ errors }">
+                <input v-model="user.email"
+            placeholder="Email address"
+            id="inputEmail"
+                class="form-control"
+                :class="{'error' : errors.length!=0}"
+                @keyup="error= errors.length!=0">
+                <b style="color : red">{{ errors[0] }}</b>
+              </div>
+            </ValidationProvider>
+            <!-- validate email -->
+             <br>
+              <!-- validate password -->
+                <ValidationProvider name="password"
+                  rules="required|min:8|verify_password"
+                  >
+                    <div slot-scope="{ errors }">
+                      <div class="password">
+                          <input :type="passwordVisible ? 'text' : 'password'"
+                            id="inputPassword"
+                            class="form-control"
+                            placeholder="Password"
+                            required=""
+                            v-model="user.password"
+                            :class="{'error' : errors.length!=0}"
+                            @keyup="error= errors.length!=0">
+                            <button class="visibility"
+                            tabindex='-1'
+                            @click.prevent='passwordVisible = !passwordVisible'
+                            :arial-label='passwordVisible ? "Hide password" : "Show password"'>
+                              <i class="material-icons">{{ passwordVisible ? "visibility" : "visibility_off" }}</i>
+                            </button>
 
-            <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign up</button>
+                      </div>
+                      <b style="color : red">{{ errors[0] }}</b>
+                    </div>
+                  </ValidationProvider>
+                  <!-- validate password -->
+                  <br>
+
+            <b style="color: red" v-if="form!=''"> {{form}} </b>
+            <button class="btn btn-success btn-block" @click.prevent="addUser()"><i class="fas fa-sign-in-alt"></i> Sign up</button>
 
             <hr>
             <!-- <p>Don't have an account!</p>  -->
@@ -29,13 +88,65 @@
 </template>
 
 <script>
+import { ValidationProvider } from 'vee-validate';
 export default {
+  components: {
+    ValidationProvider
+  },
+  data() {
+    return {
+      user: {
+              id : 0,
+              name:'',
+              email: '',
+              password: ''
+            },
+        passwordVisible:false,
+        passwordVisible1:false,
+        error: false,
+        password:'',
+        form : ''
+    }
+  },
+  computed: {
+    current(){
+        return this.$store.state.user.current
+    }
 
+  },
+  methods: {
+    addUser(){
+      if (this.user.name==='' || this.user.email==='' || this.user.password==='' ) {
+          this.form='You must fill all fields'
+      }else if (!this.error) {
+         this.$store.dispatch('user/addUser', this.user);
+         if (this.current!= null) {
+            this.$router.push({path:'/'})
+         }
+      }
+    }
+  },
 }
 </script>
 
 <style scoped>
-
+.visibility {
+	all:unset;
+	background:whitesmoke;
+	display:inline-block;
+	padding:2px .4em 0;
+	vertical-align:center;
+}
+.material-icons {
+	font-size: 1.5em;
+}
+.password {
+	display:flex;
+	align-items:center;
+}
+.error{
+  border-color: red;
+}
 /* sign in FORM */
 #logreg-forms{
 

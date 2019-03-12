@@ -30,6 +30,7 @@
       </v-list>
     </v-toolbar>
 
+
     <v-list class="pt-0" dense>
       <v-divider></v-divider>
 
@@ -46,7 +47,20 @@
           <v-list-tile-title>{{ item.title }}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
+      <div v-if="current!=null">
+        <v-divider></v-divider>
+      <v-list-tile @click="logOut()">
+        <v-list-tile-action>
+          <v-icon> exit_to_app </v-icon>
+        </v-list-tile-action>
+
+        <v-list-tile-content>
+          <v-list-tile-title>Log out</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+      </div>
     </v-list>
+
   </v-navigation-drawer>
 </template>
 
@@ -56,8 +70,7 @@
       return {
         drawer: true,
         items: [
-          { title: 'Home', icon: 'dashboard' , to:'home'},
-          { title: 'Create an account', icon: 'fiber_new' ,to:'sign_up'}
+          { title: 'Home', icon: 'dashboard' , to:''},
         ],
         mini: true,
         right: null
@@ -71,6 +84,16 @@
     computed: {
       current() {
         return this.$store.state.user.current
+      },
+      logOut(){
+        this.$store.dispatch('user/logOut');
+        window.location.reload()
+        this.$router.push({ path: '/' })
+      }
+    },
+    created() {
+      if(this.current==null){
+        this.items.splice(0,0,{ title: 'Login', icon: 'account_circle' ,to:'login'})
       }
     },
   }

@@ -36,9 +36,10 @@ const mutations = {
         alert('user does not exist')
       } else {
         state.current = U[0]
-
       }
-
+    },
+    'LOG_OUT'(state){
+      state.current=null
     }
 }
 
@@ -51,6 +52,9 @@ const actions = {
   },
   addUser: ({commit},order)=>{
     commit('ADD_USER', order)
+  },
+  logOut: ({commit})=>{
+    commit('LOG_OUT')
   }
 }
 

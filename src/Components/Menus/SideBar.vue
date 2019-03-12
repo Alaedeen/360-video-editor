@@ -3,7 +3,10 @@
     v-model="drawer"
     hide-overlay
     dark
-    stateless
+    app
+      fixed
+      permanent
+   style="margin-top: 3.5em; width: 20%;"
   >
     <v-toolbar flat class="transparent" v-if="current!=null">
       <v-list class="pa-0">

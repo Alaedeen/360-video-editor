@@ -27,8 +27,8 @@ components: {
 
 <style scoped>
   .search {
-  position: absolute;
-  top: 50%;
+      position: absolute;
+        top: 6em;
   left: 50%;
   -webkit-transform: translateX(-50%) translateY(-50%);
           transform: translateX(-50%) translateY(-50%);

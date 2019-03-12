@@ -1,6 +1,6 @@
 <template>
   <div >
-      <app-header></app-header>
+      <app-header style="position: fixed; width: 100%;"></app-header>
                 <transition name="slide" mode="out-in">
                     <router-view></router-view>
                 </transition>

@@ -1,6 +1,7 @@
 import Login from './Components/accounts/Login.vue'
 import SignUp from './Components/accounts/SignUp.vue'
 import Home from './Components/Home.vue'
+import MyProfile from './Components/accounts/Profile.vue'
 
 export const routes = [
   {
@@ -17,5 +18,10 @@ export const routes = [
   path: '/sign_up',
   component: SignUp,
   name: 'signup'
+},
+{
+  path: '/my_profile',
+  component: MyProfile,
+  name: 'myprofile'
 },
 ]

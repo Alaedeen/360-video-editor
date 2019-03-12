@@ -1,38 +1,30 @@
 <template>
   <v-navigation-drawer
     v-model="drawer"
-    :mini-variant.sync="mini"
     hide-overlay
     dark
     stateless
   >
-    <v-toolbar flat class="transparent">
+    <v-toolbar flat class="transparent" v-if="current!=null">
       <v-list class="pa-0">
         <v-list-tile avatar>
-          <v-list-tile-avatar v-if="current!=null">
+          <v-list-tile-avatar >
             <img src="https://randomuser.me/api/portraits/men/85.jpg">
           </v-list-tile-avatar>
 
-          <v-list-tile-content v-if="current!=null">
+          <v-list-tile-content
+          @click="goToProfile()"
+          style="cursor : pointer">
             <v-list-tile-title>{{ current.name }}</v-list-tile-title>
           </v-list-tile-content>
-
-
-          <v-list-tile-action>
-            <v-btn
-              icon
-              @click.stop="mini = !mini"
-            >
-              <v-icon>view_headline</v-icon>
-            </v-btn>
-          </v-list-tile-action>
         </v-list-tile>
       </v-list>
-    </v-toolbar>
 
+    </v-toolbar>
+    <v-divider v-if="current!=null"></v-divider>
 
     <v-list class="pt-0" dense>
-      <v-divider></v-divider>
+
 
       <v-list-tile
         v-for="item in items"
@@ -80,15 +72,19 @@
       goto(item){
           this.$router.push({ path: '/' + item.to });
       }
-    },
-    computed: {
-      current() {
-        return this.$store.state.user.current
-      },
+      ,
       logOut(){
         this.$store.dispatch('user/logOut');
         window.location.reload()
         this.$router.push({ path: '/' })
+      },
+      goToProfile(){
+        this.$router.push({ path: '/my_profile' })
+      }
+    },
+    computed: {
+      current() {
+        return this.$store.state.user.current
       }
     },
     created() {

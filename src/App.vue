@@ -1,8 +1,8 @@
 <template>
   <div >
-
+            <app-header style="position: fixed;" v-if="!home"></app-header>
                 <transition name="slide" mode="out-in">
-                    <router-view></router-view>
+                    <router-view style="padding-top: 3em;"></router-view>
                 </transition>
 
   </div>
@@ -10,9 +10,17 @@
 </template>
 
 <script>
-
+import Header from './Components/Menus/Header.vue'
 export default {
   name: 'app',
+  components: {
+    appHeader: Header,
+  },
+  computed: {
+    home() {
+      return this.$store.state.home
+    }
+  },
   data () {
     return {
 

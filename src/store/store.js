@@ -6,6 +6,9 @@ import { user } from "./modules/users";
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
+  state: {
+    home: false
+  },
   modules: {
     user
   }

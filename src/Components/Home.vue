@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="row">
-    <app-header style="position: fixed; width: 100%;"></app-header>
+    <app-header style="position: fixed; width: 100%;" v-if="home"></app-header>
   </div>
   <div class="row">
     <div class="col-3">
@@ -21,7 +21,18 @@ export default {
 components: {
     appSide: SideBar,
     appHeader: Header,
-  }
+  },
+  computed: {
+    home() {
+      return this.$store.state.home
+    }
+  },
+  beforeCreate() {
+    this.$store.state.home=true
+  },
+  destroyed() {
+    this.$store.state.home=false
+  },
 }
 </script>
 

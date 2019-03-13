@@ -6,6 +6,7 @@
                dark
                height='70em'
                style="padding-left : 0px;">
+      <v-toolbar-side-icon @click="toggleside()"></v-toolbar-side-icon>
       <v-toolbar-title style="cursor: pointer">360° video editor</v-toolbar-title>
       <v-spacer></v-spacer>
     <v-text-field
@@ -26,6 +27,11 @@ export default {
     computed: {
       current() {
         return this.$store.state.user.current
+      }
+    },
+    methods: {
+      toggleside(){
+        this.$store.state.side=!this.$store.state.side
       }
     },
 }

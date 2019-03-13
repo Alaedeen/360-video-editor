@@ -1,26 +1,26 @@
 <template>
 <div>
   <div class="row">
+    <app-header style="position: fixed; width: 100%;"></app-header>
+  </div>
+  <div class="row">
     <div class="col-3">
       <app-side></app-side>
     </div>
     <div class="col-8">
-      <form class="search">
-        <div class="search__wrapper">
-          <input type="text" name="" placeholder="Search for..." class="search__field">
-          <button type="submit" class="fa fa-search search__icon"><v-icon>search</v-icon></button>
-        </div>
-      </form>
+
     </div>
   </div>
 </div>
 </template>
 
 <script>
+import Header from '../Components/Menus/HomeHeader.vue'
 import SideBar from './Menus/SideBar.vue'
 export default {
 components: {
-    appSide: SideBar
+    appSide: SideBar,
+    appHeader: Header,
   }
 }
 </script>

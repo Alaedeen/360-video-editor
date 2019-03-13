@@ -6,8 +6,9 @@
     app
       fixed
       permanent
-   style="margin-top: 3.5em; width: 20%;"
+   style="width: 20%; backgroundColor: 	#262626;margin-top: 5em;"
   >
+
     <v-toolbar flat class="transparent" v-if="current!=null">
       <v-list class="pa-0">
         <v-list-tile avatar>

@@ -1,6 +1,6 @@
 <template>
   <div >
-      <app-header style="position: fixed; width: 100%;"></app-header>
+
                 <transition name="slide" mode="out-in">
                     <router-view></router-view>
                 </transition>
@@ -10,18 +10,13 @@
 </template>
 
 <script>
-import Header from './Components/Menus/Header.vue'
-import SideBar from './Components/Menus/SideBar.vue'
+
 export default {
   name: 'app',
   data () {
     return {
 
     }
-  },
-  components: {
-    appHeader: Header,
-    appSide: SideBar
   },
   created() {
           this.$store.dispatch('user/initUsers');

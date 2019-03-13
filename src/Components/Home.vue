@@ -1,17 +1,24 @@
 <template>
 <div>
-  <div class="row">
-    <app-header style="position: fixed; width: 100%;" v-if="home"></app-header>
-  </div>
-  <div class="row">
+
+  <div class="row" >
     <transition name="slide" mode="out-in" v-if="side">
     <div class="col-3">
       <app-side></app-side>
     </div>
     </transition>
-    <div class="col-8">
-
+    <div class="col" style="paddingTop : 5em">
+      <v-container grid-list-md text-xs-center>
+        <v-layout row wrap>
+          <v-flex v-for="i in 8" :key="`3${i}`" xs4>
+            <app-tile></app-tile>
+          </v-flex>
+        </v-layout>
+      </v-container>
     </div>
+  </div>
+  <div class="row" >
+    <app-header style="position: fixed; width: 100%;" v-if="home"></app-header>
   </div>
 </div>
 </template>
@@ -19,10 +26,12 @@
 <script>
 import Header from '../Components/Menus/HomeHeader.vue'
 import SideBar from './Menus/SideBar.vue'
+import videoTile from './VideoPlaying/videoTile.vue'
 export default {
 components: {
     appSide: SideBar,
     appHeader: Header,
+    appTile: videoTile
   },
   computed: {
     home() {

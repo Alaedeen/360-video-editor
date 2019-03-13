@@ -8,7 +8,7 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     home: false,
-    side: true
+    side: true//add mutations and actions and change all components
   },
   modules: {
     user

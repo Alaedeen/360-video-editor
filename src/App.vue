@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     home() {
-      return this.$store.state.home
+      return this.$store.state.home.header
     }
   },
   data () {

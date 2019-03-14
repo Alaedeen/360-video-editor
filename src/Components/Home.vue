@@ -2,11 +2,10 @@
 <div>
 
   <div class="row" >
-    <transition name="slide" mode="out-in" v-if="side">
-    <div class="col-3">
+
+    <div class="col-3"  v-if="side">
       <app-side></app-side>
     </div>
-    </transition>
     <div class="col" style="paddingTop : 5em">
       <v-container grid-list-md text-xs-center>
         <v-layout row wrap>
@@ -35,17 +34,17 @@ components: {
   },
   computed: {
     home() {
-      return this.$store.state.home
+      return this.$store.state.home.header
     },
     side() {
-      return this.$store.state.side
+      return this.$store.state.home.side
     }
   },
   beforeCreate() {
-    this.$store.state.home=true
+    this.$store.dispatch('home/setHead',true)
   },
   destroyed() {
-    this.$store.state.home=false
+    this.$store.dispatch('home/setHead',false)
   },
 }
 </script>

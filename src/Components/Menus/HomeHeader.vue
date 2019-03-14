@@ -31,7 +31,7 @@ export default {
     },
     methods: {
       toggleside(){
-        this.$store.state.side=!this.$store.state.side
+        this.$store.dispatch('home/toggleSide')
       }
     },
 }

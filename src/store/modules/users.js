@@ -1,8 +1,10 @@
 import users from '../../data/users'
 
 const state={
-  users: [],
-  current: null
+  users: [],//add patern
+  current: null,
+  loginError: false,
+  signinError: false
 }
 
 const getters= {
@@ -22,7 +24,10 @@ const mutations = {
       })
 
       if (U.length != 0) {
-        alert('email already used')
+        state.signinError = true
+        setTimeout(function () {
+          state.signinError = false
+        }, 2000);
       } else {
         state.current = log
         state.users.push(log)
@@ -33,7 +38,11 @@ const mutations = {
         return (user.email == log.email) && (user.password == log.password)
       })
       if (U.length == 0) {
-        alert('user does not exist')
+        state.loginError=true
+        setTimeout(function () {
+          state.loginError = false
+        }, 2000);
+
       } else {
         state.current = U[0]
       }

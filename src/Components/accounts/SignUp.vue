@@ -84,6 +84,20 @@
             <br>
 
     </div>
+    <v-snackbar
+        v-model="snackbar"
+        color="error"
+        :timeout = "timeout"
+      >
+        Mail already used
+        <v-btn
+          dark
+          flat
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </v-snackbar>
 </div>
 </template>
 
@@ -105,12 +119,16 @@ export default {
         passwordVisible1:false,
         error: false,
         password:'',
-        form : ''
+        form : '',
+        timeout : 6000
     }
   },
   computed: {
     current(){
         return this.$store.state.user.current
+    },
+    snackbar(){
+      return this.$store.state.user.signinError
     }
 
   },

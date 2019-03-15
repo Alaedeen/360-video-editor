@@ -62,6 +62,20 @@
             <br>
 
     </div>
+    <v-snackbar
+        v-model="snackbar"
+        color="error"
+        :timeout = "timeout"
+      >
+        User does not exist
+        <v-btn
+          dark
+          flat
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </v-snackbar>
 </div>
 </template>
 
@@ -79,12 +93,16 @@ export default {
             },
         passwordVisible:false,
         error: false,
-        form : ''
+        form : '',
+        timeout : 6000
     }
   },
   computed: {
     current(){
         return this.$store.state.user.current
+    },
+    snackbar(){
+      return this.$store.state.user.loginError
     }
 
   },

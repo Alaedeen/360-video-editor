@@ -1,255 +1,132 @@
 <template>
-<div class="container emp-profile">
-            <form method="post">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="profile-img">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
-                            <div class="file btn btn-lg btn-primary">
-                                Change Photo
-                                <input type="file" name="file"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="profile-head">
-                                    <h5>
-                                        {{ current.name }}
-                                    </h5>
-                                    <h6>
-                                        Education
-                                    </h6>
-                                    <p class="proile-rating">ONLINE VIDEOS: <span>20</span></p>
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="profile-work">
-                            <h5>DESCRIPTION:</h5>
-                            <p >I love 360 videos</p>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="tab-content profile-tab" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>User Id</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>User {{current.id}} </p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Name</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p> {{current.name}} </p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Email</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>{{current.email}} </p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Phone</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>123 456 7890</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Profession</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Web Developer and Designer</p>
-                                            </div>
-                                        </div>
-                            </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Experience</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Expert</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Hourly Rate</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>10$/hr</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Total Projects</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>230</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>English Level</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Expert</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Availability</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>6 months</p>
-                                            </div>
-                                        </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Your Bio</label><br/>
-                                        <p>Your detail description</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+<div class="profile" >
+  <v-app id="inspire" >
+    <v-parallax
+      dark
+     height="300" src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+    >
+      <v-layout
+        align-center
+        column
+        justify-center
+      >
+        <h1 class="display-2 font-weight-thin mb-3">Vuetify.js</h1>
+        <h4 class="subheading">Build your application today!</h4>
+      </v-layout>
+    </v-parallax>
+  </v-app>
+
+  <v-flex
+          xs12
+          sm6
+          md8
+          align-center
+          justify-left
+          layout
+          text-xs-center
+          class= "avatar"
+        >
+           <v-hover>
+             
+      <v-avatar
+            size= '65'
+            color="grey lighten-4"
+                slot-scope="{ hover }"
+                style="cursor: pointer"
+          >
+
+            <v-img src="https://cdn.vuetifyjs.com/images/lists/4.jpg" alt="avatar">
+              <v-expand-transition >
+            <div
+              v-if="hover"
+              class="d-flex transition-fast-in-fast-out grey darken-2 v-card--reveal display-3 white--text"
+              style="height: 100%;opacity: 0.5;"
+            >
+              <v-icon dark>edit</v-icon>
+            </div>
+          </v-expand-transition>
+        </v-img>
+          </v-avatar>
+
+            </v-hover>
+
+        <h2 class = 'name'> Alaedeen Eloueryemmi</h2>
+        </v-flex>
+
+        <v-app class="tabs">
+          <div>
+            <v-tabs
+              v-model="active"
+              dark
+              slider-color="red"
+            >
+              <v-tab
+                v-for="tab in tabs"
+                :key="tab"
+                ripple
+              >
+                 {{ tab }}
+
+              </v-tab>
+              <v-tab-item
+                v-for="tab in tabs"
+                :key="tab"
+              >
+                <v-card flat  class="profile">
+                  <v-card-text v-if="tab=='Library'"> Library </v-card-text>
+                  <v-card-text v-if="tab=='Online videos'"> Online videos</v-card-text>
+                  <v-card-text v-if="tab=='About'"> About</v-card-text>
+                </v-card>
+              </v-tab-item>
+            </v-tabs>
+
+
+          </div>
+        </v-app>
+
+</div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      tabs :['Library', 'Online videos', 'About' ]
+    }
+  },
 computed: {
       current() {
         return this.$store.state.user.current
       }
     },
     beforeCreate() {
-        if (this.$store.state.user.current==null) {
-          this.$router.push({ path: '/' })
-        }
+        // if (this.$store.state.user.current==null) {
+        //   this.$router.push({ path: '/' })
+        // }
     },
 }
 
 </script>
 
 <style scoped>
-.emp-profile{
-    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+#inspire {
+  height : 300px
 }
-.emp-profile{
-    padding: 3%;
-    margin-top: 3%;
-    margin-bottom: 3%;
-    border-radius: 0.5rem;
-    background: #fff;
+.avatar{
+  padding-left: 2em;
+  padding-top: 2em;
 }
-.profile-img{
-    text-align: center;
+.name{
+  padding-left: 1em;
+  color : white
 }
-.profile-img img{
-    width: 70%;
-    height: 100%;
+.tabs{
+  padding-top: 2em;
+  background-color: 	#444444
 }
-.profile-img .file {
-    position: relative;
-    overflow: hidden;
-    margin-top: -20%;
-    width: 70%;
-    border: none;
-    border-radius: 0;
-    font-size: 15px;
-    background: #212529b8;
-}
-.profile-img .file input {
-    position: absolute;
-    opacity: 0;
-    right: 0;
-    top: 0;
-}
-.profile-head h5{
-    color: #333;
-}
-.profile-head h6{
-    color: #0062cc;
-}
-.profile-edit-btn{
-    border: none;
-    border-radius: 1.5rem;
-    width: 70%;
-    padding: 2%;
-    font-weight: 600;
-    color: #6c757d;
-    cursor: pointer;
-}
-.proile-rating{
-    font-size: 12px;
-    color: #818182;
-    margin-top: 5%;
-}
-.proile-rating span{
-    color: #495057;
-    font-size: 15px;
-    font-weight: 600;
-}
-.profile-head .nav-tabs{
-    margin-bottom:5%;
-}
-.profile-head .nav-tabs .nav-link{
-    font-weight:600;
-    border: none;
-}
-.profile-head .nav-tabs .nav-link.active{
-    border: none;
-    border-bottom:2px solid #0062cc;
-}
-.profile-work{
-    padding: 14%;
-    margin-top: -15%;
-}
-.profile-work h5{
-    color: #818182;
-    font-weight: 600;
-    margin-top: 10%;
-}
-.profile-work p{
-    text-decoration: none;
-    color: black;
-    font-weight: 600;
-    font-size: 11px;
-}
-.profile-work ul{
-    list-style: none;
-}
-.profile-tab label{
-    font-weight: 600;
-}
-.profile-tab p{
-    font-weight: 600;
-    color: #0062cc;
+.profile{
+      background-color: 	#444444;
+      color : white
 }
 </style>
 

@@ -1,10 +1,10 @@
 <template>
   <div >
-            <app-header style="position: fixed;" v-if="!home"></app-header>
-                <transition name="slide" mode="out-in">
-                    <router-view style="padding-top: 3em;"></router-view>
-                </transition>
 
+                <transition name="slide" mode="out-in">
+                    <router-view style="padding-top: 5em; background-color: 	#444444;"></router-view>
+                </transition>
+                <app-header style="position: fixed;" v-if="!home"></app-header>
   </div>
 
 </template>
@@ -34,6 +34,9 @@ export default {
 </script>
 
 <style>
+body{
+  background-color: 	#444444;
+}
 .slide-enter-active {
         animation: slide-in 200ms ease-out forwards;
     }

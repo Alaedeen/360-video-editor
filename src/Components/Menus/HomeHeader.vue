@@ -17,6 +17,26 @@
            clearable
         ></v-text-field>
       <v-spacer></v-spacer>
+
+
+
+      <v-badge left
+      style="cursor: pointer"
+      overlap
+      color="red">
+        <template v-slot:badge>
+          <span>6</span>
+        </template>
+        <v-icon
+          large
+          color="grey lighten-1"
+        >
+          notifications
+        </v-icon>
+      </v-badge>
+
+
+
     </v-toolbar>
   </v-app>
 </div>
@@ -24,6 +44,16 @@
 
 <script>
 export default {
+  data() {
+    return {
+        notifications: [
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me 2' }
+    ]
+    }
+  },
     computed: {
       current() {
         return this.$store.state.user.current

@@ -12,7 +12,8 @@ export default [{
       },
       countryOfResidence: 'Westeros',
       description: null,
-      profilePic: 'src/assets/ned.jpg'
+      profilePic: 'src/assets/ned.jpg',
+        joined: null
   },
   {
     id: 1,
@@ -28,7 +29,12 @@ export default [{
       },
       countryOfResidence: 'Westeros',
       description: 'this is a description',
-        profilePic: 'src/assets/lyana.png'
+        profilePic: 'src/assets/lyana.png',
+          joined: {
+            day: 2,
+            month: 'december',
+            year: 2019
+          },
   },
   {
     id: 2,
@@ -44,6 +50,7 @@ export default [{
     },
     countryOfResidence: 'Westeros',
     description: null,
-      profilePic: 'src/assets/Jon.png'
+      profilePic: 'src/assets/Jon.png',
+      joined: null
   },
 ]

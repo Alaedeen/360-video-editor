@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VeeValidate from 'vee-validate';
+import Vuelidate from 'vuelidate'
 
 
 import {
@@ -15,6 +16,7 @@ import {
 Vue.use(VueRouter);
 Vue.use(Vuetify)
 Vue.use(VeeValidate);
+Vue.use(Vuelidate)
 
 VeeValidate.Validator.extend('verify_password', {
   getMessage: field => `The password must contain at least: 1 uppercase letter, 1 lowercase letter, 1 number, and one special character (E.g. , .  & ? etc)`,

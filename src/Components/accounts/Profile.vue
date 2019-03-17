@@ -73,8 +73,53 @@
                 :key="tab"
               >
                 <v-card flat  class="profile">
-                  <v-card-text v-if="tab=='Online videos'"> Online videos</v-card-text>
-                  <v-card-text v-if="tab=='About'"> About</v-card-text>
+                  <div v-if="tab=='Online videos'">
+                    <v-container grid-list-md text-xs-center>
+                      <v-layout row wrap>
+                        <v-flex v-for="i in 8" :key="`3${i}`" xs3>
+                          <app-tile></app-tile>
+                        </v-flex>
+                      </v-layout>
+                    </v-container>
+                  </div>
+                  <div v-if="tab=='About'">
+                      <v-container grid-list-md text-xs-center>
+                              <v-layout row wrap>
+
+                                <v-flex  xs6>
+                                  <p class="text-sm-left"><b>Details</b></p>
+                                  <v-divider ></v-divider><br>
+                                  <p class="text-sm-left">
+                                    <span class='about'>E-mail</span>
+                                    <span>{{current.email}}</span>
+                                  </p>
+                                  <p class="text-sm-left">
+                                    <span class='about'>Description</span>
+                                    <span>{{current.description}}</span>
+                                  </p>
+                                </v-flex>
+                                <v-flex xs4>
+                                  <p class="text-sm-left"><b>Stats</b></p>
+                                  <v-divider ></v-divider><br>
+                                  <p class="text-sm-left">
+                                    <span class='about'>Joined</span>
+                                    <span> {{current.joined.month}} {{current.joined.day}}, {{current.joined.year}} </span>
+                                  </p>
+                                  <v-divider ></v-divider><br>
+                                  <p class="text-sm-left">
+                                    <span>85</span>
+                                    <span>Views</span>
+                                  </p>
+                                  <v-divider ></v-divider><br>
+                                  <p class="text-sm-left">
+                                    <span>85</span>
+                                    <span>Videos</span>
+                                  </p>
+                                  <v-divider ></v-divider><br>
+                                </v-flex>
+                              </v-layout>
+                            </v-container>
+                  </div>
                 </v-card>
               </v-tab-item>
             </v-tabs>
@@ -87,6 +132,7 @@
 </template>
 
 <script>
+import videoTile from '../VideoPlaying/videoTile.vue'
 export default {
   data() {
     return {
@@ -98,11 +144,14 @@ computed: {
         return this.$store.state.user.current
       }
     },
-    beforeCreate() {
-        if (this.$store.state.user.current==null) {
-          this.$router.push({ path: '/' })
-        }
-    },
+beforeCreate() {
+    if (this.$store.state.user.current==null) {
+      this.$router.push({ path: '/' })
+    }
+},
+components: {
+  appTile: videoTile
+}
 }
 
 </script>
@@ -126,6 +175,10 @@ computed: {
 .profile{
       background-color: 	#444444;
       color : white
+}
+.about{
+  color: grey;
+  padding-right: 2em;
 }
 </style>
 

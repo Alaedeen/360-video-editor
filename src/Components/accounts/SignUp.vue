@@ -110,10 +110,16 @@ export default {
   data() {
     return {
       user: {
-              id : 0,
-              name:'',
+              id: 1,
+              name: '',
               email: '',
-              password: ''
+              password: '',
+              status: 'user',
+                dateOfBirth: null,
+                countryOfResidence: '',
+                description: '',
+                  profilePic: 'src/assets/user.png',
+                  joined: null
             },
         passwordVisible:false,
         passwordVisible1:false,
@@ -129,6 +135,39 @@ export default {
     },
     snackbar(){
       return this.$store.state.user.signinError
+    },
+    date(){
+      var today = new Date();
+      var day = today.getDate();
+      var month = today.getMonth()+1; //January is 0!
+      var year = today.getFullYear();
+      switch (month) {
+        case 1: month='January'
+          break;
+        case 2: month='February'
+          break;
+        case 3: month='March'
+          break;
+        case 4: month='April'
+          break;
+        case 5: month='May'
+          break;
+        case 6: month='June'
+          break;
+        case 7: month='Jully'
+          break;
+        case 8: month='August'
+          break;
+        case 9: month='September'
+          break;
+        case 10: month='October'
+          break;
+        case 11: month='November'
+          break;
+        case 12: month='December'
+          break;
+      }
+      return{day,month,year}
     }
 
   },
@@ -137,6 +176,7 @@ export default {
       if (this.user.name==='' || this.user.email==='' || this.user.password==='' ) {
           this.form='You must fill all fields'
       }else if (!this.error) {
+        this.user.joined=this.date
          this.$store.dispatch('user/addUser', this.user);
          if (this.current!= null) {
             this.$router.push({path:'/'})

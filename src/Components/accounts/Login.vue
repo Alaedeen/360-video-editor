@@ -67,7 +67,7 @@
         color="error"
         :timeout = "timeout"
       >
-        User does not exist
+        Incorrect email or password.
         <v-btn
           dark
           flat

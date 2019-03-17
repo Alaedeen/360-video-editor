@@ -4,7 +4,6 @@ export default [{
     email: 'ned@stark.com',
     password: 'Azerty@1',
     status: 'admin',
-      gender: 'male',
       dateOfBirth: {
         day: 2,
         month: 'december',
@@ -21,7 +20,6 @@ export default [{
     email: 'lyana@stark.com',
     password: 'Azerty@1',
     status: 'user',
-      gender: 'male',
       dateOfBirth: {
         day: 2,
         month: 'december',
@@ -42,7 +40,6 @@ export default [{
     email: 'jon@snow.com',
     password: 'Azerty@1',
     status: 'super admin',
-    gender: 'male',
     dateOfBirth: {
       day: 2,
       month: 'december',

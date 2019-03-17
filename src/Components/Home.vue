@@ -10,7 +10,7 @@
       <v-container grid-list-md text-xs-center>
         <v-layout row wrap>
           <v-flex v-for="i in 8" :key="`3${i}`" xs3>
-            <app-tile></app-tile>
+            <app-tile style="cursor: pointer"></app-tile>
           </v-flex>
         </v-layout>
       </v-container>

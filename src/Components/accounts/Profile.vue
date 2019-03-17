@@ -11,7 +11,7 @@
         justify-center
       >
         <h1 class="display-2 font-weight-thin mb-3"> {{current.name}} </h1>
-        <h4 class="subheading">{{current.description}}</h4>
+        <h4 class="subheading">2,459,677 subscribers</h4>
       </v-layout>
     </v-parallax>
   </v-app>
@@ -77,7 +77,7 @@
                     <v-container grid-list-md text-xs-center>
                       <v-layout row wrap>
                         <v-flex v-for="i in 8" :key="`3${i}`" xs3>
-                          <app-tile></app-tile>
+                          <app-tile style="cursor: pointer"></app-tile>
                         </v-flex>
                       </v-layout>
                     </v-container>

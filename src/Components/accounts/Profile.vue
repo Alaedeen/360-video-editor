@@ -10,8 +10,8 @@
         column
         justify-center
       >
-        <h1 class="display-2 font-weight-thin mb-3">Vuetify.js</h1>
-        <h4 class="subheading">Build your application today!</h4>
+        <h1 class="display-2 font-weight-thin mb-3"> {{current.name}} </h1>
+        <h4 class="subheading">{{current.description}}</h4>
       </v-layout>
     </v-parallax>
   </v-app>
@@ -27,7 +27,7 @@
           class= "avatar"
         >
            <v-hover>
-             
+
       <v-avatar
             size= '65'
             color="grey lighten-4"
@@ -35,7 +35,7 @@
                 style="cursor: pointer"
           >
 
-            <v-img src="https://cdn.vuetifyjs.com/images/lists/4.jpg" alt="avatar">
+            <v-img :src="current.profilePic" alt="avatar">
               <v-expand-transition >
             <div
               v-if="hover"
@@ -50,7 +50,7 @@
 
             </v-hover>
 
-        <h2 class = 'name'> Alaedeen Eloueryemmi</h2>
+        <h2 class = 'name'> {{current.name}} </h2>
         </v-flex>
 
         <v-app class="tabs">
@@ -73,7 +73,6 @@
                 :key="tab"
               >
                 <v-card flat  class="profile">
-                  <v-card-text v-if="tab=='Library'"> Library </v-card-text>
                   <v-card-text v-if="tab=='Online videos'"> Online videos</v-card-text>
                   <v-card-text v-if="tab=='About'"> About</v-card-text>
                 </v-card>
@@ -91,7 +90,7 @@
 export default {
   data() {
     return {
-      tabs :['Library', 'Online videos', 'About' ]
+      tabs :['Online videos', 'About' ]
     }
   },
 computed: {
@@ -100,9 +99,9 @@ computed: {
       }
     },
     beforeCreate() {
-        // if (this.$store.state.user.current==null) {
-        //   this.$router.push({ path: '/' })
-        // }
+        if (this.$store.state.user.current==null) {
+          this.$router.push({ path: '/' })
+        }
     },
 }
 

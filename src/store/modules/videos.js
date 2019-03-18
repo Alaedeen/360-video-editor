@@ -3,7 +3,8 @@ import videos from '../../data/videos'
 const state = {
   videos: [],
   filtredVideos: [],
-  myVideos: []
+  myVideos: [],
+  playing: {}
 }
 
 const getters = {
@@ -30,6 +31,12 @@ const mutations = {
     state.filtredVideos = state.videos;
     state.myVideos = state.videos;
   },
+  'LOAD_VIDEO'(state,vidId) {
+    state.playing = state.videos.filter(video => {
+      return video.vidId == vidId
+    })[0]
+
+  }
 }
 
 const actions = {
@@ -45,6 +52,9 @@ const actions = {
   userVideos: ({commit},id)=>{
     commit('USER_VIDEOS', id)
   },
+  loadVideo: ({commit},vidId)=>{
+    commit('LOAD_VIDEO',vidId)
+  }
 }
 
 export const video = {

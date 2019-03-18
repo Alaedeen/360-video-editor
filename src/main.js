@@ -6,6 +6,12 @@ import 'vuetify/dist/vuetify.min.css'
 import VeeValidate from 'vee-validate';
 import Vuelidate from 'vuelidate'
 
+import jquery from './playerAssets/js/jquery-1.7.2.min.js'
+import three from './playerAssets/js/three.min.js'
+
+Object.defineProperty(Vue.prototype, '$jquery', {
+  value: jquery
+});
 
 import {
   routes

@@ -50,4 +50,24 @@ export default [{
       profilePic: 'src/assets/Jon.png',
       joined: null
   },
+  {
+    id: 3,
+    name: 'Jon Snow 1',
+    email: 'jon1@snow.com',
+    password: 'Azerty@1',
+    status: 'user',
+    dateOfBirth: {
+      day: 2,
+      month: 'december',
+      year: 1995
+    },
+    countryOfResidence: 'Westeros',
+    description: null,
+    profilePic: 'src/assets/Jon.png', 
+      joined: {
+        day: 2,
+        month: 'december',
+        year: 2019
+      },
+  },
 ]

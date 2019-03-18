@@ -8,7 +8,7 @@
         <div class="col">
           <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
-              <v-flex v-for="video in videos" :key="video.vidId" xs3>
+              <v-flex v-for="video in videos" :key="video.vidId" @click="watch(video.vidId)" xs3>
                 <app-tile style="cursor: pointer" :vid="video"></app-tile>
               </v-flex>
             </v-layout>
@@ -25,7 +25,7 @@ import videoTile from './VideoPlaying/videoTile.vue'
 export default {
   data() {
     return {
-      
+
     }
   },
 components: {
@@ -49,6 +49,12 @@ components: {
   },
   destroyed() {
     this.$store.dispatch('home/setHead',false)
+  },
+  methods: {
+    watch(id){
+      var url = '/watch/'+id
+      this.$router.push({path:url})
+    }
   },
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-
+<p>video {{ $route.params.id }}</p>
 </template>
 
 <script>

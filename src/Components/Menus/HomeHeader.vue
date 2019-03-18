@@ -1,11 +1,11 @@
 <template>
   <div>
-  <v-app id="inspire">
+
     <v-toolbar
     app
                dark
                height='70em'
-               style="padding-left : 0px;">
+               style="padding-left : 0px;     ">
       <v-toolbar-side-icon @click="toggleside()"></v-toolbar-side-icon>
       <v-toolbar-title style="cursor: pointer">360° video editor</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -15,7 +15,7 @@
           label="Search"
            outline
            clearable
-        ></v-text-field>
+        v-model="search"></v-text-field>
       <v-spacer></v-spacer>
 
 
@@ -38,7 +38,7 @@
 
 
     </v-toolbar>
-  </v-app>
+
 </div>
 </template>
 
@@ -51,8 +51,17 @@ export default {
       { title: 'Click Me' },
       { title: 'Click Me' },
       { title: 'Click Me 2' }
-    ]
+    ],
+    search:''
     }
+  },
+  watch: {
+    search: function (val) {
+      if (val==null) {
+        this.search=''
+      }
+      this.$store.dispatch('video/filterVideos', val);
+    },
   },
     computed: {
       current() {

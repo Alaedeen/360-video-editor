@@ -86,7 +86,8 @@
     </div>
     <v-snackbar
         v-model="snackbar"
-        color="error"
+        color="red"
+        top
         :timeout = "timeout"
       >
         Mail already used

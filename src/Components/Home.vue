@@ -1,24 +1,20 @@
 <template>
 <div>
-
-  <div class="row" >
-
-    <div class="col-3"  v-if="side">
-      <app-side></app-side>
+    <app-header  v-if="home"></app-header>
+    <div class="row" >
+        <div class="col-3"  v-if="side">
+          <app-side></app-side>
+        </div>
+        <div class="col">
+          <v-container grid-list-md text-xs-center>
+            <v-layout row wrap>
+              <v-flex v-for="video in videos" :key="video.vidId" xs3>
+                <app-tile style="cursor: pointer" :vid="video"></app-tile>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </div>
     </div>
-    <div class="col" style="paddingTop : 5em">
-      <v-container grid-list-md text-xs-center>
-        <v-layout row wrap>
-          <v-flex v-for="i in 8" :key="`3${i}`" xs3>
-            <app-tile style="cursor: pointer"></app-tile>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </div>
-  </div>
-  <div class="row" >
-    <app-header style="position: fixed; width: 100%;" v-if="home"></app-header>
-  </div>
 </div>
 </template>
 
@@ -27,12 +23,20 @@ import Header from '../Components/Menus/HomeHeader.vue'
 import SideBar from './Menus/SideBar.vue'
 import videoTile from './VideoPlaying/videoTile.vue'
 export default {
+  data() {
+    return {
+      
+    }
+  },
 components: {
     appSide: SideBar,
     appHeader: Header,
     appTile: videoTile
   },
   computed: {
+    videos(){
+        return this.$store.state.video.filtredVideos
+    },
     home() {
       return this.$store.state.home.header
     },

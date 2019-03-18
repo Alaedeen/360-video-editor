@@ -64,7 +64,8 @@
     </div>
     <v-snackbar
         v-model="snackbar"
-        color="error"
+        top
+        color="red"
         :timeout = "timeout"
       >
         Incorrect email or password.

@@ -2,7 +2,7 @@
 <div >
         <v-card>
           <v-img
-            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+            :src="vid.thumbnail"
             height="140px"
             :aspect-ratio="16/9"
           >
@@ -10,9 +10,9 @@
 
           <v-card-title primary-title >
             <div>
-              <span> <b> Top western road trips </b> </span> <br>
+              <p class="text-sm-left"> <b> {{vid.title}} </b> </p>
               <!-- add filter to show only part of text -->
-              <span class="grey--text">1,000 miles of wonder</span>
+              <span class="grey--text">Uploaded {{vid.uploadDate.month}} {{vid.uploadDate.day}}, {{vid.uploadDate.year}} </span>
             </div>
           </v-card-title>
 
@@ -24,6 +24,7 @@
 
 <script>
 export default {
+  props: ['vid'],
 
 }
 </script>

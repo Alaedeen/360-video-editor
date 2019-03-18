@@ -76,8 +76,8 @@
                   <div v-if="tab=='Online videos'">
                     <v-container grid-list-md text-xs-center>
                       <v-layout row wrap>
-                        <v-flex v-for="i in 8" :key="`3${i}`" xs3>
-                          <app-tile style="cursor: pointer"></app-tile>
+                        <v-flex v-for="video in videos" :key="video.vidId" xs3>
+                          <app-tile style="cursor: pointer" :vid="video"></app-tile>
                         </v-flex>
                       </v-layout>
                     </v-container>
@@ -142,12 +142,18 @@ export default {
 computed: {
       current() {
         return this.$store.state.user.current
+      },
+      videos(){
+        return this.$store.state.video.myVideos
       }
     },
 beforeCreate() {
     if (this.$store.state.user.current==null) {
       this.$router.push({ path: '/' })
     }
+},
+created() {
+  this.$store.dispatch('video/userVideos',this.current.id)
 },
 components: {
   appTile: videoTile

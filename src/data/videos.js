@@ -1,7 +1,7 @@
 export default [
   {
     vidId: 0,
-    userId: 1,
+    userId: 3,
     title: 'My video',
     uploadDate: {
         day: 2,
@@ -45,7 +45,7 @@ export default [
   },
   {
     vidId: 4,
-    userId: 1,
+    userId: 3,
     title: 'My video4',
     uploadDate: {
         day: 2,
@@ -56,7 +56,7 @@ export default [
   },
   {
     vidId: 5,
-    userId: 1,
+    userId: 3,
     title: 'My video5',
     uploadDate: {
         day: 2,
@@ -111,7 +111,7 @@ export default [
   },
   {
     vidId: 10,
-    userId: 1,
+    userId: 3,
     title: 'My video10',
     uploadDate: {
         day: 2,

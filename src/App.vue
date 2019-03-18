@@ -29,7 +29,7 @@ export default {
   created() {
           this.$store.dispatch('user/initUsers');
           this.$store.dispatch('video/initVideos');
-          this.$store.dispatch('video/initFiltred');
+          this.$store.dispatch('video/initAll');
         },
 }
 </script>

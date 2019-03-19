@@ -118,6 +118,9 @@
                     <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 0.5em;" small>thumb_down</v-icon> {{comment.dislikes}} </span>
                     <span style="color: grey;cursor : pointer;"><v-icon color="grey" style=" padding-left : 0.5em;" small>reply</v-icon>  REPLY</span>
                   </p>
+                  <div style="width: 100%">
+            <v-text-field label="Reply"   style="padding-left : 5em;display:inline-block;width: 80%"></v-text-field>
+            <v-btn color="grey" style="color: white; display:inline-block;" @click="addComment">ADD REPLY</v-btn></div>
                   <v-expansion-panel inset v-if="comment.replies.length!=0">
       <v-expansion-panel-content style="backgroundColor: #444444; color: white;" >
         <template v-slot:actions>

@@ -2,15 +2,35 @@
 
 <div >
 
-<!-- <div class="valiantPhoto" data-video-src="/src/playerAssets/London Park.mp4" style="width: 480px; height: 380px; cursor:pointer"></div> -->
+
 <v-layout row wrap>
   <v-flex xs12>
-          <v-img
-            :src="'/'+video.thumbnail"
-            height="30em"
-            :aspect-ratio="16/9"
-          >
-          </v-img>
+
+<!-- **************************************** -->
+    <!-- Specify our scene. -->
+    <a-scene embedded style="height: 500px;">
+        <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
+        <a-videosphere rotation="0 180 0" src="#video"  play-on-vrdisplayactivate-or-enter-vr  arrow-key-rotation toggle-play-on-window-click>
+        </a-videosphere>
+
+        <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
+        <a-camera user-height="0" wasd-controls-enabled="false" arrow-key-rotation>
+          <button>hello</button>
+        </a-camera>
+
+        <!-- Wait for the video to load. -->
+        <a-assets>
+            <!-- Single source video. -->
+            <video id="video" style="display:none" autoplay loop crossorigin="anonymous" playsinline webkit-playsinline>
+                <!-- MP4 video source. -->
+                <source type="video/mp4" src="/src/playerAssets/London Park.mp4" />
+            </video>
+        </a-assets>
+
+        <a-entity id="refresh-button" geometry="primitive: box" material="color: red" position="0 0 -2" ></a-entity>
+    </a-scene>
+<!-- **************************************** -->
+
   </v-flex>
   <v-flex xs8 style="paddingLeft: 3em">
         <v-layout row wrap>
@@ -178,27 +198,22 @@ export default {
     }
   },
   beforeCreate() {
-    // let style = document.createElement('link');
-    // style.setAttribute('rel',"stylesheet");
-    // style.setAttribute('type',"text/css");
-    // style.setAttribute('href',"/src/playerAssets/css/valiant360.css");
-    // document.head.appendChild(style);
-    // let playerScript = document.createElement('script');
-    // playerScript.setAttribute('type',"text/javascript");
-    // playerScript.setAttribute('src',"/src/playerAssets/js/jquery-1.7.2.min.js");
-    // document.head.appendChild(playerScript);
-    // let playerScript1 = document.createElement('script');
-    // playerScript1.setAttribute('type',"text/javascript");
-    // playerScript1.setAttribute('src',"/src/playerAssets/js/three.min.js");
-    // document.head.appendChild(playerScript1);
-    // let playerScript2 = document.createElement('script');
-    // playerScript2.setAttribute('type',"text/javascript");
-    // playerScript2.setAttribute('src',"/src/playerAssets/jquery.valiant360.js");
-    // document.head.appendChild(playerScript2);
-    // let playerScript3 = document.createElement('script');
-    // playerScript3.setAttribute('type',"text/javascript");
-    // playerScript3.setAttribute('src',"/src/playerAssets/script.js");
-    // document.head.appendChild(playerScript3);
+    let playerScript = document.createElement('script');
+    playerScript.setAttribute('type',"text/javascript");
+    playerScript.setAttribute('src',"/src/playerAssets/arrow-key-rotation.js");
+    document.body.appendChild(playerScript);
+    let playerScript1 = document.createElement('script');
+    playerScript1.setAttribute('type',"text/javascript");
+    playerScript1.setAttribute('src',"/src/playerAssets/play-on-vrdisplayactivate-or-enter-vr.js");
+    document.body.appendChild(playerScript1);
+    let playerScript2 = document.createElement('script');
+    playerScript2.setAttribute('type',"text/javascript");
+    playerScript2.setAttribute('src',"/src/playerAssets/hide-once-playing.js");
+    document.body.appendChild(playerScript2);
+    let playerScript3 = document.createElement('script');
+    playerScript3.setAttribute('type',"text/javascript");
+    playerScript3.setAttribute('src',"/src/playerAssets/toggle-play-on-window-click.js");
+    document.body.appendChild(playerScript3);
 
     this.$store.dispatch('video/loadVideo', parseInt(this.$route.params.id, 10));
     this.$store.dispatch('user/vidOwner',this.$store.state.video.playing.userId)

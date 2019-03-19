@@ -2,7 +2,7 @@
 
 <div >
 
-<div class="valiantPhoto" data-video-src="/src/playerAssets/London Park.mp4" style="width: 480px; height: 380px; cursor:pointer"></div>
+<!-- <div class="valiantPhoto" data-video-src="/src/playerAssets/London Park.mp4" style="width: 480px; height: 380px; cursor:pointer"></div> -->
 <v-layout row wrap>
   <v-flex xs12>
           <v-img
@@ -79,6 +79,72 @@
               <v-btn color="grey" style="color: white;" @click="addComment">ADD COMMENT</v-btn>
 
           </v-layout>
+          <v-layout row wrap>
+            <v-list three-line class="profile">
+                <div v-for="index in 5" :key="index">
+                  <v-divider color="grey" v-if="index>1" ></v-divider>
+                <v-list-tile >
+                  <v-list-tile-avatar>
+                    <img src="https://cdn.vuetifyjs.com/images/lists/1.jpg">
+                  </v-list-tile-avatar>
+
+                  <v-list-tile-content>
+                    <v-list-tile-title style="color: grey">
+                      <b>user name</b>
+                    </v-list-tile-title>
+                    <v-list-tile-sub-title style="color: white">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel justo eget nunc faucibus blandit. Curabitur ac vulputate enim. Mauris ornare tellus eget sapien consectetur congue. Aliquam erat volutpat. Integer sit amet tincidunt nibh, sit amet dapibus risus. Sed dolor sapien, finibus et purus a, varius elementum sapien. Phasellus nec ex vitae ligula accumsan facilisis. Morbi in semper nulla.
+                    </v-list-tile-sub-title>
+
+                  </v-list-tile-content>
+
+                </v-list-tile>
+                <p style="paddingLeft: 5em;">
+                    <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;" small>thumb_up</v-icon> 55</span>
+                    <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 1em;" small>thumb_down</v-icon>  55</span>
+                    <span style="color: grey;cursor : pointer;"><v-icon color="grey" style=" padding-left : 1em;" small>reply</v-icon>  REPLY</span>
+                  </p>
+                  <v-expansion-panel inset>
+      <v-expansion-panel-content style="backgroundColor: #444444; color: white;" >
+        <template v-slot:actions>
+          <v-icon color="red">$vuetify.icons.expand</v-icon>
+        </template>
+            <template v-slot:header>
+              <div>View replies</div>
+            </template>
+            <v-list three-line class="profile" style="paddingLeft: 3em;">
+                    <div v-for="index in 2" :key="index">
+                      <v-divider color="grey" v-if="index>1"></v-divider>
+                    <v-list-tile >
+                      <v-list-tile-avatar >
+                        <img src="https://cdn.vuetifyjs.com/images/lists/1.jpg">
+                      </v-list-tile-avatar>
+
+                      <v-list-tile-content>
+                        <v-list-tile-title style="color: grey">
+                          <b>user name</b>
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title style="color: white">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel justo eget nunc faucibus blandit.
+                        </v-list-tile-sub-title>
+
+                      </v-list-tile-content>
+
+                    </v-list-tile>
+                    <p style="paddingLeft: 5em;">
+                        <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;" small>thumb_up</v-icon> 55</span>
+                        <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 1em;" small>thumb_down</v-icon>  55</span>
+                      </p>
+
+                    </div>
+                </v-list>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+                </div>
+            </v-list>
+
+          </v-layout>
   </v-flex>
   <v-flex xs4>
     <v-card dark color="red">
@@ -112,11 +178,11 @@ export default {
     }
   },
   beforeCreate() {
-    let style = document.createElement('link');
-    style.setAttribute('rel',"stylesheet");
-    style.setAttribute('type',"text/css");
-    style.setAttribute('href',"/src/playerAssets/css/valiant360.css");
-    document.head.appendChild(style);
+    // let style = document.createElement('link');
+    // style.setAttribute('rel',"stylesheet");
+    // style.setAttribute('type',"text/css");
+    // style.setAttribute('href',"/src/playerAssets/css/valiant360.css");
+    // document.head.appendChild(style);
     // let playerScript = document.createElement('script');
     // playerScript.setAttribute('type',"text/javascript");
     // playerScript.setAttribute('src',"/src/playerAssets/js/jquery-1.7.2.min.js");

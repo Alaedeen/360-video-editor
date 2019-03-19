@@ -8,7 +8,7 @@
 
 <!-- **************************************** -->
     <!-- Specify our scene. -->
-    <a-scene embedded style="height: 35em;">
+    <a-scene embedded style=" padding-top: 36.25%;">
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
         <a-videosphere rotation="0 180 0" src="#video"  play-on-vrdisplayactivate-or-enter-vr  arrow-key-rotation artoolkit>
         </a-videosphere>
@@ -26,7 +26,7 @@
                 <source type="video/mp4" src="/src/playerAssets/London Park.mp4" />
             </video>
         </a-assets>
-        <p style="position:absolute;top:36em;left:20px;"><v-icon  color="grey" style="cursor : pointer;" class="play" @click="playIcon" > {{toggle}} </v-icon></p>
+        <p style="position:absolute;left:20px;"><v-icon  color="grey" style="cursor : pointer;" class="play" @click="playIcon" > {{toggle}} </v-icon></p>
     </a-scene>
 <!-- **************************************** -->
 
@@ -42,8 +42,8 @@
               <v-flex xs6>
                   <p>
                     <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;">thumb_up</v-icon> 55</span>
-                    <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 1em;">thumb_down</v-icon>  55</span>
-                    <span style="color: grey;cursor : pointer;"><v-icon color="grey" style=" padding-left : 1em;">share</v-icon>  SHARE</span>
+                    <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 0.5em;">thumb_down</v-icon>  55</span>
+                    <span style="color: grey;cursor : pointer;"><v-icon color="grey" style=" padding-left : 0.5em;">share</v-icon>  SHARE</span>
                   </p>
               </v-flex>
           </v-layout>
@@ -51,10 +51,7 @@
           <v-layout row wrap>
               <v-flex
                   xs8
-                  align-center
-                  justify-left
                   layout
-                  text-xs-center
                 >
 
               <v-avatar
@@ -73,10 +70,7 @@
                   <p style="padding-left: 1em; color: grey;"><span>Published on </span><span>{{video.uploadDate.month}} {{video.uploadDate.day}}, {{video.uploadDate.year}}</span></p>
                 </span>
                 </v-flex>
-                <!-- subscribe -->
-                <v-flex xs4 style="paddingTop: 1em">
-                  <v-btn color="red" style="color: white;">SUBSCRIBE</v-btn>
-                </v-flex>
+                <v-btn color="red" style="color: white;" >SUBSCRIBE</v-btn>
           </v-layout>
           <v-layout row wrap>
               <v-flex xs12>
@@ -99,6 +93,7 @@
 
           </v-layout>
           <v-layout row wrap>
+            <!-- fix this -->
             <v-list three-line class="profile">
                 <div v-for="index in 5" :key="index">
                   <v-divider color="grey" v-if="index>1" ></v-divider>
@@ -112,7 +107,7 @@
                       <b>user name</b>
                     </v-list-tile-title>
                     <v-list-tile-sub-title style="color: white">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel justo eget nunc faucibus blandit. Curabitur ac vulputate enim. Mauris ornare tellus eget sapien consectetur congue. Aliquam erat volutpat. Integer sit amet tincidunt nibh, sit amet dapibus risus. Sed dolor sapien, finibus et purus a, varius elementum sapien. Phasellus nec ex vitae ligula accumsan facilisis. Morbi in semper nulla.
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel justo eget nunc faucibus blandit. Curabitur ac vulputate enim. Mauris ornare tellus eget sapien consectetur congue. Aliquam erat volutpat. Integer sit amet tincidunt nibh, sit amet dapibus risus. Sed dolor sapien, finibus et purus a, varius elementum sapien. Phasellus nec ex vitae ligula accumsan facilisis.
                     </v-list-tile-sub-title>
 
                   </v-list-tile-content>
@@ -120,8 +115,8 @@
                 </v-list-tile>
                 <p style="paddingLeft: 5em;">
                     <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;" small>thumb_up</v-icon> 55</span>
-                    <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 1em;" small>thumb_down</v-icon>  55</span>
-                    <span style="color: grey;cursor : pointer;"><v-icon color="grey" style=" padding-left : 1em;" small>reply</v-icon>  REPLY</span>
+                    <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 0.5em;" small>thumb_down</v-icon>  55</span>
+                    <span style="color: grey;cursor : pointer;"><v-icon color="grey" style=" padding-left : 0.5em;" small>reply</v-icon>  REPLY</span>
                   </p>
                   <v-expansion-panel inset>
       <v-expansion-panel-content style="backgroundColor: #444444; color: white;" >

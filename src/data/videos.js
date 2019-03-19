@@ -8,116 +8,85 @@ export default [
         month: 'december',
         year: 2019
     },
-    thumbnail: 'src/assets/video.jpg'
+    thumbnail: 'src/assets/video.jpg',
+    comments: [
+      {
+        idComment: 0,
+        idUser: 1,
+        nameUser: 'Lyana Stark',
+        profilePic: 'src/assets/lyana.png',
+        text:'this is a comment',
+        date: {
+          day: 2,
+          month: 'december',
+          year: 2019
+        },
+        likes: 20,
+        dislikes: 10,
+        replies: [
+          {
+            idReply: 0,
+              idUser: 1,
+              nameUser: 'Lyana Stark',
+              profilePic: 'src/assets/lyana.png',
+              text: 'this is a reply',
+              date: {
+                day: 2,
+                month: 'december',
+                year: 2019
+              },
+              likes: 20,
+              dislikes: 10,
+          }
+        ]
+      }
+    ],
+    likes: 20,
+    dislikes: 10,
+    views: 100
   },
   {
     vidId: 1,
     userId: 1,
-    title: 'My video1',
+    title: 'My video 1',
     uploadDate: {
-        day: 2,
-        month: 'december',
-        year: 2019
+      day: 2,
+      month: 'december',
+      year: 2019
     },
-    thumbnail: 'src/assets/video.jpg'
+    thumbnail: 'src/assets/video.jpg',
+    comments: [],
+    likes: 20,
+    dislikes: 10,
+    views: 100
   },
   {
     vidId: 2,
-    userId: 1,
-    title: 'My video2',
-    uploadDate: {
-        day: 2,
-        month: 'december',
-        year: 2019
-    },
-    thumbnail: 'src/assets/video.jpg'
-  },
-  {
-    vidId: 3,
-    userId: 1,
-    title: 'My video3',
-    uploadDate: {
-        day: 2,
-        month: 'december',
-        year: 2019
-    },
-    thumbnail: 'src/assets/video.jpg'
-  },
-  {
-    vidId: 4,
     userId: 3,
-    title: 'My video4',
+    title: 'My video 2',
     uploadDate: {
+      day: 2,
+      month: 'december',
+      year: 2019
+    },
+    thumbnail: 'src/assets/video.jpg',
+    comments: [{
+      idComment: 0,
+      idUser: 1,
+      nameUser: 'Lyana Stark',
+      profilePic: 'src/assets/lyana.png',
+      text: 'this is a comment',
+      date: {
         day: 2,
         month: 'december',
         year: 2019
-    },
-    thumbnail: 'src/assets/video.jpg'
-  },
-  {
-    vidId: 5,
-    userId: 3,
-    title: 'My video5',
-    uploadDate: {
-        day: 2,
-        month: 'december',
-        year: 2019
-    },
-    thumbnail: 'src/assets/video.jpg'
-  },
-  {
-    vidId: 6,
-    userId: 1,
-    title: 'My video6',
-    uploadDate: {
-        day: 2,
-        month: 'december',
-        year: 2019
-    },
-    thumbnail: 'src/assets/video.jpg'
-  },
-  {
-    vidId: 7,
-    userId: 1,
-    title: 'My video7',
-    uploadDate: {
-        day: 2,
-        month: 'december',
-        year: 2019
-    },
-    thumbnail: 'src/assets/video.jpg'
-  },
-  {
-    vidId: 8,
-    userId: 1,
-    title: 'My video8',
-    uploadDate: {
-        day: 2,
-        month: 'december',
-        year: 2019
-    },
-    thumbnail: 'src/assets/video.jpg'
-  },
-  {
-    vidId: 9,
-    userId: 1,
-    title: 'My video9',
-    uploadDate: {
-        day: 2,
-        month: 'december',
-        year: 2019
-    },
-    thumbnail: 'src/assets/video.jpg'
-  },
-  {
-    vidId: 10,
-    userId: 3,
-    title: 'My video10',
-    uploadDate: {
-        day: 2,
-        month: 'december',
-        year: 2019
-    },
-    thumbnail: 'src/assets/video.jpg'
+      },
+      likes: 20,
+      dislikes: 10,
+      replies: []
+    }],
+    likes: 20,
+    dislikes: 10,
+    views: 100
   },
 ]

@@ -37,12 +37,12 @@
                   <p class="title" style="color: white; "><b> {{video.title}} </b></p>
               </v-flex>
               <v-flex xs6>
-                  <p style="color: grey;"><span>1,803,121,090</span><span> views</span></p>
+                  <p style="color: grey;"><span>{{video.views}}</span><span> views</span></p>
               </v-flex>
               <v-flex xs6>
                   <p>
-                    <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;">thumb_up</v-icon> 55</span>
-                    <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 0.5em;">thumb_down</v-icon>  55</span>
+                    <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;">thumb_up</v-icon> {{video.likes}} </span>
+                    <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 0.5em;">thumb_down</v-icon> {{video.dislikes}} </span>
                     <span style="color: grey;cursor : pointer;"><v-icon color="grey" style=" padding-left : 0.5em;">share</v-icon>  SHARE</span>
                   </p>
               </v-flex>
@@ -80,7 +80,7 @@
               </v-flex>
           </v-layout>
           <v-layout row wrap>
-            <h5 style="color: white"><span>3,414 </span><span>Comments</span></h5>
+            <h5 style="color: white"><span> {{video.comments.length}} </span><span>Comments</span></h5>
 
           </v-layout>
           <v-layout row wrap>
@@ -95,30 +95,30 @@
           <v-layout row wrap>
             <!-- fix this -->
             <v-list three-line class="profile">
-                <div v-for="index in 5" :key="index">
+                <div v-for="(comment,index) in video.comments" :key="index">
                   <v-divider color="grey" v-if="index>1" ></v-divider>
                 <v-list-tile >
                   <v-list-tile-avatar>
-                    <img src="https://cdn.vuetifyjs.com/images/lists/1.jpg">
+                    <img :src="'/'+comment.profilePic">
                   </v-list-tile-avatar>
 
                   <v-list-tile-content>
                     <v-list-tile-title style="color: grey">
-                      <b>user name</b>
+                      <b> {{comment.nameUser}} </b>
                     </v-list-tile-title>
                     <v-list-tile-sub-title style="color: white">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel justo eget nunc faucibus blandit. Curabitur ac vulputate enim. Mauris ornare tellus eget sapien consectetur congue. Aliquam erat volutpat. Integer sit amet tincidunt nibh, sit amet dapibus risus. Sed dolor sapien, finibus et purus a, varius elementum sapien. Phasellus nec ex vitae ligula accumsan facilisis.
-                    </v-list-tile-sub-title>
+                      {{comment.text}}
+                      </v-list-tile-sub-title>
 
                   </v-list-tile-content>
 
                 </v-list-tile>
                 <p style="paddingLeft: 5em;">
-                    <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;" small>thumb_up</v-icon> 55</span>
-                    <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 0.5em;" small>thumb_down</v-icon>  55</span>
+                    <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;" small>thumb_up</v-icon> {{comment.likes}} </span>
+                    <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 0.5em;" small>thumb_down</v-icon> {{comment.dislikes}} </span>
                     <span style="color: grey;cursor : pointer;"><v-icon color="grey" style=" padding-left : 0.5em;" small>reply</v-icon>  REPLY</span>
                   </p>
-                  <v-expansion-panel inset>
+                  <v-expansion-panel inset v-if="comment.replies.length!=0">
       <v-expansion-panel-content style="backgroundColor: #444444; color: white;" >
         <template v-slot:actions>
           <v-icon color="red">$vuetify.icons.expand</v-icon>
@@ -127,27 +127,27 @@
               <div>View replies</div>
             </template>
             <v-list three-line class="profile" style="paddingLeft: 3em;">
-                    <div v-for="index in 2" :key="index">
+                    <div v-for="(reply,index) in comment.replies" :key="index" >
                       <v-divider color="grey" v-if="index>1"></v-divider>
                     <v-list-tile >
                       <v-list-tile-avatar >
-                        <img src="https://cdn.vuetifyjs.com/images/lists/1.jpg">
+                        <img :src="'/'+reply.profilePic">
                       </v-list-tile-avatar>
 
                       <v-list-tile-content>
                         <v-list-tile-title style="color: grey">
-                          <b>user name</b>
+                          <b> {{reply.nameUser}} </b>
                         </v-list-tile-title>
                         <v-list-tile-sub-title style="color: white">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel justo eget nunc faucibus blandit.
+                          {{reply.text}}
                         </v-list-tile-sub-title>
 
                       </v-list-tile-content>
 
                     </v-list-tile>
                     <p style="paddingLeft: 5em;">
-                        <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;" small>thumb_up</v-icon> 55</span>
-                        <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 1em;" small>thumb_down</v-icon>  55</span>
+                        <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;" small>thumb_up</v-icon> {{reply.likes}} </span>
+                        <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 1em;" small>thumb_down</v-icon> {{reply.dislikes}} </span>
                       </p>
 
                     </div>
@@ -229,6 +229,7 @@ export default {
   color : white
 }
 .profile{
+      width: 100%;
       background-color: 	#444444;
       color : white
 }

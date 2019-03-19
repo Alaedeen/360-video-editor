@@ -10,7 +10,7 @@
     <!-- Specify our scene. -->
     <a-scene embedded style="height: 35em;">
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
-        <a-videosphere rotation="0 180 0" src="#video"  play-on-vrdisplayactivate-or-enter-vr  arrow-key-rotation toggle-play-on-window-click>
+        <a-videosphere rotation="0 180 0" src="#video"  play-on-vrdisplayactivate-or-enter-vr  arrow-key-rotation artoolkit>
         </a-videosphere>
 
         <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
@@ -26,10 +26,7 @@
                 <source type="video/mp4" src="/src/playerAssets/London Park.mp4" />
             </video>
         </a-assets>
-
-        <button  style="position:absolute;top:35em;left:20px;" class="btn ">
-      <v-icon color="grey" style="cursor : pointer;">play_circle_filled</v-icon>
-    </button>
+        <p style="position:absolute;top:36em;left:20px;"><v-icon  color="grey" style="cursor : pointer;" class="play" @click="playIcon" > {{toggle}} </v-icon></p>
     </a-scene>
 <!-- **************************************** -->
 
@@ -183,7 +180,8 @@
 export default {
   data() {
     return {
-      comment:''
+      comment:'',
+      toggle: 'pause_circle_filled'
     }
   },
   computed: {
@@ -197,6 +195,13 @@ export default {
   methods: {
     addComment(){
       alert(this.comment)
+    },
+    playIcon(){
+      if (this.toggle=='play_circle_filled') {
+          this.toggle='pause_circle_filled'
+      }else{
+          this.toggle='play_circle_filled'
+      }
     }
   },
   beforeCreate() {
@@ -214,7 +219,7 @@ export default {
     document.body.appendChild(playerScript2);
     let playerScript3 = document.createElement('script');
     playerScript3.setAttribute('type',"text/javascript");
-    playerScript3.setAttribute('src',"/src/playerAssets/toggle-play-on-window-click.js");
+    playerScript3.setAttribute('src',"/src/playerAssets/toggle-play.js");
     document.body.appendChild(playerScript3);
 
     this.$store.dispatch('video/loadVideo', parseInt(this.$route.params.id, 10));

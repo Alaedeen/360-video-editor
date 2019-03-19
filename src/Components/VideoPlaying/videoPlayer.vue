@@ -4,18 +4,18 @@
 
 
 <v-layout row wrap>
-  <v-flex xs12>
+  <v-flex xs12 style="paddingBottom: 4em">
 
 <!-- **************************************** -->
     <!-- Specify our scene. -->
-    <a-scene embedded style="height: 500px;">
+    <a-scene embedded style="height: 35em;">
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
         <a-videosphere rotation="0 180 0" src="#video"  play-on-vrdisplayactivate-or-enter-vr  arrow-key-rotation toggle-play-on-window-click>
         </a-videosphere>
 
         <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
         <a-camera user-height="0" wasd-controls-enabled="false" arrow-key-rotation>
-          <button>hello</button>
+
         </a-camera>
 
         <!-- Wait for the video to load. -->
@@ -27,15 +27,17 @@
             </video>
         </a-assets>
 
-        <a-entity id="refresh-button" geometry="primitive: box" material="color: red" position="0 0 -2" ></a-entity>
+        <button  style="position:absolute;top:35em;left:20px;" class="btn ">
+      <v-icon color="grey" style="cursor : pointer;">play_circle_filled</v-icon>
+    </button>
     </a-scene>
 <!-- **************************************** -->
 
   </v-flex>
-  <v-flex xs8 style="paddingLeft: 3em">
+  <v-flex xs8 style="paddingLeft: 3em; paddingTop: 1em">
         <v-layout row wrap>
               <v-flex xs12 >
-                  <p class="title" style="color: white; paddingTop: 1em;"><b> {{video.title}} </b></p>
+                  <p class="title" style="color: white; "><b> {{video.title}} </b></p>
               </v-flex>
               <v-flex xs6>
                   <p style="color: grey;"><span>1,803,121,090</span><span> views</span></p>

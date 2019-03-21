@@ -114,7 +114,8 @@ export default {
       }else if (!this.error) {
          this.$store.dispatch('user/signIn', this.user);
          if (this.current!= null) {
-            this.$router.push({path:'/'})
+            //this.$router.push({path:'/'})
+            this.$router.go(-1)
          }
       }
     }

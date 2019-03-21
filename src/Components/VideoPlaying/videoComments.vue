@@ -32,11 +32,11 @@
                 <p style="paddingLeft: 5em;">
                     <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;" small>thumb_up</v-icon> {{comment.likes}} </span>
                     <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 0.5em;" small>thumb_down</v-icon> {{comment.dislikes}} </span>
-                    <span style="color: grey;cursor : pointer;" ><v-icon color="grey" style=" padding-left : 0.5em;" small>reply</v-icon>  REPLY</span>
+                    <span style="color: grey;cursor : pointer;" @click="reply(index)"><v-icon color="grey" style=" padding-left : 0.5em;" small>reply</v-icon>  REPLY</span>
                   </p>
-                  <div style="width: 100%" v-if="true">
+                  <div style="width: 100%" v-if="replies[index]">
                     <v-text-field label="Reply"   style="padding-left : 5em;display:inline-block;width: 80%"></v-text-field>
-                    <v-btn color="grey" style="color: white; display:inline-block;" @click="addComment">ADD REPLY</v-btn>
+                    <v-btn color="grey" style="color: white; display:inline-block;" >ADD REPLY</v-btn>
                   </div>
                   <v-expansion-panel inset v-if="comment.replies.length!=0">
             <v-expansion-panel-content style="backgroundColor: #444444; color: white;" >
@@ -84,6 +84,7 @@ export default {
   data() {
     return {
       comment:'',
+      replies: []
     }
   },
   props: ['comments'],
@@ -91,8 +92,16 @@ export default {
     addComment(){
       alert(this.comment)
     },
+    reply(index){
+      this.replies.splice(index,1,!this.replies[index])
 
-  }
+    }
+  },
+  created() {
+    this.comments.forEach(element => {
+            this.replies.push(false)
+        });
+  },
 }
 
 </script>

@@ -35,7 +35,14 @@ const mutations = {
     state.playing = state.videos.filter(video => {
       return video.vidId == vidId
     })[0]
-
+  },
+  'ADD_VIDEO_LIKE'(state,id){
+    var vid = state.videos.filter(video =>{
+      return video.vidId==id
+    })[0]
+    //console.log(vid);
+    vid.likes++;
+    videos.splice(vid.vidId,1,vid)
   }
 }
 
@@ -54,6 +61,9 @@ const actions = {
   },
   loadVideo: ({commit},vidId)=>{
     commit('LOAD_VIDEO',vidId)
+  },
+  addLike: ({commit}, id)=>{
+    commit('ADD_VIDEO_LIKE',id)
   }
 }
 

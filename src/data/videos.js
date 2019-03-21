@@ -23,11 +23,11 @@ export default [
           month: 'december',
           year: 2019
         },
-        likes: 20,
-        dislikes: 10,
+        likes: 0,
+        dislikes: 0,
         replies: [
           {
-            idReply: 0,
+            idReply:0,
               idUser: 1,
               nameUser: 'Lyana Stark',
               profilePic: 'src/assets/lyana.png',
@@ -37,14 +37,14 @@ export default [
                 month: 'december',
                 year: 2019
               },
-              likes: 20,
-              dislikes: 10,
+              likes: 0,
+              dislikes: 0,
           }
         ]
       }
     ],
-    likes: 20,
-    dislikes: 10,
+    likes: 0,
+    dislikes: 0,
     views: 100
   },
   {
@@ -60,8 +60,8 @@ export default [
     },
     thumbnail: 'src/assets/video.jpg',
     comments: [],
-    likes: 20,
-    dislikes: 10,
+    likes: 0,
+    dislikes: 0,
     views: 100
   },
   {
@@ -87,11 +87,11 @@ export default [
         month: 'december',
         year: 2019
       },
-      likes: 20,
-      dislikes: 10,
+      likes: 0,
+      dislikes: 0,
       replies: []
     }],
-    likes: 20,
+    likes: 0,
     dislikes: 10,
     views: 100
   },

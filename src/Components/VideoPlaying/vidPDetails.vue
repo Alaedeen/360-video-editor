@@ -9,7 +9,7 @@
               </v-flex>
               <v-flex xs6>
                   <p>
-                    <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;">thumb_up</v-icon> {{video.likes}} </span>
+                    <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;" @click="likeVideo">thumb_up</v-icon> {{video.likes}} </span>
                     <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 0.5em;">thumb_down</v-icon> {{video.dislikes}} </span>
                     <span style="color: grey;cursor : pointer;"><v-icon color="grey" style=" padding-left : 0.5em;">share</v-icon>  SHARE</span>
                   </p>
@@ -51,7 +51,17 @@
 </template>
 <script>
 export default {
-props: ['video']
+props: ['video'],
+methods: {
+  likeVideo(){
+      // if (this.$store.state.user.current==null) {
+      //     this.$router.push({path:'/login'})
+      // }
+      // else{
+        this.$store.dispatch('video/addLike',this.video.vidId)
+      // }
+  }
+},
 }
 </script>
 

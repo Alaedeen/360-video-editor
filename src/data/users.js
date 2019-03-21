@@ -12,7 +12,13 @@ export default [{
       countryOfResidence: 'Westeros',
       description: null,
       profilePic: 'src/assets/ned.jpg',
-        joined: null
+      joined: null,
+      videosLikes: [],
+      videosDislikes: [],
+      commentsLikes: [],
+      commentsDislikes: [],
+      repliesLikes: [],
+      repliesDislikes: [],
   },
   {
     id: 1,
@@ -27,12 +33,18 @@ export default [{
       },
       countryOfResidence: 'Westeros',
       description: 'this is a description',
-        profilePic: 'src/assets/lyana.png',
-          joined: {
-            day: 2,
-            month: 'december',
-            year: 2019
-          },
+      profilePic: 'src/assets/lyana.png',
+      joined: {
+        day: 2,
+        month: 'december',
+        year: 2019
+      },
+      videosLikes: [],
+      videosDislikes: [],
+      commentsLikes: [],
+      commentsDislikes: [],
+      repliesLikes: [],
+      repliesDislikes: [],
   },
   {
     id: 2,
@@ -47,8 +59,14 @@ export default [{
     },
     countryOfResidence: 'Westeros',
     description: null,
-      profilePic: 'src/assets/Jon.png',
-      joined: null
+    profilePic: 'src/assets/Jon.png',
+    joined: null,
+      videosLikes: [],
+      videosDislikes: [],
+      commentsLikes: [],
+      commentsDislikes: [],
+      repliesLikes: [],
+      repliesDislikes: [],
   },
   {
     id: 3,
@@ -63,11 +81,17 @@ export default [{
     },
     countryOfResidence: 'Westeros',
     description: null,
-    profilePic: 'src/assets/Jon.png', 
+    profilePic: 'src/assets/Jon.png',
       joined: {
         day: 2,
         month: 'december',
         year: 2019
       },
+      videosLikes: [],
+        videosDislikes: [],
+        commentsLikes: [],
+        commentsDislikes: [],
+        repliesLikes: [],
+        repliesDislikes: [],
   },
 ]

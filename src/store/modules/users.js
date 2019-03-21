@@ -47,7 +47,7 @@ const mutations = {
         state.current = U[0]
       }
     },
-    'LOG_OUT'(state, id){
+    'LOG_OUT'(state){
       state.current=null
     }
 }

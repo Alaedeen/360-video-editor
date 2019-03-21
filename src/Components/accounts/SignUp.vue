@@ -180,7 +180,7 @@ export default {
         this.user.joined=this.date
          this.$store.dispatch('user/addUser', this.user);
          if (this.current!= null) {
-            this.$router.push({path:'/'})
+            this.$router.go(-2)
          }
       }
     }

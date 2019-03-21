@@ -4,8 +4,7 @@ const state={
   users: [],//add patern
   current: null,
   loginError: false,
-  signinError: false,
-  owner: null
+  signinError: false
 }
 
 const getters= {
@@ -50,13 +49,6 @@ const mutations = {
     },
     'LOG_OUT'(state, id){
       state.current=null
-    },
-    'VID_OWNER'(state ,id){
-      state.owner = state.users.filter(user => {
-        return (user.id == id)
-      })[0]
-      console.log(state.owner);
-
     }
 }
 
@@ -72,9 +64,6 @@ const actions = {
   },
   logOut: ({commit})=>{
     commit('LOG_OUT')
-  },
-  vidOwner: ({commit},order)=>{
-    commit('VID_OWNER', order)
   }
 }
 

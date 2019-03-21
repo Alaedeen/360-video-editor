@@ -2,7 +2,7 @@ import Login from './Components/accounts/Login.vue'
 import SignUp from './Components/accounts/SignUp.vue'
 import Home from './Components/Home.vue'
 import MyProfile from './Components/accounts/Profile.vue'
-import VideoPlayer from './Components/VideoPlaying/videoPlayer.vue'
+import VideoWatching from './Components/VideoPlaying/videoWatching.vue'
 
 export const routes = [
   {
@@ -26,7 +26,7 @@ export const routes = [
   name: 'myprofile'
 }, {
   path: '/watch/:id',
-  component: VideoPlayer,
-  name: 'player'
+  component: VideoWatching,
+  name: 'videoWatching'
 },
 ]

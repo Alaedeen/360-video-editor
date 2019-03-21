@@ -36,14 +36,37 @@ const mutations = {
       return video.vidId == vidId
     })[0]
   },
+  //add/remove like to a video
   'ADD_VIDEO_LIKE'(state,id){
     var vid = state.videos.filter(video =>{
       return video.vidId==id
     })[0]
-    //console.log(vid);
     vid.likes++;
     videos.splice(vid.vidId,1,vid)
-  }
+  },
+  'REMOVE_VIDEO_LIKE'(state, id) {
+    var vid = state.videos.filter(video => {
+      return video.vidId == id
+    })[0]
+    vid.likes--;
+    videos.splice(vid.vidId, 1, vid)
+  },
+
+  //add/remove dislike to a video
+  'ADD_VIDEO_DISLIKE'(state, id) {
+    var vid = state.videos.filter(video => {
+      return video.vidId == id
+    })[0]
+    vid.dislikes++;
+    videos.splice(vid.vidId, 1, vid)
+  },
+  'REMOVE_VIDEO_DISLIKE'(state, id) {
+    var vid = state.videos.filter(video => {
+      return video.vidId == id
+    })[0]
+    vid.dislikes--;
+    videos.splice(vid.vidId, 1, vid)
+  },
 }
 
 const actions = {
@@ -62,8 +85,17 @@ const actions = {
   loadVideo: ({commit},vidId)=>{
     commit('LOAD_VIDEO',vidId)
   },
-  addLike: ({commit}, id)=>{
+  addVideoLike: ({commit}, id)=>{
     commit('ADD_VIDEO_LIKE',id)
+  },
+  removeVideoLike: ({commit}, id)=>{
+    commit('REMOVE_VIDEO_LIKE', id)
+  },
+  addVideoDislike: ({commit}, id)=>{
+    commit('ADD_VIDEO_DISLIKE',id)
+  },
+  removeVideoDislike: ({commit}, id)=>{
+    commit('REMOVE_VIDEO_DISLIKE', id)
   }
 }
 

@@ -9,8 +9,8 @@
               </v-flex>
               <v-flex xs6>
                   <p>
-                    <span style="color: grey; "><v-icon color="grey" style="cursor : pointer;" @click="likeVideo">thumb_up</v-icon> {{video.likes}} </span>
-                    <span style="color: grey;"><v-icon color="grey" style="cursor : pointer; padding-left : 0.5em;">thumb_down</v-icon> {{video.dislikes}} </span>
+                    <span style="color: grey; "><v-icon :color="likeCol" style="cursor : pointer;" @click="likeVideo">thumb_up</v-icon> {{video.likes}} </span>
+                    <span style="color: grey;"><v-icon :color="dislikeCol" style="cursor : pointer; padding-left : 0.5em;" @click="dislikeVideo">thumb_down</v-icon> {{video.dislikes}} </span>
                     <span style="color: grey;cursor : pointer;"><v-icon color="grey" style=" padding-left : 0.5em;">share</v-icon>  SHARE</span>
                   </p>
               </v-flex>
@@ -52,15 +52,75 @@
 <script>
 export default {
 props: ['video'],
+computed: {
+  //like video
+  liked(){
+    if (this.$store.state.user.current==null) {
+      return false
+    }else {
+      return this.$store.state.user.current.videosLikes.includes(this.video.vidId)
+    }
+  },
+  likeCol(){
+    if (this.liked) {
+      return 'blue'
+    }else{
+      return 'grey'
+    }
+  },
+  //dislike video
+  disliked(){
+    if (this.$store.state.user.current==null) {
+      return false
+    }else {
+      return this.$store.state.user.current.videosDislikes.includes(this.video.vidId)
+    }
+  },
+  dislikeCol(){
+    if (this.disliked) {
+      return 'red'
+    }else{
+      return 'grey'
+    }
+  },
+},
 methods: {
   likeVideo(){
-      // if (this.$store.state.user.current==null) {
-      //     this.$router.push({path:'/login'})
-      // }
-      // else{
-        this.$store.dispatch('video/addLike',this.video.vidId)
-      // }
-  }
+      if (this.$store.state.user.current==null) {
+          this.$router.push({path:'/login'})
+      }
+      else{
+        if (!this.liked) {
+          if (this.disliked) {
+            this.$store.dispatch('user/removeVideoDislike',this.video.vidId)
+            this.$store.dispatch('video/removeVideoDislike',this.video.vidId)
+          }
+          this.$store.dispatch('user/addVideoLike',this.video.vidId)
+          this.$store.dispatch('video/addVideoLike',this.video.vidId)
+        }else{
+          this.$store.dispatch('user/removeVideoLike',this.video.vidId)
+          this.$store.dispatch('video/removeVideoLike',this.video.vidId)
+        }
+      }
+  },
+  dislikeVideo(){
+      if (this.$store.state.user.current==null) {
+          this.$router.push({path:'/login'})
+      }
+      else{
+        if (!this.disliked) {
+          if (this.liked) {
+            this.$store.dispatch('user/removeVideoLike',this.video.vidId)
+            this.$store.dispatch('video/removeVideoLike',this.video.vidId)
+          }
+          this.$store.dispatch('user/addVideoDislike',this.video.vidId)
+          this.$store.dispatch('video/addVideoDislike',this.video.vidId)
+        }else{
+          this.$store.dispatch('user/removeVideoDislike',this.video.vidId)
+          this.$store.dispatch('video/removeVideoDislike',this.video.vidId)
+        }
+      }
+  },
 },
 }
 </script>

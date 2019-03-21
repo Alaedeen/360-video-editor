@@ -49,7 +49,19 @@ const mutations = {
     },
     'LOG_OUT'(state){
       state.current=null
-    }
+    },
+    'ADD_VIDEO_LIKE'(state, id) {
+        state.current.videosLikes.push(id)
+    },
+    'REMOVE_VIDEO_LIKE'(state, id) {
+      state.current.videosLikes.splice(state.current.videosLikes.indexOf(id), 1)
+    },
+    'ADD_VIDEO_DISLIKE'(state, id) {
+      state.current.videosDislikes.push(id)
+    },
+    'REMOVE_VIDEO_DISLIKE'(state, id) {
+      state.current.videosDislikes.splice(state.current.videosDislikes.indexOf(id), 1)
+    },
 }
 
 const actions = {
@@ -64,6 +76,18 @@ const actions = {
   },
   logOut: ({commit})=>{
     commit('LOG_OUT')
+  },
+  addVideoLike: ({commit}, id)=>{
+    commit('ADD_VIDEO_LIKE',id)
+  },
+  removeVideoLike: ({commit}, id)=>{
+    commit('REMOVE_VIDEO_LIKE', id)
+  },
+  addVideoDislike: ({commit}, id)=>{
+    commit('ADD_VIDEO_DISLIKE',id)
+  },
+  removeVideoDislike: ({commit}, id)=>{
+    commit('REMOVE_VIDEO_DISLIKE', id)
   }
 }
 

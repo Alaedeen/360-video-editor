@@ -4,15 +4,13 @@
               <v-flex xs12 >
                   <p class="title" style="color: white; "><b> {{video.title}} </b></p>
               </v-flex>
-              <v-flex xs6>
+              <v-flex xs8>
                   <p style="color: grey;"><span>{{video.views}}</span><span> views</span></p>
               </v-flex>
-              <v-flex xs6>
-                  <p>
-                    <span style="color: grey; "><v-icon :color="likeCol" style="cursor : pointer;" @click="likeVideo">thumb_up</v-icon> {{video.likes}} </span>
-                    <span style="color: grey;"><v-icon :color="dislikeCol" style="cursor : pointer; padding-left : 0.5em;" @click="dislikeVideo">thumb_down</v-icon> {{video.dislikes}} </span>
-                    <span style="color: grey;cursor : pointer;"><v-icon color="grey" style=" padding-left : 0.5em;">share</v-icon>  SHARE</span>
-                  </p>
+              <v-flex xs4>
+                <!-- like dislike share actions -->
+                  <app-actions :items="items"></app-actions>
+                <!-- like dislike share actions -->
               </v-flex>
           </v-layout>
           <v-divider color="grey"></v-divider>
@@ -50,9 +48,40 @@
 </div>
 </template>
 <script>
+import actions from './userActions.vue'
 export default {
+  data() {
+    return {
+
+    }
+  },
+components:{
+  appActions: actions
+},
 props: ['video'],
 computed: {
+  items(){
+    return [
+        {
+          icon: 'thumb_up',
+          label: this.video.likes,
+          func: this.likeVideo,
+          color: this.likeCol
+        },
+        {
+          icon: 'thumb_down',
+          label: this.video.dislikes,
+          func: this.dislikeVideo,
+          color: this.dislikeCol
+        },
+        {
+          icon: 'share',
+          label: 'SHARE',
+          func : ()=> { },
+          color: 'grey'
+        },
+      ]
+  },
   //like video
   liked(){
     if (this.$store.state.user.current==null) {
@@ -86,6 +115,7 @@ computed: {
 },
 methods: {
   likeVideo(){
+
       if (this.$store.state.user.current==null) {
           this.$router.push({path:'/login'})
       }

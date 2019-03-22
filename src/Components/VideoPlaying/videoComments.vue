@@ -90,7 +90,9 @@ export default {
   props: ['comments'],
   methods: {
     addComment(){
-      alert(this.comment)
+      if (this.$store.state.user.current==null) {
+        this.$router.push({path: '/login'})
+      }
     },
     reply(index){
       this.replies.splice(index,1,!this.replies[index])

@@ -92,7 +92,7 @@ export default [
       replies: []
     }],
     likes: 0,
-    dislikes: 10,
+    dislikes: 0,
     views: 100
   },
 ]

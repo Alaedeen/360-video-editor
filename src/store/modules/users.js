@@ -50,6 +50,7 @@ const mutations = {
     'LOG_OUT'(state){
       state.current=null
     },
+    //video like dislike
     'ADD_VIDEO_LIKE'(state, id) {
         state.current.videosLikes.push(id)
     },
@@ -61,6 +62,26 @@ const mutations = {
     },
     'REMOVE_VIDEO_DISLIKE'(state, id) {
       state.current.videosDislikes.splice(state.current.videosDislikes.indexOf(id), 1)
+    },
+
+    //comment like dislike
+    'ADD_COMMENT_LIKE'(state, id) {
+      state.current.commentsLikes.push(id)
+    },
+    'REMOVE_COMMENT_LIKE'(state, id) {
+      var index = state.current.commentsLikes.findIndex(function (element) {
+        return (element.videoId == id.videoId) && (element.commentId == id.commentId)
+      });
+      state.current.commentsLikes.splice(index, 1)
+    },
+    'ADD_COMMENT_DISLIKE'(state, id) {
+      state.current.commentsDislikes.push(id)
+    },
+    'REMOVE_COMMENT_DISLIKE'(state, id) {
+      var index = state.current.commentsDislikes.findIndex(function (element) {
+        return (element.videoId == id.videoId) && (element.commentId == id.commentId)
+      });
+      state.current.commentsDislikes.splice(index, 1)
     },
 }
 
@@ -77,6 +98,7 @@ const actions = {
   logOut: ({commit})=>{
     commit('LOG_OUT')
   },
+  //video likes dislikes
   addVideoLike: ({commit}, id)=>{
     commit('ADD_VIDEO_LIKE',id)
   },
@@ -88,7 +110,20 @@ const actions = {
   },
   removeVideoDislike: ({commit}, id)=>{
     commit('REMOVE_VIDEO_DISLIKE', id)
-  }
+  },
+  //comment likes dislikes
+  addCommentLike: ({commit}, id)=>{
+    commit('ADD_COMMENT_LIKE',id)
+  },
+  removeCommentLike: ({commit}, id)=>{
+    commit('REMOVE_COMMENT_LIKE', id)
+  },
+  addCommentDislike: ({commit}, id)=>{
+    commit('ADD_COMMENT_DISLIKE',id)
+  },
+  removeCommentDislike: ({commit}, id)=>{
+    commit('REMOVE_COMMENT_DISLIKE', id)
+  },
 }
 
 export const user = {

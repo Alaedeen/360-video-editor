@@ -27,7 +27,7 @@
 
 <script>
 import player from './player.vue'
-import details from './vidPDetails.vue'
+import details from './playingVideoDetails.vue'
 import comments from './videoComments.vue'
 import next from './watchNext.vue'
 export default {

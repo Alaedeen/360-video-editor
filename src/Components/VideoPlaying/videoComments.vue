@@ -14,9 +14,9 @@
 
           </v-layout>
           <v-layout row wrap style="width: 100%">
-            <div class="profile">
+            <div class="profile" style="width: 100%">
                 <div v-for="(comment,index) in comments" :key="index">
-                  <v-divider color="grey" v-if="index>1" ></v-divider>
+                  <v-divider color="grey" v-if="index>0" ></v-divider>
                 <div>
                   <v-avatar style="display: inline-block;" size= '40'>
                     <img :src="'/'+comment.profilePic">
@@ -87,11 +87,28 @@ export default {
       replies: []
     }
   },
-  props: ['comments'],
+  props: ['comments','videoId'],
+  computed: {
+    user(){
+      if (this.$store.state.user.current==null) {
+        return null
+      }else{
+        return this.$store.state.user.current
+      }
+    }
+  },
   methods: {
     addComment(){
       if (this.$store.state.user.current==null) {
         this.$router.push({path: '/login'})
+      }else{
+        var comm = {
+          id : this.videoId,
+          text: this.comment,
+          user: this.user
+        }
+        this.$store.dispatch('video/addComment',comm)
+        this.comment=''
       }
     },
     reply(index){

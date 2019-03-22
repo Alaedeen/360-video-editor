@@ -67,6 +67,63 @@ const mutations = {
     vid.dislikes--;
     videos.splice(vid.vidId, 1, vid)
   },
+
+  //add comment
+  'ADD_COMMENT'(state,comment) {
+    var vid = state.videos.filter(video => {
+      return video.vidId == comment.id
+    })[0]
+    //today date
+    var today = new Date();
+      var day = today.getDate();
+      var month = today.getMonth()+1; //January is 0!
+      var year = today.getFullYear();
+      switch (month) {
+        case 1: month='January'
+          break;
+        case 2: month='February'
+          break;
+        case 3: month='March'
+          break;
+        case 4: month='April'
+          break;
+        case 5: month='May'
+          break;
+        case 6: month='June'
+          break;
+        case 7: month='Jully'
+          break;
+        case 8: month='August'
+          break;
+        case 9: month='September'
+          break;
+        case 10: month='October'
+          break;
+        case 11: month='November'
+          break;
+        case 12: month='December'
+          break;
+      }
+    //today date end
+    var com = {
+      idComment : vid.comments.length,
+      idUser: comment.user.id,
+      nameUser: comment.user.name,
+      profilePic: comment.user.profilePic,
+      text: comment.text,
+      date: {
+        day: day,
+        month: month,
+        year: year
+      },
+      likes: 0,
+      dislikes: 0,
+      replies: []
+    }
+
+    vid.comments.splice(0,0,com)
+    videos.splice(vid.vidId, 1, vid)
+  }
 }
 
 const actions = {
@@ -96,6 +153,9 @@ const actions = {
   },
   removeVideoDislike: ({commit}, id)=>{
     commit('REMOVE_VIDEO_DISLIKE', id)
+  },
+  addComment: ({commit},comment)=>{
+    commit('ADD_COMMENT', comment)
   }
 }
 

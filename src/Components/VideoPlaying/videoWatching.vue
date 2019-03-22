@@ -13,7 +13,7 @@
       <!-- video details end-->
 
       <!-- comments -->
-      <app-comments :comments="video.comments"></app-comments>
+      <app-comments :comments="video.comments" :videoId="video.vidId" ></app-comments>
       <!-- comments end -->
     </v-flex>
     <v-flex xs4>

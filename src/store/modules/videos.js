@@ -172,6 +172,77 @@ const mutations = {
     vid.comments.splice((vid.comments.length - 1) - com.idComment, 1, com)
     videos.splice(vid.vidId, 1, vid)
   },
+
+  //add reply
+  'ADD_REPLY'(state, reply) {
+    var vid = state.videos.filter(video => {
+      return video.vidId == reply.id
+    })[0]
+    var comment = vid.comments.filter(comment =>{
+      return comment.idComment == reply.idComment
+    })[0]
+    //today date
+    var today = new Date();
+    var day = today.getDate();
+    var month = today.getMonth() + 1; //January is 0!
+    var year = today.getFullYear();
+    switch (month) {
+      case 1:
+        month = 'January'
+        break;
+      case 2:
+        month = 'February'
+        break;
+      case 3:
+        month = 'March'
+        break;
+      case 4:
+        month = 'April'
+        break;
+      case 5:
+        month = 'May'
+        break;
+      case 6:
+        month = 'June'
+        break;
+      case 7:
+        month = 'Jully'
+        break;
+      case 8:
+        month = 'August'
+        break;
+      case 9:
+        month = 'September'
+        break;
+      case 10:
+        month = 'October'
+        break;
+      case 11:
+        month = 'November'
+        break;
+      case 12:
+        month = 'December'
+        break;
+    }
+    //today date end
+    var replyDetails = {
+      idReply: comment.replies.length,
+      idUser: reply.user.id,
+      nameUser: reply.user.name,
+      profilePic: reply.user.profilePic,
+      text: reply.text,
+      date: {
+        day: day,
+        month: month,
+        year: year
+      },
+      likes: 0,
+      dislikes: 0,
+    }
+    comment.replies.splice(0, 0, replyDetails)
+    vid.comments.splice((vid.comments.length - 1) - comment.idComment,1,comment)
+    videos.splice(vid.vidId, 1, vid)
+  },
 }
 
 const actions = {
@@ -216,6 +287,10 @@ const actions = {
   },
   removeCommentDislike: ({commit}, id)=>{
     commit('REMOVE_COMMENT_DISLIKE', id)
+  },
+
+  addReply: ({commit},reply)=>{
+    commit('ADD_REPLY', reply)
   },
 }
 

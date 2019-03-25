@@ -53,35 +53,43 @@ const mutations = {
     //video like dislike
     'ADD_VIDEO_LIKE'(state, id) {
         state.current.videosLikes.push(id)
+        state.users.splice(state.current.id,1,state.current)
     },
     'REMOVE_VIDEO_LIKE'(state, id) {
       state.current.videosLikes.splice(state.current.videosLikes.indexOf(id), 1)
+      state.users.splice(state.current.id, 1, state.current)
     },
     'ADD_VIDEO_DISLIKE'(state, id) {
       state.current.videosDislikes.push(id)
+      state.users.splice(state.current.id, 1, state.current)
     },
     'REMOVE_VIDEO_DISLIKE'(state, id) {
       state.current.videosDislikes.splice(state.current.videosDislikes.indexOf(id), 1)
+      state.users.splice(state.current.id, 1, state.current)
     },
 
     //comment like dislike
     'ADD_COMMENT_LIKE'(state, id) {
       state.current.commentsLikes.push(id)
+      state.users.splice(state.current.id, 1, state.current)
     },
     'REMOVE_COMMENT_LIKE'(state, id) {
       var index = state.current.commentsLikes.findIndex(function (element) {
         return (element.videoId == id.videoId) && (element.commentId == id.commentId)
       });
       state.current.commentsLikes.splice(index, 1)
+      state.users.splice(state.current.id, 1, state.current)
     },
     'ADD_COMMENT_DISLIKE'(state, id) {
       state.current.commentsDislikes.push(id)
+      state.users.splice(state.current.id, 1, state.current)
     },
     'REMOVE_COMMENT_DISLIKE'(state, id) {
       var index = state.current.commentsDislikes.findIndex(function (element) {
         return (element.videoId == id.videoId) && (element.commentId == id.commentId)
       });
       state.current.commentsDislikes.splice(index, 1)
+      state.users.splice(state.current.id, 1, state.current)
     },
 }
 

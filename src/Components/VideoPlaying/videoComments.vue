@@ -4,13 +4,14 @@
             <h5 style="color: white"><span> {{comments.length}} </span><span>Comments</span></h5>
 
           </v-layout>
-          <v-layout row wrap style="width: 100%">
+          <v-layout row wrap style="width: 100%; " >
               <v-text-field
               label="Comment"
               color="blue"
               v-model="comment"
               clearable
-              @focus="account"></v-text-field>
+              @focus="account"
+              ></v-text-field>
               <v-btn color="grey" style="color: white;" @click="addComment">ADD COMMENT</v-btn>
 
           </v-layout>
@@ -19,7 +20,7 @@
             <div class="profile" style="width: 100%">
                 <div v-for="(comment,index) in comments" :key="index">
                   <v-divider color="grey" v-if="index>0" ></v-divider>
-                    <app-comment :comment="comment"  :reply="replies[index]"></app-comment>
+                    <app-comment :comment="comment"  :reply="replies[index]" :videoId="videoId"></app-comment>
 
                   </div>
             </div>
@@ -50,7 +51,7 @@ export default {
         return this.$store.state.user.current
       }
     },
-    
+
   },
   methods: {
     addComment(){
@@ -82,7 +83,9 @@ export default {
 
 </script>
 <style scoped>
-
+.v-input input {
+    color: white !important;
+}
 </style>
 
 

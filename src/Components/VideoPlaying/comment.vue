@@ -17,9 +17,14 @@
                   <app-actions :items="commentItems"></app-actions>
                 <!-- like dislike reply actions -->
                   </div>
-                  <div style="width: 100%" v-if="reply">
-                    <v-text-field label="Reply"   style="padding-left : 5em;display:inline-block;width: 80%"></v-text-field>
-                    <v-btn color="grey" style="color: white; display:inline-block;" >ADD REPLY</v-btn>
+                  <div style="width: 100%" v-if="replies">
+                    <v-text-field
+                    label="Reply"
+                    color="blue"
+                    style="padding-left : 5em;display:inline-block;width: 80%;"
+                    v-model="replyText"
+                    @focus="account"></v-text-field>
+                    <v-btn color="grey" style="color: white; display:inline-block;" @click="addReply">ADD REPLY</v-btn>
                   </div>
                   <v-expansion-panel inset v-if="comment.replies.length!=0">
             <v-expansion-panel-content style="backgroundColor: #444444; color: white;" >
@@ -47,6 +52,12 @@
 import actions from './userActions.vue'
 import CommentReply from './reply.vue'
 export default {
+  data() {
+    return {
+      replyText: '',
+      replies: this.reply
+    }
+  },
   props : {
     comment: {
       type : Object,
@@ -56,8 +67,18 @@ export default {
       type : Boolean,
       default: {}
     },
+    videoId : {
+      type: Number,
+    }
   },
   computed: {
+    user(){
+      if (this.$store.state.user.current==null) {
+        return null
+      }else{
+        return this.$store.state.user.current
+      }
+    },
     commentItems(){
       return [
           {
@@ -125,8 +146,13 @@ export default {
     },
   },
   methods: {
-    toggleReply(index){
-      this.reply = !this.reply
+    account(){
+      if (this.$store.state.user.current==null) {
+        this.$router.push({path: '/login'})
+      }
+    },
+    toggleReply(){
+      this.replies = !this.replies
     },
     likeComment(){
         if (this.$store.state.user.current==null) {
@@ -173,6 +199,20 @@ export default {
             this.$store.dispatch('video/removeCommentDislike',ids)
           }
         }
+    },
+    addReply(){
+      if (this.$store.state.user.current==null) {
+        this.$router.push({path: '/login'})
+      }else{
+        var reply = {
+          id : this.videoId,
+          idComment: this.comment.idComment,
+          text: this.replyText,
+          user: this.user
+        }
+        this.$store.dispatch('video/addReply',reply)
+        this.replyText=''
+      }
     }
   },
   components: {

@@ -7,7 +7,7 @@
         <app-player  ></app-player>
         <!-- video player end-->
     </v-flex>
-    <v-flex xs8 style="paddingLeft: 3em; paddingTop: 1em">
+    <v-flex xs12  md8  style="paddingLeft: 3em; paddingTop: 1em">
       <!-- video details -->
           <app-details :video="video"></app-details>
       <!-- video details end-->
@@ -16,9 +16,10 @@
       <app-comments :comments="video.comments" :videoId="video.vidId" ></app-comments>
       <!-- comments end -->
     </v-flex>
-    <v-flex xs4>
+    <v-flex xs12  md4 >
+      <h5 style="marginLeft: 1em; color: white"> Watch next</h5>
       <!-- watch  next -->
-          <app-next ></app-next>
+          <app-next v-for="(vid, index) in videos" :key="index"  :video="vid" :playingId="video.vidId"></app-next>
       <!-- watch next end -->
     </v-flex>
   </v-layout>
@@ -35,8 +36,12 @@ export default {
   computed: {
     video(){
       return this.$store.state.video.playing
+    },
+    videos(){
+      return this.$store.state.video.videos
     }
   },
+
   beforeCreate() {
     this.$store.dispatch('video/loadVideo', parseInt(this.$route.params.id, 10));
   },

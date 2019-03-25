@@ -4,10 +4,10 @@
               <v-flex xs12 >
                   <p class="title" style="color: white; "><b> {{video.title}} </b></p>
               </v-flex>
-              <v-flex xs8>
+              <v-flex xs5 md8>
                   <p style="color: grey;"><span>{{video.views}}</span><span> views</span></p>
               </v-flex>
-              <v-flex xs4>
+              <v-flex xs6 md4>
                 <!-- like dislike share actions -->
                   <app-actions :items="items"></app-actions>
                 <!-- like dislike share actions -->
@@ -16,7 +16,8 @@
           <v-divider color="grey"></v-divider>
           <v-layout row wrap>
               <v-flex
-                  xs8
+                  xs7
+                  md10
                   layout
                 >
 

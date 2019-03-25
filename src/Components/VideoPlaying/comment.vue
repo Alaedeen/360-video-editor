@@ -37,8 +37,8 @@
                       <!-- comment replies -->
                           <div  class="profile" style="paddingLeft: 3em;">
                                 <div v-for="(commentReply,index) in comment.replies" :key="index" >
-                                  <v-divider color="grey" v-if="index>1"></v-divider>
-                                        <app-reply :reply="commentReply"></app-reply>
+                                  <v-divider color="grey" v-if="index>0"></v-divider>
+                                        <app-reply :reply="commentReply " :idComment="comment.idComment"></app-reply>
                                 </div>
                         </div>
                       <!-- comment replies end -->

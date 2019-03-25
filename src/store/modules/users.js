@@ -91,6 +91,30 @@ const mutations = {
       state.current.commentsDislikes.splice(index, 1)
       state.users.splice(state.current.id, 1, state.current)
     },
+
+    //reply like dislike
+    'ADD_REPLY_LIKE'(state, id) {
+      state.current.repliesLikes.push(id)
+      state.users.splice(state.current.id, 1, state.current)
+    },
+    'REMOVE_REPLY_LIKE'(state, id) {
+      var index = state.current.repliesLikes.findIndex(function (element) {
+        return (element.videoId == id.videoId) && (element.commentId == id.commentId) && (element.replyId == id.replyId)
+      });
+      state.current.repliesLikes.splice(index, 1)
+      state.users.splice(state.current.id, 1, state.current)
+    },
+    'ADD_REPLY_DISLIKE'(state, id) {
+      state.current.repliesDislikes.push(id)
+      state.users.splice(state.current.id, 1, state.current)
+    },
+    'REMOVE_REPLY_DISLIKE'(state, id) {
+      var index = state.current.repliesDislikes.findIndex(function (element) {
+        return (element.videoId == id.videoId) && (element.commentId == id.commentId) && (element.replyId == id.replyId)
+      });
+      state.current.repliesDislikes.splice(index, 1)
+      state.users.splice(state.current.id, 1, state.current)
+    },
 }
 
 const actions = {
@@ -131,6 +155,19 @@ const actions = {
   },
   removeCommentDislike: ({commit}, id)=>{
     commit('REMOVE_COMMENT_DISLIKE', id)
+  },
+  //reply likes dislikes
+  addReplyLike: ({commit}, id)=>{
+    commit('ADD_REPLY_LIKE',id)
+  },
+  removeReplyLike: ({commit}, id)=>{
+    commit('REMOVE_REPLY_LIKE', id)
+  },
+  addReplyDislike: ({commit}, id)=>{
+    commit('ADD_REPLY_DISLIKE',id)
+  },
+  removeReplyDislike: ({commit}, id)=>{
+    commit('REMOVE_REPLY_DISLIKE', id)
   },
 }
 

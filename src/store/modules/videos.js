@@ -243,6 +243,70 @@ const mutations = {
     vid.comments.splice((vid.comments.length - 1) - comment.idComment,1,comment)
     videos.splice(vid.vidId, 1, vid)
   },
+
+  //add/remove like to a reply
+  'ADD_REPLY_LIKE'(state, id) {
+    var vid = state.videos.filter(video => {
+      return video.vidId == id.videoId
+    })[0]
+    var com = vid.comments.filter(comment => {
+      return comment.idComment == id.commentId
+    })[0]
+    var reply = com.replies.filter(rep => {
+      return rep.idReply == id.replyId
+    })[0]
+    reply.likes++
+    com.replies.splice((com.replies.length - 1) - reply.idReply, 1, reply)
+    vid.comments.splice((vid.comments.length - 1) - com.idComment, 1, com)
+    videos.splice(vid.vidId, 1, vid)
+  },
+  'REMOVE_REPLY_LIKE'(state, id) {
+    var vid = state.videos.filter(video => {
+      return video.vidId == id.videoId
+    })[0]
+    var com = vid.comments.filter(comment => {
+      return comment.idComment == id.commentId
+    })[0]
+    var reply = com.replies.filter(rep => {
+      return rep.idReply == id.replyId
+    })[0]
+    reply.likes--
+    com.replies.splice((com.replies.length - 1) - reply.idReply, 1, reply)
+    vid.comments.splice((vid.comments.length - 1) - com.idComment, 1, com)
+    videos.splice(vid.vidId, 1, vid)
+  },
+
+  //add/remove dislike to a reply
+  'ADD_REPLY_DISLIKE'(state, id) {
+    var vid = state.videos.filter(video => {
+      return video.vidId == id.videoId
+    })[0]
+    var com = vid.comments.filter(comment => {
+      return comment.idComment == id.commentId
+    })[0]
+    var reply = com.replies.filter(rep => {
+      return rep.idReply == id.replyId
+    })[0]
+    reply.dislikes++
+    com.replies.splice((com.replies.length - 1) - reply.idReply, 1, reply)
+    vid.comments.splice((vid.comments.length - 1) - com.idComment, 1, com)
+    videos.splice(vid.vidId, 1, vid)
+  },
+  'REMOVE_REPLY_DISLIKE'(state, id) {
+    var vid = state.videos.filter(video => {
+      return video.vidId == id.videoId
+    })[0]
+    var com = vid.comments.filter(comment => {
+      return comment.idComment == id.commentId
+    })[0]
+    var reply = com.replies.filter(rep => {
+      return rep.idReply == id.replyId
+    })[0]
+    reply.dislikes--
+    com.replies.splice((com.replies.length - 1) - reply.idReply, 1, reply)
+    vid.comments.splice((vid.comments.length - 1) - com.idComment, 1, com)
+    videos.splice(vid.vidId, 1, vid)
+  },
 }
 
 const actions = {
@@ -261,6 +325,7 @@ const actions = {
   loadVideo: ({commit},vidId)=>{
     commit('LOAD_VIDEO',vidId)
   },
+  //video like dislike
   addVideoLike: ({commit}, id)=>{
     commit('ADD_VIDEO_LIKE',id)
   },
@@ -273,9 +338,11 @@ const actions = {
   removeVideoDislike: ({commit}, id)=>{
     commit('REMOVE_VIDEO_DISLIKE', id)
   },
+  //add comment
   addComment: ({commit},comment)=>{
     commit('ADD_COMMENT', comment)
   },
+  //comment like dislike
   addCommentLike: ({commit}, id)=>{
     commit('ADD_COMMENT_LIKE',id)
   },
@@ -288,9 +355,22 @@ const actions = {
   removeCommentDislike: ({commit}, id)=>{
     commit('REMOVE_COMMENT_DISLIKE', id)
   },
-
+  //add reply
   addReply: ({commit},reply)=>{
     commit('ADD_REPLY', reply)
+  },
+  //reply like dislike
+  addReplyLike: ({commit}, id)=>{
+    commit('ADD_REPLY_LIKE',id)
+  },
+  removeReplyLike: ({commit}, id)=>{
+    commit('REMOVE_REPLY_LIKE', id)
+  },
+  addReplyDislike: ({commit}, id)=>{
+    commit('ADD_REPLY_DISLIKE',id)
+  },
+  removeReplyDislike: ({commit}, id)=>{
+    commit('REMOVE_REPLY_DISLIKE', id)
   },
 }
 

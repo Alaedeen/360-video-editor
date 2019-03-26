@@ -3,7 +3,6 @@
   <v-app class="tabs">
           <div>
             <v-tabs
-              v-model="active"
               dark
               slider-color="red"
             >

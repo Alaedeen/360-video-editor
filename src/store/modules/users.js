@@ -38,6 +38,29 @@ const mutations = {
       state.current=user
       state.users.splice(state.current.id, 1, state.current)
     },
+    'DELETE_USER'(state,id){
+      state.users.splice(id, 1, {
+        id: id,
+        name: '',
+        email: '',
+        password: '',
+        roles: [],
+        dateOfBirth: {},
+        countryOfResidence: '',
+        description: '',
+        profilePic: '',
+        joined: {},
+        subscribers: 0,
+        subscriptions: [],
+        videosLikes: [],
+        videosDislikes: [],
+        commentsLikes: [],
+        commentsDislikes: [],
+        repliesLikes: [],
+        repliesDislikes: [],
+      })
+
+    },
     'SIGN_IN'(state, log) {
       var U = state.users.filter(user => {
         return (user.email == log.email) && (user.password == log.password)
@@ -205,6 +228,10 @@ const actions = {
   },
   removeSbuscription: ({commit})=>{
     commit('REMOVE_SUBSCRIPTION')
+  },
+  //delete user
+  deleteUser: ({commit},id)=>{
+    commit('DELETE_USER',id)
   }
 }
 

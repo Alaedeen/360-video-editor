@@ -4,6 +4,7 @@ import Home from './Components/Home.vue'
 import MyProfile from './Components/accounts/Profile.vue'
 import VideoWatching from './Components/VideoPlaying/videoWatching.vue'
 import VisitUserProfile from './Components/accounts/VisitUserProfile.vue'
+import Dashboard from './Components/administration/Dashboard.vue'
 
 export const routes = [
   {
@@ -35,5 +36,10 @@ export const routes = [
   path: '/visit/:id',
   component: VisitUserProfile,
   name: 'VisitUserProfile'
+},
+{
+  path: '/dashboard',
+  component: Dashboard,
+  name: 'Dashboard'
 },
 ]

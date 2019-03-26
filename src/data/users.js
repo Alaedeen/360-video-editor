@@ -3,7 +3,7 @@ export default [{
     name: 'Ned Stark',
     email: 'ned@stark.com',
     password: 'Azerty@1',
-    roles: ['admin','user'],
+    roles: ['user', 'admin'],
       dateOfBirth: {
         day: 2,
         month: 'December',
@@ -59,7 +59,7 @@ export default [{
     name: 'Jon Snow',
     email: 'jon@snow.com',
     password: 'Azerty@1',
-    roles: ['super admin','user'],
+    roles: ['user','admin', 'super admin'],
     dateOfBirth: {
       day: 2,
       month: 'December',

@@ -28,8 +28,6 @@
     <v-divider v-if="current!=null"></v-divider>
 
     <v-list class="pt-0" dense>
-
-
       <v-list-tile
         v-for="item in items"
         :key="item.title"
@@ -65,9 +63,6 @@
     data () {
       return {
         drawer: true,
-        items: [
-          { title: 'Home', icon: 'dashboard' , to:''},
-        ],
         mini: true,
         right: null
       }
@@ -89,6 +84,24 @@
     computed: {
       current() {
         return this.$store.state.user.current
+      },
+      items(){
+        if(this.current==null){
+          return []
+        }else {
+          if (this.current.roles.includes('admin')) {
+              return [
+              { title: 'Dashboard', icon: 'dashboard' , to:'dashboard'},
+              { title: 'Library', icon: 'video_library' , to:'library'},
+              ]
+          }else{
+            return [
+              { title: 'Library', icon: 'video_library' , to:'library'},
+              ]
+          }
+
+        }
+
       }
     },
     created() {

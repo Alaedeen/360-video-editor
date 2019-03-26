@@ -33,6 +33,10 @@ const mutations = {
         state.users.push(log)
       }
     },
+    'UPDATE_USER'(state,user){
+      state.current=user
+      state.users.splice(state.current.id, 1, state.current)
+    },
     'SIGN_IN'(state, log) {
       var U = state.users.filter(user => {
         return (user.email == log.email) && (user.password == log.password)
@@ -169,6 +173,9 @@ const actions = {
   removeReplyDislike: ({commit}, id)=>{
     commit('REMOVE_REPLY_DISLIKE', id)
   },
+  updateUser: ({commit}, user)=>{
+    commit('UPDATE_USER',user)
+  }
 }
 
 export const user = {

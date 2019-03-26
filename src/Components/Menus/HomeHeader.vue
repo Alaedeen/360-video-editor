@@ -23,7 +23,8 @@
       <v-badge left
       style="cursor: pointer"
       overlap
-      color="red">
+      color="red"
+      v-if="current!= null">
         <template v-slot:badge>
           <span>6</span>
         </template>

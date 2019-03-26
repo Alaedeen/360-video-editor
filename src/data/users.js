@@ -6,13 +6,17 @@ export default [{
     roles: ['admin','user'],
       dateOfBirth: {
         day: 2,
-        month: 'december',
+        month: 'December',
         year: 1995
       },
-      countryOfResidence: 'Westeros',
-      description: null,
+      countryOfResidence: 'United Kingdom',
+      description: '',
       profilePic: 'src/assets/ned.jpg',
-      joined: null,
+      joined: {
+        day: 2,
+        month: 'December',
+        year: 2019
+      },
       videosLikes: [],
       videosDislikes: [],
       commentsLikes: [],
@@ -28,15 +32,15 @@ export default [{
     roles: ['user'],
       dateOfBirth: {
         day: 2,
-        month: 'december',
+        month: 'December',
         year: 1995
       },
-      countryOfResidence: 'Westeros',
+      countryOfResidence: 'United Kingdom',
       description: 'this is a description',
       profilePic: 'src/assets/lyana.png',
       joined: {
         day: 2,
-        month: 'december',
+        month: 'December',
         year: 2019
       },
       videosLikes: [],
@@ -54,13 +58,17 @@ export default [{
     roles: ['super admin','user'],
     dateOfBirth: {
       day: 2,
-      month: 'december',
+      month: 'December',
       year: 1995
     },
-    countryOfResidence: 'Westeros',
-    description: null,
+    countryOfResidence: 'United Kingdom',
+    description: '',
     profilePic: 'src/assets/Jon.png',
-    joined: null,
+    joined: {
+      day: 2,
+      month: 'December',
+      year: 2019
+    },
       videosLikes: [],
       videosDislikes: [],
       commentsLikes: [],
@@ -76,15 +84,15 @@ export default [{
     roles: ['user'],
     dateOfBirth: {
       day: 2,
-      month: 'december',
+      month: 'December',
       year: 1995
     },
-    countryOfResidence: 'Westeros',
-    description: null,
+    countryOfResidence: 'United Kingdom',
+    description: '',
     profilePic: 'src/assets/Jon.png',
       joined: {
         day: 2,
-        month: 'december',
+        month: 'December',
         year: 2019
       },
       videosLikes: [],

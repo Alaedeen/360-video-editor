@@ -24,7 +24,8 @@ export const routes = [
   path: '/my_profile',
   component: MyProfile,
   name: 'myprofile'
-}, {
+},
+{
   path: '/watch/:id',
   component: VideoWatching,
   name: 'videoWatching'

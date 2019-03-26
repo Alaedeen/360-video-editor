@@ -26,29 +26,9 @@
           text-xs-center
           class= "avatar"
         >
-           <v-hover>
-
-      <v-avatar
-            size= '65'
-            color="grey lighten-4"
-                slot-scope="{ hover }"
-                style="cursor: pointer"
-          >
-
-            <v-img :src="current.profilePic" alt="avatar">
-              <v-expand-transition >
-            <div
-              v-if="hover"
-              class="d-flex transition-fast-in-fast-out grey darken-2 v-card--reveal display-3 white--text"
-              style="height: 100%;opacity: 0.5;"
-            >
-              <v-icon dark>edit</v-icon>
-            </div>
-          </v-expand-transition>
-        </v-img>
-          </v-avatar>
-
-            </v-hover>
+        <!-- Edit profile -->
+          <app-edit :user="current"></app-edit>
+        <!--Edit profile -->
 
         <h2 class = 'name'> {{current.name}} </h2>
         </v-flex>
@@ -133,6 +113,7 @@
 
 <script>
 import videoTile from '../VideoPlaying/videoTile.vue'
+import ProfileEdit from './UpdateProfile.vue'
 export default {
   data() {
     return {
@@ -156,12 +137,16 @@ created() {
   this.$store.dispatch('video/userVideos',this.current.id)
 },
 components: {
-  appTile: videoTile
+  appTile: videoTile,
+  appEdit: ProfileEdit
 },
 methods: {
     watch(id){
       var url = '/watch/'+id
       this.$router.push({path:url})
+    },
+    EditProfile(){
+      this.$router.push({path:'/edit_profile'})
     }
   },
 }

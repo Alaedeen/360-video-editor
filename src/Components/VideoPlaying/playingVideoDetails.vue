@@ -27,7 +27,7 @@
                         style="cursor: pointer"
                   >
 
-                    <v-img :src="'/'+video.profilePic" alt="avatar">
+                    <v-img :src="video.profilePic" alt="avatar">
 
                 </v-img>
                   </v-avatar>

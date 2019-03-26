@@ -2,7 +2,7 @@
   <div>
     <div>
                   <v-avatar style="display: inline-block;" size= '40'>
-                    <img :src="'/'+comment.profilePic">
+                    <img :src="comment.profilePic">
                   </v-avatar>
                   <p style="color: grey; display: inline-block; marginLeft: 1em">
                       <b> {{comment.nameUser}} </b>

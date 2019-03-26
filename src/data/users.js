@@ -11,7 +11,7 @@ export default [{
       },
       countryOfResidence: 'United Kingdom',
       description: '',
-      profilePic: 'src/assets/ned.jpg',
+      profilePic: '/src/assets/ned.jpg',
       joined: {
         day: 2,
         month: 'December',
@@ -37,7 +37,7 @@ export default [{
       },
       countryOfResidence: 'United Kingdom',
       description: 'this is a description',
-      profilePic: 'src/assets/lyana.png',
+      profilePic: '/src/assets/lyana.png',
       joined: {
         day: 2,
         month: 'December',
@@ -63,7 +63,7 @@ export default [{
     },
     countryOfResidence: 'United Kingdom',
     description: '',
-    profilePic: 'src/assets/Jon.png',
+    profilePic: '/src/assets/Jon.png',
     joined: {
       day: 2,
       month: 'December',
@@ -89,7 +89,7 @@ export default [{
     },
     countryOfResidence: 'United Kingdom',
     description: '',
-    profilePic: 'src/assets/Jon.png',
+    profilePic: '/src/assets/Jon.png',
       joined: {
         day: 2,
         month: 'December',

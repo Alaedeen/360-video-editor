@@ -13,7 +13,7 @@
                   </v-flex>
                   <v-flex xs5>
                     <v-img
-                      :src="'/'+video.thumbnail"
+                      :src="video.thumbnail"
                       height="125px"
                       contain
                     ></v-img>

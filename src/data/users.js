@@ -17,6 +17,8 @@ export default [{
         month: 'December',
         year: 2019
       },
+      subscribers : 0,
+      subscriptions: [],
       videosLikes: [],
       videosDislikes: [],
       commentsLikes: [],
@@ -43,6 +45,8 @@ export default [{
         month: 'December',
         year: 2019
       },
+      subscribers: 0,
+        subscriptions: [],
       videosLikes: [],
       videosDislikes: [],
       commentsLikes: [],
@@ -69,6 +73,8 @@ export default [{
       month: 'December',
       year: 2019
     },
+    subscribers: 0,
+      subscriptions: [],
       videosLikes: [],
       videosDislikes: [],
       commentsLikes: [],
@@ -95,6 +101,8 @@ export default [{
         month: 'December',
         year: 2019
       },
+      subscribers: 0,
+        subscriptions: [],
       videosLikes: [],
         videosDislikes: [],
         commentsLikes: [],

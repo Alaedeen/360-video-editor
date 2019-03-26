@@ -3,6 +3,7 @@ import users from '../../data/users'
 const state={
   users: [],//add patern
   current: null,
+  visited: null,
   loginError: false,
   signinError: false
 }
@@ -119,6 +120,25 @@ const mutations = {
       state.current.repliesDislikes.splice(index, 1)
       state.users.splice(state.current.id, 1, state.current)
     },
+    //visit other user account
+    'VISIT_ACCOUNT'(state,id){
+      state.visited = state.users.filter(user => {
+        return (user.id == id)
+      })[0]
+    },
+    //add remove subscription
+    'ADD_SUBSCRIPTION'(state){
+        state.visited.subscribers++
+        state.users.splice(state.visited.id, 1, state.visited)
+        state.current.subscriptions.push(state.visited.id)
+        state.users.splice(state.current.id, 1, state.current)
+    },
+    'REMOVE_SUBSCRIPTION'(state) {
+        state.visited.subscribers--
+        state.users.splice(state.visited.id, 1, state.visited)
+        state.current.subscriptions.splice(state.current.subscriptions.indexOf(state.visited.id), 1)
+        state.users.splice(state.current.id, 1, state.current)
+      },
 }
 
 const actions = {
@@ -175,6 +195,16 @@ const actions = {
   },
   updateUser: ({commit}, user)=>{
     commit('UPDATE_USER',user)
+  },
+  visitAccount: ({commit}, id)=>{
+    commit('VISIT_ACCOUNT',id)
+  },
+  //add remove subscriptions
+  addSbuscription: ({commit})=>{
+    commit('ADD_SUBSCRIPTION')
+  },
+  removeSbuscription: ({commit})=>{
+    commit('REMOVE_SUBSCRIPTION')
   }
 }
 

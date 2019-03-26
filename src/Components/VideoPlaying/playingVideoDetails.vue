@@ -21,23 +21,31 @@
                   layout
                 >
 
-              <v-avatar
-                    size= '50'
-                    color="grey lighten-4"
-                        style="cursor: pointer"
-                  >
-
-                    <v-img :src="video.profilePic" alt="avatar">
-
-                </v-img>
-                  </v-avatar>
+              <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <v-avatar
+                              size= '50'
+                              color="grey lighten-4"
+                              v-on="on"
+                            >
+                              <v-img :src="video.profilePic" alt="avatar"
+                              style="cursor: pointer"
+                              @click="visitAccount"></v-img>
+                        </v-avatar>
+                  </template>
+                  <span> {{visited.subscribers}} SUBSCRIBERS</span>
+                </v-tooltip>
                 <span style="text-align : left">
                   <br>
-                  <h6 class = 'name'> {{video.userName}} </h6>
+                  <h6 class = 'name'
+                  style="cursor: pointer"
+                  @click="visitAccount">
+                   {{video.userName}}
+                   </h6>
                   <p style="padding-left: 1em; color: grey;"><span>Published on </span><span>{{video.uploadDate.month}} {{video.uploadDate.day}}, {{video.uploadDate.year}}</span></p>
                 </span>
                 </v-flex>
-                <v-btn color="red" style="color: white;" >SUBSCRIBE</v-btn>
+                <v-btn :color="subscribeBtn.color" style="color: white;" @click="subscribe"> {{subscribeBtn.label}} </v-btn>
           </v-layout>
           <v-layout row wrap>
               <v-flex xs12>
@@ -53,7 +61,6 @@ import actions from './userActions.vue'
 export default {
   data() {
     return {
-
     }
   },
 components:{
@@ -61,6 +68,9 @@ components:{
 },
 props: ['video'],
 computed: {
+  visited(){
+    return this.$store.state.user.visited
+  },
   items(){
     return [
         {
@@ -82,6 +92,27 @@ computed: {
           color: 'grey'
         },
       ]
+  },
+  //subscribe
+  subscribed(){
+    if (this.$store.state.user.current==null) {
+      return false
+    }else {
+      return this.$store.state.user.current.subscriptions.includes(this.visited.id)
+    }
+  },
+  subscribeBtn(){
+    if (!this.subscribed) {
+      return {
+        color :'red',
+        label : 'SUBSCRIBE'
+      }
+    }else{
+      return {
+        color :'grey',
+        label : 'SUBSCRIBED'
+      }
+    }
   },
   //like video
   liked(){
@@ -114,7 +145,13 @@ computed: {
     }
   },
 },
+created() {
+  this.$store.dispatch('user/visitAccount',this.video.userId)
+},
 methods: {
+  visitAccount(){
+  this.$router.push({path: '/visit/' + this.video.userId})
+  },
   likeVideo(){
 
       if (this.$store.state.user.current==null) {
@@ -152,7 +189,20 @@ methods: {
         }
       }
   },
+  //Subscribe
+  subscribe(){
+    if (this.$store.state.user.current==null) {
+            this.$router.push({path:'/login'})
+        }else{
+          if (!this.subscribed) {
+            this.$store.dispatch('user/addSbuscription')
+          }else{
+            this.$store.dispatch('user/removeSbuscription')
+          }
+        }
+  }
 },
+
 }
 </script>
 

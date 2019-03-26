@@ -29,7 +29,7 @@
             </v-hover>
         </template>
         <v-card>
-          <v-toolbar dark color="red">
+          <v-toolbar dark color="blue">
             <v-btn icon dark @click="cancel">
               <v-icon>close</v-icon>
             </v-btn>
@@ -290,6 +290,8 @@ export default {
             description: this.description,
             profilePic: this.imageUrl,
             joined: this.user.joined,
+            subscribers : this.user.subscribers,
+            subscriptions: this.user.subscriptions,
             videosLikes: this.user.videosLikes,
             videosDislikes: this.user.videosDislikes,
             commentsLikes: this.user.commentsLikes,

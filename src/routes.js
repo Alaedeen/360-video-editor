@@ -3,6 +3,7 @@ import SignUp from './Components/accounts/SignUp.vue'
 import Home from './Components/Home.vue'
 import MyProfile from './Components/accounts/Profile.vue'
 import VideoWatching from './Components/VideoPlaying/videoWatching.vue'
+import VisitUserProfile from './Components/accounts/VisitUserProfile.vue'
 
 export const routes = [
   {
@@ -29,5 +30,10 @@ export const routes = [
   path: '/watch/:id',
   component: VideoWatching,
   name: 'videoWatching'
+},
+{
+  path: '/visit/:id',
+  component: VisitUserProfile,
+  name: 'VisitUserProfile'
 },
 ]

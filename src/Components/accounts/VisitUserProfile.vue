@@ -10,8 +10,8 @@
         column
         justify-center
       >
-        <h1 class="display-2 font-weight-thin mb-3"> {{current.name}} </h1>
-        <h4 class="subheading"> {{current.subscribers}} subscribers</h4>
+        <h1 class="display-2 font-weight-thin mb-3"> {{user.name}} </h1>
+        <h4 class="subheading"> {{user.subscribers}} subscribers</h4>
       </v-layout>
     </v-parallax>
   </v-app>
@@ -19,18 +19,22 @@
   <v-flex
           xs12
           sm6
-          md8
+          md10
           align-center
           justify-left
           layout
           text-xs-center
           class= "avatar"
         >
-        <!-- Edit profile -->
-          <app-edit :user="current"></app-edit>
-        <!--Edit profile -->
+        <v-avatar
+          size= '65'
+          color="grey lighten-4">
+          <v-img :src="user.profilePic" alt="avatar"></v-img>
+        </v-avatar>
 
-        <h2 class = 'name'> {{current.name}} </h2>
+        <h2 class = 'name'> {{user.name}} </h2>
+        <v-spacer></v-spacer>
+        <v-btn :color="subscribeBtn.color" style="color: white;" @click="subscribe"> {{subscribeBtn.label}} </v-btn>
         </v-flex>
 
         <v-app class="tabs">
@@ -71,11 +75,11 @@
                                   <v-divider ></v-divider><br>
                                   <p class="text-sm-left">
                                     <span class='about'>E-mail</span>
-                                    <span>{{current.email}}</span>
+                                    <span>{{user.email}}</span>
                                   </p>
                                   <p class="text-sm-left">
                                     <span class='about'>Description</span>
-                                    <span>{{current.description}}</span>
+                                    <span>{{user.description}}</span>
                                   </p>
                                 </v-flex>
                                 <v-flex xs4>
@@ -83,7 +87,7 @@
                                   <v-divider ></v-divider><br>
                                   <p class="text-sm-left">
                                     <span class='about'>Joined</span>
-                                    <span> {{current.joined.month}} {{current.joined.day}}, {{current.joined.year}} </span>
+                                    <span> {{user.joined.month}} {{user.joined.day}}, {{user.joined.year}} </span>
                                   </p>
                                   <v-divider ></v-divider><br>
                                   <p class="text-sm-left">
@@ -121,20 +125,39 @@ export default {
     }
   },
 computed: {
-      current() {
-        return this.$store.state.user.current
+      user() {
+        return this.$store.state.user.visited
       },
       videos(){
         return this.$store.state.video.myVideos
-      }
+      },
+      //subscribe
+      subscribed(){
+        if (this.$store.state.user.current==null) {
+          return false
+        }else {
+          return this.$store.state.user.current.subscriptions.includes(this.user.id)
+        }
+      },
+      subscribeBtn(){
+        if (!this.subscribed) {
+          return {
+            color :'red',
+            label : 'SUBSCRIBE'
+          }
+        }else{
+          return {
+            color :'grey',
+            label : 'SUBSCRIBED'
+          }
+        }
+      },
     },
-beforeCreate() {
-    if (this.$store.state.user.current==null) {
-      this.$router.push({ path: '/' })
-    }
-},
+    beforeCreate() {
+      this.$store.dispatch('user/visitAccount',parseInt(this.$route.params.id, 10))
+    },
 created() {
-  this.$store.dispatch('video/userVideos',this.current.id)
+  this.$store.dispatch('video/userVideos',this.user.id)
 },
 components: {
   appTile: videoTile,
@@ -145,7 +168,20 @@ methods: {
       var url = '/watch/'+id
       this.$router.push({path:url})
     },
+    //Subscribe
+    subscribe(){
+      if (this.$store.state.user.current==null) {
+              this.$router.push({path:'/login'})
+          }else{
+            if (!this.subscribed) {
+              this.$store.dispatch('user/addSbuscription')
+            }else{
+              this.$store.dispatch('user/removeSbuscription')
+            }
+          }
+    }
   },
+
 }
 
 </script>

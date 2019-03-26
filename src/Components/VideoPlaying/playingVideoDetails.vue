@@ -28,7 +28,7 @@
                               color="grey lighten-4"
                               v-on="on"
                             >
-                              <v-img :src="video.profilePic" alt="avatar"
+                              <v-img :src="visited.profilePic" alt="avatar"
                               style="cursor: pointer"
                               @click="visitAccount"></v-img>
                         </v-avatar>
@@ -40,7 +40,7 @@
                   <h6 class = 'name'
                   style="cursor: pointer"
                   @click="visitAccount">
-                   {{video.userName}}
+                   {{visited.name}}
                    </h6>
                   <p style="padding-left: 1em; color: grey;"><span>Published on </span><span>{{video.uploadDate.month}} {{video.uploadDate.day}}, {{video.uploadDate.year}}</span></p>
                 </span>

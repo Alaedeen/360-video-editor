@@ -2,8 +2,6 @@ export default [
   {
     vidId: 0,
     userId: 3,
-    userName: 'Jon Snow 1',
-    profilePic: '/src/assets/Jon.png',
     title: 'My video',
     uploadDate: {
         day: 2,
@@ -50,8 +48,6 @@ export default [
   {
     vidId: 1,
     userId: 1,
-      userName: 'Lyana Stark',
-      profilePic: '/src/assets/lyana.png',
     title: 'My video 1',
     uploadDate: {
       day: 2,
@@ -67,8 +63,6 @@ export default [
   {
     vidId: 2,
     userId: 3,
-      userName: 'Jon Snow 1',
-      profilePic: '/src/assets/Jon.png',
     title: 'My video 2',
     uploadDate: {
       day: 2,

@@ -56,7 +56,7 @@
                   <div v-if="tab=='Online videos'">
                     <v-container grid-list-md text-xs-center>
                       <v-layout row wrap>
-                        <v-flex v-for="video in videos" :key="video.vidId" @click="watch(video.vidId)" xs3>
+                        <v-flex v-for="video in videos" :key="video.vidId" @click="watch(video.vidId)" xs2>
                           <app-tile style="cursor: pointer" :vid="video"></app-tile>
                         </v-flex>
                       </v-layout>

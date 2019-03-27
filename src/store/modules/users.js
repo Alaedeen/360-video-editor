@@ -17,6 +17,7 @@ const getters= {
 const mutations = {
     'SET_USERS'(state, users) {
       state.users = users;
+      state.current = $cookies.get('user')
     },
     'ADD_USER'(state, log) {
       log.id=state.users.length
@@ -30,6 +31,7 @@ const mutations = {
           state.signupError = false
         }, 2000);
       } else {
+        $cookies.set('user', log, -1);
         state.current = log
         state.users.push(log)
       }
@@ -47,6 +49,7 @@ const mutations = {
       } else{
         state.current = updated
         state.users.splice(state.current.id, 1, state.current)
+        $cookies.remove('user')
       }
 
     },
@@ -84,11 +87,12 @@ const mutations = {
         }, 2000);
 
       } else {
-        state.current = U[0]
+        $cookies.set('user', U[0], -1);
+        state.current = $cookies.get('user')
       }
     },
     'LOG_OUT'(state){
-      state.current=null
+      $cookies.remove('user')
     },
     //video like dislike
     'ADD_VIDEO_LIKE'(state, id) {

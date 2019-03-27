@@ -280,7 +280,11 @@ export default {
 				this.imageName = ''
 				this.imageFile = ''
 				this.imageUrl = ''
-			}
+      }
+      // console.log(this.imageFile);
+      // console.log(this.imageName);
+      // console.log(this.imageUrl);
+
     },
     cancel(){
         this.dialog = false
@@ -324,6 +328,8 @@ export default {
         if (!this.snackbar) {
           this.dialog = false
         }
+        this.$cookies.set('user', updatedUser, -1);
+
 
     },
     cancelPictureUpdate(){

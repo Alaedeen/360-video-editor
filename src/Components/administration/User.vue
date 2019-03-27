@@ -54,7 +54,7 @@
                 <v-btn color="warning">bann</v-btn>
               </v-flex>
               <v-flex xs1 style="marginLeft: 1em">
-                <v-btn color="success" @click="dialog2 = true">add admin</v-btn>
+                <v-btn color="success" @click="dialog2 = true" v-if="role==3">add admin</v-btn>
                 <!-- add admin dialog -->
                 <v-dialog
                     v-model="dialog2"
@@ -100,7 +100,10 @@ export default {
 props : {
   user :{
     type : Object
-  }
+  },
+  role:{
+      type: Number
+    }
 },
 data() {
   return {

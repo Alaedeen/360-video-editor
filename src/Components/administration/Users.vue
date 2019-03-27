@@ -11,7 +11,7 @@
               v-model="search"></v-text-field>
       </v-flex>
       <v-flex  xs12 style="margin: 2em; box-shadow: -1px 1px 5px grey;padding: 1em" v-for="(user, index) in users" :key="index">
-        <app-user :user="user"></app-user>
+        <app-user :user="user" :role="role"></app-user>
       </v-flex>
   </div>
 </template>
@@ -19,6 +19,11 @@
 <script>
 import User from './User.vue'
 export default {
+  props: {
+    role:{
+      type: Number
+    }
+  },
   components: {
     appUser: User
   },

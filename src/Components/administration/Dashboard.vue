@@ -20,7 +20,7 @@
               >
                 <v-card flat  class="profile">
                   <div v-if="tab=='Users'" >
-                    <app-users></app-users>
+                    <app-users :role="current.roles.length"></app-users>
                   </div>
                   <div v-if="tab=='Admins'">
                     <app-admins></app-admins>
@@ -60,14 +60,22 @@ export default {
     },
   computed: {
       tabs(){
-        return ['Users', 'Admins' ,'Video Upload Requests','Complains']
+        if (this.current.roles.length==3) {
+          return ['Users', 'Admins' ,'Video Upload Requests','Complains']
+        }else{
+          return ['Users', 'Video Upload Requests','Complains']
+        }
+
+      },
+      current(){
+        return this.$store.state.user.current
       }
   },
-    // beforeCreate() {
-    //   if (this.$store.state.user.current==null) {
-    //     this.$router.push({ path: '/' })
-    //   }
-    // },
+    beforeCreate() {
+      if ((this.$store.state.user.current==null)||(this.$store.state.user.current.roles.length==1)) {
+        this.$router.push({ path: '/' })
+      }
+    },
 }
 </script>
 

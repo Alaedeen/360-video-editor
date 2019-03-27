@@ -162,6 +162,21 @@ const mutations = {
         state.current.subscriptions.splice(state.current.subscriptions.indexOf(state.visited.id), 1)
         state.users.splice(state.current.id, 1, state.current)
       },
+    //add remove admin
+    'ADD_ADMIN'(state,id) {
+      var user = state.users.filter(user => {
+        return (user.id == id)
+      })[0]
+      user.roles.push('admin')
+      state.users.splice(user.id,1,user)
+    },
+    'REMOVE_ADMIN'(state, id) {
+      var user = state.users.filter(user => {
+        return (user.id == id)
+      })[0]
+      user.roles.splice(1,1)
+      state.users.splice(user.id, 1, user)
+    }
 }
 
 const actions = {
@@ -232,6 +247,13 @@ const actions = {
   //delete user
   deleteUser: ({commit},id)=>{
     commit('DELETE_USER',id)
+  },
+  //add remove admin
+  addAdmin: ({commit},id)=>{
+    commit('ADD_ADMIN',id)
+  },
+  removeAdmin: ({commit},id)=>{
+    commit('REMOVE_ADMIN',id)
   }
 }
 

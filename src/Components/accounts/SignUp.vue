@@ -193,7 +193,7 @@ export default {
         return this.$store.state.user.current
     },
     snackbar(){
-      return this.$store.state.user.signinError
+      return this.$store.state.user.signupError
     },
     date(){
       var today = new Date();

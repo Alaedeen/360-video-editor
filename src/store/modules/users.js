@@ -5,7 +5,7 @@ const state={
   current: null,
   visited: null,
   loginError: false,
-  signinError: false
+  signupError: false
 }
 
 const getters= {
@@ -25,18 +25,30 @@ const mutations = {
       })
 
       if (U.length != 0) {
-        state.signinError = true
+        state.signupError = true
         setTimeout(function () {
-          state.signinError = false
+          state.signupError = false
         }, 2000);
       } else {
         state.current = log
         state.users.push(log)
       }
     },
-    'UPDATE_USER'(state,user){
-      state.current=user
-      state.users.splice(state.current.id, 1, state.current)
+    'UPDATE_USER'(state,updated){
+      var U = state.users.filter(user => {
+        return ((user.email == updated.email) || (user.name.toUpperCase() == updated.name.toUpperCase())) && (user.id != updated.id)
+      })
+
+      if (U.length != 0) {
+        state.signupError = true
+        setTimeout(function () {
+          state.signupError = false
+        }, 2000);
+      } else{
+        state.current = updated
+        state.users.splice(state.current.id, 1, state.current)
+      }
+
     },
     'DELETE_USER'(state,id){
       state.users.splice(id, 1, {

@@ -166,6 +166,23 @@
                   ></v-autocomplete>
         </v-card>
       </v-dialog>
+      <!-- mail or name already used -->
+      <v-snackbar
+          v-model="snackbar"
+          color="red"
+          top
+          :timeout = "timeout"
+        >
+          Mail or user name already used
+          <v-btn
+            dark
+            flat
+            @click="snackbar = false"
+          >
+            Close
+          </v-btn>
+        </v-snackbar>
+        <!-- mail or name already used end-->
 </div>
 </template>
 
@@ -196,7 +213,8 @@ export default {
         required: value => !!value || 'Required.',
         min: v => v.length >= 8 || 'Min 8 characters',
         valide: () => this.valid || `The password must contain at least: 1 uppercase letter, 1 lowercase letter, 1 number, and one special character (E.g. , .  & ? etc)`,
-      }
+      },
+      timeout : 6000
     }
   },
   computed:  {
@@ -224,7 +242,10 @@ export default {
         yearsTab.push(index)
       }
       return yearsTab
-    }
+    },
+    snackbar(){
+      return this.$store.state.user.signupError
+    },
   },
   props : {
     user : {
@@ -300,7 +321,10 @@ export default {
             repliesDislikes: this.user.repliesDislikes,
         }
         this.$store.dispatch('user/updateUser',updatedUser)
-        this.dialog = false
+        if (!this.snackbar) {
+          this.dialog = false
+        }
+
     },
     cancelPictureUpdate(){
       this.dialog1 = false

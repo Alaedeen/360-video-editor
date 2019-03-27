@@ -1,26 +1,18 @@
 <template>
 <div>
-    <app-header  v-if="home"></app-header>
-    <div class="row" >
-        <div class="col-3"  v-if="side">
-          <app-side></app-side>
-        </div>
-        <div class="col">
-          <v-container grid-list-md text-xs-center>
+   <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
               <v-flex v-for="video in videos" :key="video.vidId" @click="watch(video.vidId)" xs3>
                 <app-tile style="cursor: pointer" :vid="video"></app-tile>
               </v-flex>
             </v-layout>
           </v-container>
-        </div>
-    </div>
+
+
 </div>
 </template>
 
 <script>
-import Header from '../Components/Menus/HomeHeader.vue'
-import SideBar from './Menus/SideBar.vue'
 import videoTile from './VideoPlaying/videoTile.vue'
 export default {
   data() {
@@ -29,8 +21,6 @@ export default {
     }
   },
 components: {
-    appSide: SideBar,
-    appHeader: Header,
     appTile: videoTile
   },
   computed: {
@@ -39,9 +29,6 @@ components: {
     },
     home() {
       return this.$store.state.home.header
-    },
-    side() {
-      return this.$store.state.home.side
     }
   },
   beforeCreate() {

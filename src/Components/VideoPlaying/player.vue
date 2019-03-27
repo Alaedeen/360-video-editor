@@ -1,4 +1,5 @@
 <template>
+<div>
   <!-- Specify our scene. -->
     <a-scene embedded style=" padding-top: 36.25%;">
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
@@ -20,6 +21,7 @@
         </a-assets>
         <p style="position:absolute;left:20px;"><v-icon  color="white" style="cursor : pointer;" class="play" @click="playIcon" large> {{toggle}} </v-icon></p>
     </a-scene>
+    </div>
 </template>
 <script>
 export default {

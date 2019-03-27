@@ -1,8 +1,9 @@
 <template>
 
 <div >
-  <v-layout row wrap>
-    <v-flex xs12 style="paddingBottom: 4em">
+
+    <v-layout row wrap>
+    <v-flex xs12  style="paddingBottom: 4em">
       <!-- video player -->
         <app-player  ></app-player>
         <!-- video player end-->
@@ -16,13 +17,14 @@
       <app-comments :comments="video.comments" :videoId="video.vidId" ></app-comments>
       <!-- comments end -->
     </v-flex>
-    <v-flex xs12  md4 >
+    <v-flex xs12  md4  >
       <h5 style="marginLeft: 1em; color: white"> Watch next</h5>
       <!-- watch  next -->
           <app-next v-for="(vid, index) in videos" :key="index"  :video="vid" :playingId="video.vidId"></app-next>
       <!-- watch next end -->
     </v-flex>
-  </v-layout>
+    </v-layout>
+
 </div>
 </template>
 

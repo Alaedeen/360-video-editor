@@ -1,25 +1,82 @@
 <template>
   <div>
+
     <v-toolbar
     app
                dark
                height='70em'
-               style="padding-left : 0px;">
-      <v-toolbar-title style="cursor: pointer" @click="gohome()">360° video editor</v-toolbar-title>
-
+               style="padding-left : 0px;     ">
+      <v-toolbar-side-icon @click="toggleside()"></v-toolbar-side-icon>
+      <v-toolbar-title style="cursor: pointer; font-size: 1em" @click="gohome()">360° video editor</v-toolbar-title>
       <v-spacer></v-spacer>
+    <v-text-field
+          hide-details
+          single-line
+          label="Search"
+           outline
+           clearable
+        v-model="search"
+        v-if="home"></v-text-field>
+      <v-spacer></v-spacer>
+
+
+
+      <v-badge left
+      style="cursor: pointer"
+      overlap
+      color="red"
+      v-if="current!= null">
+        <template v-slot:badge>
+          <span>6</span>
+        </template>
+        <v-icon
+          large
+          color="grey lighten-1"
+        >
+          notifications
+        </v-icon>
+      </v-badge>
+
+
+
     </v-toolbar>
+
 </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+        notifications: [
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me 2' }
+    ],
+    search:''
+    }
+  },
+  watch: {
+    search: function (val) {
+      if (val==null) {
+        this.search=''
+      }
+      this.$store.dispatch('video/filterVideos', val);
+    },
+  },
     computed: {
+    home() {
+      return this.$store.state.home.header
+    },
       current() {
         return this.$store.state.user.current
       }
     },
     methods: {
+      toggleside(){
+        this.$store.dispatch('home/toggleSide')
+      },
       gohome(){
         this.$router.push({path : '/'})
       }

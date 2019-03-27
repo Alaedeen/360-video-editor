@@ -6,7 +6,7 @@
     app
       fixed
       permanent
-   style="width: 20%; backgroundColor: 	#262626;margin-top: 5em;"
+   style="width: 18%; backgroundColor: 	#262626;margin-top: 5em;"
   >
 
     <v-toolbar flat class="transparent" v-if="current!=null">

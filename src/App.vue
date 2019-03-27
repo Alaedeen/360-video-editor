@@ -1,9 +1,16 @@
 <template>
   <div >
-                <app-header  v-if="!home"></app-header>
-                <transition name="slide" mode="out-in">
-                    <router-view style="padding-top: 5em; background-color: 	#444444;"></router-view>
+                <app-header ></app-header>
+                <v-layout row wrap>
+                <v-flex xs2  v-if="side">
+                  <app-side></app-side>
+                </v-flex>
+                <v-flex >
+                  <transition name="slide" mode="out-in">
+                    <router-view style="padding-top: 5em; background-color: 	#444444; padding-left: 2em; padding-right: 2em;"></router-view>
                 </transition>
+                </v-flex>
+                </v-layout>
 
   </div>
 
@@ -11,14 +18,16 @@
 
 <script>
 import Header from './Components/Menus/Header.vue'
+import SideBar from './Components/Menus/SideBar.vue'
 export default {
   name: 'app',
   components: {
+    appSide: SideBar,
     appHeader: Header,
   },
   computed: {
-    home() {
-      return this.$store.state.home.header
+    side() {
+      return this.$store.state.home.side
     }
   },
   data () {

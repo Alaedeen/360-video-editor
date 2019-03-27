@@ -21,7 +21,7 @@ const mutations = {
     'ADD_USER'(state, log) {
       log.id=state.users.length
       var U = state.users.filter(user => {
-        return (user.email == log.email)
+        return (user.email == log.email) || (user.name.toUpperCase() == log.name.toUpperCase())
       })
 
       if (U.length != 0) {

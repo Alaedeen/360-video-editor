@@ -21,7 +21,7 @@
               class="form-control"
               :class="{'error' : errors.length!=0}"
                 @keyup="error= errors.length!=0"
-              placeholder="Full name"
+              placeholder="User name"
               >
               <b style="color : red">{{ errors[0] }}</b>
               </div>
@@ -90,7 +90,7 @@
         top
         :timeout = "timeout"
       >
-        Mail already used
+        Mail or user name already used
         <v-btn
           dark
           flat

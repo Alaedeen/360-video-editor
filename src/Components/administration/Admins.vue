@@ -18,10 +18,10 @@
       >
         <template v-slot:items="props" >
           <tr style="cursor: pointer" >
+            <td class="text-xs-center"><app-edit :user="props.item" :action="'admin'" style="padding: 0.3em"></app-edit></td>
             <td class="text-xs-center" >{{ props.item.name }}</td>
           <td class="text-xs-center">{{ props.item.email }}</td>
           <td class="text-xs-center">{{ props.item.joined.month }} {{ props.item.joined.day }}, {{ props.item.joined.year }}</td>
-          <td class="text-xs-center">{{ props.item.subscribers }}</td>
           <td><v-btn color="#ff4646" @click="removeBtn(props.item.id,props.item.name)">remove admin</v-btn></td>
           </tr>
         </template>
@@ -66,14 +66,15 @@
 </template>
 
 <script>
+import ProfileEdit from '../accounts/UpdateProfile.vue'
 export default {
   data() {
     return {
       headers: [
+        { text: 'Edit',align: 'center',sortable: false, value: 'edit' },
         { text: 'User name',align: 'center',sortable: false,value: 'user name' },
         { text: 'Email ',align: 'center',sortable: false, value: 'email' },
         { text: 'Joined',align: 'center', sortable: false,value: 'joined' },
-        { text: 'N° subscribers',align: 'center',sortable: false, value: 'subscribers' },
         { text: '',align: 'center',sortable: false, value: '' },
       ],
       search: '',
@@ -82,6 +83,9 @@ export default {
       id: 0
     }
   },
+  components: {
+  appEdit: ProfileEdit
+},
 computed: {
   users(){
     var all= this.$store.state.user.users.filter(user => {

@@ -43,6 +43,7 @@
           <v-dialog
         v-model="dialog1"
         width="500"
+
       >
         <template v-slot:activator="{ on }">
           <v-btn
@@ -64,7 +65,7 @@
           </v-card-title>
 
           <!-- choose picture -->
-            <v-content>
+            <v-content style="padding: 0px">
               <v-container fluid>
                 <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
                   <img :src="imageUrl" height="150" v-if="imageUrl"/>

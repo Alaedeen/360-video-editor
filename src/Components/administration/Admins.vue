@@ -22,7 +22,7 @@
           <td class="text-xs-center">{{ props.item.email }}</td>
           <td class="text-xs-center">{{ props.item.joined.month }} {{ props.item.joined.day }}, {{ props.item.joined.year }}</td>
           <td class="text-xs-center">{{ props.item.subscribers }}</td>
-          <td><v-btn color="error" @click="removeBtn(props.item.id,props.item.name)">remove admin</v-btn></td>
+          <td><v-btn color="#ff4646" @click="removeBtn(props.item.id,props.item.name)">remove admin</v-btn></td>
           </tr>
         </template>
       </v-data-table>

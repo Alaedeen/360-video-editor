@@ -27,7 +27,7 @@
           class= "avatar"
         >
         <!-- Edit profile -->
-          <app-edit :user="current"></app-edit>
+          <app-edit :user="current" :action="'user'"></app-edit>
         <!--Edit profile -->
 
         <h2 class = 'name'> {{current.name}} </h2>

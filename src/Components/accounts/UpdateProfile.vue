@@ -250,6 +250,9 @@ export default {
   props : {
     user : {
       type: Object,
+    },
+    action: {
+      type: String
     }
   },
   mounted() {
@@ -324,11 +327,19 @@ export default {
             repliesLikes: this.user.repliesLikes,
             repliesDislikes: this.user.repliesDislikes,
         }
-        this.$store.dispatch('user/updateUser',updatedUser)
+        var update ={
+          updatedUser: updatedUser,
+          action: this.action
+        }
+        this.$store.dispatch('user/updateUser',update)
         if (!this.snackbar) {
           this.dialog = false
         }
-        this.$cookies.set('user', updatedUser, -1);
+
+        if (this.action=='user') {
+          this.$cookies.set('user', updatedUser, -1);
+        }
+
 
 
     },

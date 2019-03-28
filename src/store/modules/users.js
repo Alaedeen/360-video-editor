@@ -36,9 +36,9 @@ const mutations = {
         state.users.push(log)
       }
     },
-    'UPDATE_USER'(state,updated){
+    'UPDATE_USER'(state,update){
       var U = state.users.filter(user => {
-        return ((user.email == updated.email) || (user.name.toUpperCase() == updated.name.toUpperCase())) && (user.id != updated.id)
+        return ((user.email == update.updatedUser.email) || (user.name.toUpperCase() == update.updatedUser.name.toUpperCase())) && (user.id != update.updatedUser.id)
       })
 
       if (U.length != 0) {
@@ -46,10 +46,12 @@ const mutations = {
         setTimeout(function () {
           state.signupError = false
         }, 2000);
-      } else{
-        state.current = updated
-        state.users.splice(state.current.id, 1, state.current)
-        $cookies.remove('user')
+      } else {
+        if (update.action == 'user') {
+          state.current = update.updatedUser
+          $cookies.remove('user')
+        }
+        state.users.splice(update.updatedUser.id, 1, update.updatedUser)
       }
 
     },
@@ -247,8 +249,8 @@ const actions = {
   removeReplyDislike: ({commit}, id)=>{
     commit('REMOVE_REPLY_DISLIKE', id)
   },
-  updateUser: ({commit}, user)=>{
-    commit('UPDATE_USER',user)
+  updateUser: ({commit}, update)=>{
+    commit('UPDATE_USER',update)
   },
   visitAccount: ({commit}, id)=>{
     commit('VISIT_ACCOUNT',id)

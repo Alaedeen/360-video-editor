@@ -96,67 +96,67 @@ const mutations = {
     },
     //video like dislike
     'ADD_VIDEO_LIKE'(state, id) {
-        state.current.videosLikes.push(id)
+        state.current.videosLikes.push(id)//update cookie
         state.users.splice(state.current.id,1,state.current)
     },
     'REMOVE_VIDEO_LIKE'(state, id) {
-      state.current.videosLikes.splice(state.current.videosLikes.indexOf(id), 1)
+      state.current.videosLikes.splice(state.current.videosLikes.indexOf(id), 1) //update cookie
       state.users.splice(state.current.id, 1, state.current)
     },
     'ADD_VIDEO_DISLIKE'(state, id) {
-      state.current.videosDislikes.push(id)
+      state.current.videosDislikes.push(id) //update cookie
       state.users.splice(state.current.id, 1, state.current)
     },
     'REMOVE_VIDEO_DISLIKE'(state, id) {
-      state.current.videosDislikes.splice(state.current.videosDislikes.indexOf(id), 1)
+      state.current.videosDislikes.splice(state.current.videosDislikes.indexOf(id), 1) //update cookie
       state.users.splice(state.current.id, 1, state.current)
     },
 
     //comment like dislike
     'ADD_COMMENT_LIKE'(state, id) {
-      state.current.commentsLikes.push(id)
+      state.current.commentsLikes.push(id) //update cookie
       state.users.splice(state.current.id, 1, state.current)
     },
     'REMOVE_COMMENT_LIKE'(state, id) {
       var index = state.current.commentsLikes.findIndex(function (element) {
         return (element.videoId == id.videoId) && (element.commentId == id.commentId)
       });
-      state.current.commentsLikes.splice(index, 1)
+      state.current.commentsLikes.splice(index, 1) //update cookie
       state.users.splice(state.current.id, 1, state.current)
     },
     'ADD_COMMENT_DISLIKE'(state, id) {
-      state.current.commentsDislikes.push(id)
+      state.current.commentsDislikes.push(id) //update cookie
       state.users.splice(state.current.id, 1, state.current)
     },
     'REMOVE_COMMENT_DISLIKE'(state, id) {
       var index = state.current.commentsDislikes.findIndex(function (element) {
         return (element.videoId == id.videoId) && (element.commentId == id.commentId)
       });
-      state.current.commentsDislikes.splice(index, 1)
+      state.current.commentsDislikes.splice(index, 1) //update cookie
       state.users.splice(state.current.id, 1, state.current)
     },
 
     //reply like dislike
     'ADD_REPLY_LIKE'(state, id) {
-      state.current.repliesLikes.push(id)
+      state.current.repliesLikes.push(id) //update cookie
       state.users.splice(state.current.id, 1, state.current)
     },
     'REMOVE_REPLY_LIKE'(state, id) {
       var index = state.current.repliesLikes.findIndex(function (element) {
         return (element.videoId == id.videoId) && (element.commentId == id.commentId) && (element.replyId == id.replyId)
       });
-      state.current.repliesLikes.splice(index, 1)
+      state.current.repliesLikes.splice(index, 1) //update cookie
       state.users.splice(state.current.id, 1, state.current)
     },
     'ADD_REPLY_DISLIKE'(state, id) {
-      state.current.repliesDislikes.push(id)
+      state.current.repliesDislikes.push(id) //update cookie
       state.users.splice(state.current.id, 1, state.current)
     },
     'REMOVE_REPLY_DISLIKE'(state, id) {
       var index = state.current.repliesDislikes.findIndex(function (element) {
         return (element.videoId == id.videoId) && (element.commentId == id.commentId) && (element.replyId == id.replyId)
       });
-      state.current.repliesDislikes.splice(index, 1)
+      state.current.repliesDislikes.splice(index, 1) //update cookie
       state.users.splice(state.current.id, 1, state.current)
     },
     //visit other user account
@@ -169,13 +169,13 @@ const mutations = {
     'ADD_SUBSCRIPTION'(state){
         state.visited.subscribers++
         state.users.splice(state.visited.id, 1, state.visited)
-        state.current.subscriptions.push(state.visited.id)
+        state.current.subscriptions.push(state.visited.id) //update cookie
         state.users.splice(state.current.id, 1, state.current)
     },
     'REMOVE_SUBSCRIPTION'(state) {
         state.visited.subscribers--
         state.users.splice(state.visited.id, 1, state.visited)
-        state.current.subscriptions.splice(state.current.subscriptions.indexOf(state.visited.id), 1)
+        state.current.subscriptions.splice(state.current.subscriptions.indexOf(state.visited.id), 1) //update cookie
         state.users.splice(state.current.id, 1, state.current)
       },
     //add remove admin

@@ -89,12 +89,22 @@
         if(this.current==null){
           return []
         }else {
-          if (this.current.roles.includes('admin')) {
+          if (this.current.roles.length==3) {
               return [
-              { title: 'Dashboard', icon: 'dashboard' , to:'dashboard'},
+              { title: 'Users management', icon: 'supervised_user_circle' , to:'users_management'},
+              { title: 'Admins management', icon: 'accessibility' , to:'admins_management'},
+              { title: 'Video upload requests', icon: 'subscriptions' , to:'upload_requests'},
+              { title: 'Complains management', icon: 'priority_high' , to:'complains_management'},
               { title: 'Library', icon: 'video_library' , to:'library'},
               ]
-          }else{
+          }else if (this.current.roles.length==2) {
+            return [
+              { title: 'Users management', icon: 'supervised_user_circle' , to:'users_management'},
+              { title: 'Video upload requests', icon: 'subscriptions' , to:'upload_requests'},
+              { title: 'Complains management', icon: 'priority_high' , to:'complains_management'},
+              { title: 'Library', icon: 'video_library' , to:'library'},
+              ]
+          } else{
             return [
               { title: 'Library', icon: 'video_library' , to:'library'},
               ]

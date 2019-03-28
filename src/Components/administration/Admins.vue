@@ -110,7 +110,11 @@ watch: {
       this.$store.dispatch('user/removeAdmin',id)
     }
   },
-
+  beforeCreate() {
+      if ((this.$store.state.user.current==null)||(this.$store.state.user.current.roles.length<3)) {
+        this.$router.push({ path: '/' })
+      }
+    },
 }
 </script>
 

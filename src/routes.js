@@ -4,7 +4,10 @@ import Home from './Components/Home.vue'
 import MyProfile from './Components/accounts/Profile.vue'
 import VideoWatching from './Components/VideoPlaying/videoWatching.vue'
 import VisitUserProfile from './Components/accounts/VisitUserProfile.vue'
-import Dashboard from './Components/administration/Dashboard.vue'
+import UsersManagement from './Components/administration/Users.vue'
+import AdminsManagement from './Components/administration/Admins.vue'
+import UploadRequests from './Components/administration/UploadRequests.vue'
+import ComplainsManagement from './Components/administration/Complains.vue'
 
 export const routes = [
   {
@@ -38,8 +41,23 @@ export const routes = [
   name: 'VisitUserProfile'
 },
 {
-  path: '/dashboard',
-  component: Dashboard,
-  name: 'Dashboard'
+  path: '/users_management',
+  component: UsersManagement,
+  name: 'Users_Management'
+},
+{
+  path: '/admins_management',
+  component: AdminsManagement,
+  name: 'Admins_Management'
+},
+{
+  path: '/upload_requests',
+  component: UploadRequests,
+  name: 'Upload_Requests'
+},
+{
+  path: '/complains_management',
+  component: ComplainsManagement,
+  name: 'Complains_Management'
 },
 ]

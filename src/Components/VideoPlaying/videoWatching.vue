@@ -3,7 +3,7 @@
 <div >
 
     <v-layout row wrap>
-    <v-flex xs12  style="paddingBottom: 4em">
+    <v-flex xs12  style="paddingBottom: 2em">
       <!-- video player -->
         <app-player  ></app-player>
         <!-- video player end-->

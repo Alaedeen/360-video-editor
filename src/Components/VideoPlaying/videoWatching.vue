@@ -3,7 +3,7 @@
 <div >
 
     <v-layout row wrap>
-    <v-flex xs12  style="paddingBottom: 2em">
+    <v-flex xs12  style="paddingBottom: 2em;">
       <!-- video player -->
         <app-player  ></app-player>
         <!-- video player end-->
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import player from './player.vue'
+import player from './player1.vue'
 import details from './playingVideoDetails.vue'
 import comments from './videoComments.vue'
 import next from './watchNext.vue'

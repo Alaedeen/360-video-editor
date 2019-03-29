@@ -3,6 +3,7 @@ node_modules/
 dist/
 npm-debug.log
 yarn-error.log
+src/assets/Beach Headland.mp4
 
 # Editor directories and files
 .idea

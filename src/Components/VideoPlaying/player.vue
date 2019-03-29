@@ -22,7 +22,7 @@
 
     </a-scene>
     <v-app style="height : 2em; margin-left: 1em; margin-right: 1em; background-color:#444444;">
-      <v-slider v-model="valueDeterminate" color="red"></v-slider>
+      <v-slider v-model="valueDeterminate" color="red" @click="changeTime"></v-slider>
     </v-app>
     <v-btn fab flat style="display: inline;" class="play"><v-icon  color="white" style="cursor : pointer;"  @click="playIcon" large> {{toggle}} </v-icon></v-btn>
     <p style="display: inline;color:white;"> <b>{{Math.floor(time) | time}} / {{Math.floor(duration) | time}}</b>  </p>
@@ -53,6 +53,10 @@ export default {
           this.toggle='play_arrow'
       }
     },
+    changeTime(){
+      var vid = document.getElementById("video");
+      vid.currentTime = (this.valueDeterminate / 100)*this.duration
+    }
   },
   filters: {
     time : (value)=>{
@@ -91,7 +95,7 @@ export default {
   mounted() {
   //start with this
     var vid = document.getElementById("video");
-    setInterval(() => this.valueDeterminate = (vid.currentTime/vid.duration)*100, 1);
+    setInterval(() => this.valueDeterminate = (vid.currentTime/vid.duration)*100, 1000);
     setInterval(() => this.time = vid.currentTime, 1000);
     setInterval(() => this.duration = vid.duration, 1);
     vid.play()

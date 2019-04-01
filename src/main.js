@@ -6,6 +6,10 @@ import 'vuetify/dist/vuetify.min.css'
 import VeeValidate from 'vee-validate';
 import Vuelidate from 'vuelidate'
 import VueCookies from 'vue-cookies'
+import aframe from 'aframe';
+// import registerClickDrag from 'aframe-click-drag-component';
+// registerClickDrag(aframe)
+
 
 
 import {

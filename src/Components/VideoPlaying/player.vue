@@ -2,6 +2,9 @@
 <div>
   <!-- Specify our scene. -->
     <a-scene embedded style=" padding-top: 36.25%;">
+
+
+      
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
         <a-videosphere rotation="0 180 0" src="#video"  play-on-vrdisplayactivate-or-enter-vr  arrow-key-rotation artoolkit>
         </a-videosphere>
@@ -38,12 +41,6 @@ export default {
       time: 0,
       duration:0
     }
-  },
-  watch: {
-    // valueDeterminate: (val)=>{
-    //   var vid = document.getElementById("video");
-    //   vid.currentTime=10
-    // }
   },
   methods: {
     playIcon(){
@@ -93,7 +90,6 @@ export default {
 
   },
   mounted() {
-  //start with this
     var vid = document.getElementById("video");
     setInterval(() => this.valueDeterminate = (vid.currentTime/vid.duration)*100, 1000);
     setInterval(() => this.time = vid.currentTime, 1000);

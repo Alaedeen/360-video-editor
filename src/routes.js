@@ -8,6 +8,7 @@ import UsersManagement from './Components/administration/Users.vue'
 import AdminsManagement from './Components/administration/Admins.vue'
 import UploadRequests from './Components/administration/UploadRequests.vue'
 import ComplainsManagement from './Components/administration/Complains.vue'
+import Editor from './Components/projects/Editor.vue'
 
 export const routes = [
   {
@@ -60,4 +61,9 @@ export const routes = [
   component: ComplainsManagement,
   name: 'Complains_Management'
 },
+{
+  path: '/edit/:id',
+  component: Editor,
+  name: 'Editor'
+}
 ]

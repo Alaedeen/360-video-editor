@@ -1,7 +1,7 @@
 
 const state = {
   header: false,
-  side: true
+  side: false
 }
 
 const getters = {

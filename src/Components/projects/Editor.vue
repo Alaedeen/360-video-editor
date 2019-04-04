@@ -17,8 +17,9 @@
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
         <a-videosphere id="editor" class="container" rotation="0 180 0" src="#video" >
             <a-image src="/src/assets/info.png" class="clickable" toggle-visibility="#box0" position="0 1 4"  side="double"></a-image>
-            <a-box class="box " position="0 -1 4" rotation="-90 0 0" color="red"  shadow ></a-box>
-            <a-image src="/src/assets/Jon.png" id="image" visible="true" class="box "  position="0 -1 4"></a-image>
+            <!-- <a-box class="box " position="0 -1 4" rotation="-90 0 0" color="red" scale="1 1 1"  shadow ></a-box>
+            <a-image src="/src/assets/Jon.png" id="image" visible="true" class="box " scale="3 3 3" position="0 -1 4"></a-image>
+            <a-sphere position="2 -1 4" color="yellow" scale="1 1 1" ></a-sphere> -->
         </a-videosphere>
 
         <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
@@ -136,6 +137,9 @@ export default {
         },
         material: {
           color: '#194d33',
+        },
+        scale: {
+          size: 1
         }
 
 
@@ -160,7 +164,8 @@ export default {
         return {
           position :this.position,
           rotation :this.rotation,
-          material: this.material
+          material: this.material,
+          scale: this.scale
         }
       },
   },
@@ -186,6 +191,13 @@ export default {
           box.setAttribute("color", val.color.toLowerCase())
         }
       },
+      scale: {
+        deep:true,
+        handler(val){
+          const box = document.getElementById(this.currentShape)
+          box.setAttribute("scale", val.size+" "+val.size+" "+val.size)
+        }
+      },
   },
   methods: {
     switchTabs(tab){
@@ -197,6 +209,7 @@ export default {
       this.position=box.getAttribute("position")
       this.rotation=box.getAttribute("rotation")
       this.material.color=box.getAttribute("color")
+      this.scale.size=box.getAttribute("scale").charAt(0)
     },
     playIcon(){
       var vid = document.getElementById("video");
@@ -221,6 +234,7 @@ export default {
       box.setAttribute("rotation", "0 45 0")
       box.setAttribute("color", "red")
       box.setAttribute("id", "box"+ this.box)
+      box.setAttribute("scale", "1 1 1")
       scene.appendChild(box);
       this.shapesList.splice(0,0,{
         image : '/src/assets/box.png',
@@ -236,6 +250,7 @@ export default {
       sphere.setAttribute("rotation", "0 45 0")
       sphere.setAttribute("color", "red")
       sphere.setAttribute("id", "sphere"+ this.sphere)
+      sphere.setAttribute("scale", "1 1 1")
       scene.appendChild(sphere);
       this.shapesList.splice(0,0,{
         image : '/src/assets/sphere.png',

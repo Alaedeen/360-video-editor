@@ -4,7 +4,7 @@
     <a-scene embedded style=" padding-top: 36.25%;">
 
 
-      
+
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
         <a-videosphere rotation="0 180 0" src="#video"  play-on-vrdisplayactivate-or-enter-vr  arrow-key-rotation artoolkit>
         </a-videosphere>
@@ -19,7 +19,7 @@
             <!-- Single source video. -->
             <video id="video" style="display:none" autoplay loop crossorigin="anonymous" playsinline webkit-playsinline>
                 <!-- MP4 video source. -->
-                <source type="video/mp4" src="/src/playerAssets/London Park.mp4" />
+                <source type="video/mp4" src="/src/assets/Pods-360.mp4" />
             </video>
         </a-assets>
 

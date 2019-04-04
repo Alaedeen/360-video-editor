@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="margin-top:1em">
   <!-- fix shape position -->
   <b style="color :white ">Position : {x,y,z}</b>
   <app-sliders :propriety="shapeDetails.position"></app-sliders>

@@ -4,23 +4,19 @@
     <!-- left menu -->
     <v-flex xs3 style="margin-left:2em; margin-right:2em;margin-top:2em;">
         <div>
+          <b style="color: white; font-size : 1.5em; ">Editing : {{currentShape}} </b>
           <shape-details :shapeDetails="shapesDetails"></shape-details>
-
         </div>
     </v-flex>
     <!-- video preview -->
 
     <v-flex xs6 style="padding-top: 1em">
       <v-layout>
-      <a-scene embedded style=" padding-top: 45%;">
-        <a-entity id="editor">
-          <a-box id="box1" position="0 -1 -4" rotation="0 45 0" color="red" shadow ></a-box>
-        </a-entity>
-
+      <a-scene embedded style=" padding-top: 45%;" vr-mode-ui="enabled: false">
 
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
-        <a-videosphere  rotation="0 180 0" src="#video" >
-
+        <a-videosphere id="editor"  rotation="0 180 0" src="#video" >
+            <!-- <a-box id="box1" position="0 -1 4" rotation="-90 0 0" color="red"  shadow ></a-box> -->
         </a-videosphere>
 
         <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
@@ -30,18 +26,43 @@
             <!-- Single source video. -->
             <video id="video" style="display:none" crossorigin="anonymous" playsinline webkit-playsinline>
                 <!-- MP4 video source. -->
-                <source type="video/mp4" src="/src/playerAssets/London Park.mp4" />
+                <source type="video/mp4" src="/src/assets/Pods-360.mp4" />
             </video>
         </a-assets>
     </a-scene>
     </v-layout>
     <!-- video controllers -->
-    <v-app style="height : 2em; margin-left: 1em; margin-right: 1em; background-color:#444444; margin-bottom: 1em;">
+    <v-flex xs12>
+      <v-app style="height : 2em; margin-left: 1em; margin-right: 1em; background-color:#444444; margin-bottom: 1em;">
       <v-slider v-model="valueDeterminate" color="red" @click="changeTime"></v-slider>
-    </v-app>
+      </v-app>
+    </v-flex>
+    <v-flex xs12>
     <v-btn fab flat style="display: inline;" ><v-icon  color="white" style="cursor : pointer;"  @click="playIcon" large> {{toggle}} </v-icon></v-btn>
     <p style="display: inline;color:white;"> <b>{{Math.floor(time) | time}} / {{Math.floor(duration) | time}}</b>  </p>
-    <v-btn class="play" @click="getPosition">Edit shape</v-btn>
+    </v-flex>
+    <v-flex xs12>
+      <v-list dark two-line subheader>
+            <v-subheader >Added items</v-subheader>
+
+            <v-list-tile
+              v-for="shape in shapesList"
+              :key="shape"
+              avatar
+              @click="editShape(shape.id)"
+            >
+              <v-list-tile-avatar>
+                <v-img :src="shape.image" ></v-img>
+              </v-list-tile-avatar>
+
+              <v-list-tile-content>
+                <v-list-tile-title>{{ shape.type }}</v-list-tile-title>
+                <v-list-tile-sub-title>from :  to : </v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+    </v-flex>
+
     </v-flex>
     <!-- right menu -->
     <v-flex xs2  >
@@ -91,6 +112,10 @@ export default {
           {icon: 'account_box' },
           {icon: 'gavel' }
       ],
+      box : 0,
+      sphere:0,
+      shapesList: [],
+      currentShape: '',
         position: {
         x:0,
         y:0,
@@ -109,34 +134,55 @@ export default {
 
     }
   },
+  computed: {
+
+    shapes() {
+      return[
+          {
+            icon: '/src/assets/box.png',
+            function: this.addBox
+          },
+          {
+            icon :'/src/assets/sphere.png',
+            function: this.addSphere
+          }
+        ]
+    },
+      shapesDetails() {
+        return {
+          position :this.position,
+          rotation :this.rotation,
+          material: this.material
+        }
+      },
+  },
   watch: {
     rotation: {
         deep:true,
         handler(val){
-          const box = document.getElementById("box1")
+          const box = document.getElementById(this.currentShape)
           box.setAttribute("rotation", val)
         }
       },
       position: {
         deep:true,
         handler(val){
-          const box = document.getElementById("box1")
+          const box = document.getElementById(this.currentShape)
           box.setAttribute("position", val)
         }
       },
       material: {
         deep:true,
         handler(val){
-          const box = document.getElementById("box1")
+          const box = document.getElementById(this.currentShape)
           box.setAttribute("color", val.color.toLowerCase())
-          console.log(val.color);
-
         }
       },
   },
   methods: {
-    getPosition(){
-      const box = document.getElementById("box1")
+    editShape(id){
+      this.currentShape=id
+      const box = document.getElementById(id)
       this.position=box.getAttribute("position")
       this.rotation=box.getAttribute("rotation")
       this.material.color=box.getAttribute("color")
@@ -160,44 +206,27 @@ export default {
       //<a-box click-drag position="-1 4 -10" rotation="0 45 0" color="red" shadow ></a-box>
       const scene = document.getElementById('editor')
       const box = document.createElement('a-box');
-      box.setAttribute("click-drag", true)
-      box.setAttribute("position", "-1 4 10")
+      box.setAttribute("position", "0 -1 4")
       box.setAttribute("rotation", "0 45 0")
       box.setAttribute("color", "red")
+      box.setAttribute("id", "box"+ this.box)
       scene.appendChild(box);
+      this.shapesList.splice(0,0,{
+        image : '/src/assets/box.png',
+        type: 'box '+this.box,
+        id: 'box'+this.box
+      }),
+      this.box++
     },
     addSphere(){
       const scene = document.getElementById('editor')
       const sphere = document.createElement('a-sphere');
-      sphere.setAttribute("click-drag", true)
       sphere.setAttribute("position", "2 4 -10")
       sphere.setAttribute("rotation", "0 45 0")
       sphere.setAttribute("color", "red")
       scene.appendChild(sphere);
     },
 
-  },
-  computed: {
-
-    shapes() {
-      return[
-          {
-            icon: '/src/assets/box.png',
-            function: this.addBox
-          },
-          {
-            icon :'/src/assets/sphere.png',
-            function: this.addSphere
-          }
-        ]
-    },
-      shapesDetails() {
-        return {
-          position :this.position,
-          rotation :this.rotation,
-          material: this.material
-        }
-      },
   },
   filters: {
     time : (value)=>{
@@ -241,9 +270,6 @@ mounted() {
     setInterval(() => this.valueDeterminate = (vid.currentTime/vid.duration)*100, 1000);
     setInterval(() => this.time = vid.currentTime, 1000);
     setInterval(() => this.duration = vid.duration, 1);
-
-        const box = document.getElementById("box1")
-      this.xAxe= box.getAttribute("position").x
 
 },
 }

@@ -15,12 +15,17 @@
       <a-scene embedded style=" padding-top: 45%;" vr-mode-ui="enabled: false">
 
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
-        <a-videosphere id="editor"  rotation="0 180 0" src="#video" >
-            <!-- <a-box id="box1" position="0 -1 4" rotation="-90 0 0" color="red"  shadow ></a-box> -->
+        <a-videosphere id="editor" class="container" rotation="0 180 0" src="#video" >
+            <a-image src="/src/assets/info.png" class="clickable" toggle-visibility="#box0" position="0 1 4"  side="double"></a-image>
+            <a-box class="box " position="0 -1 4" rotation="-90 0 0" color="red"  shadow ></a-box>
+            <a-image src="/src/assets/Jon.png" id="image" visible="true" class="box "  position="0 -1 4"></a-image>
         </a-videosphere>
 
         <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
-        <a-camera camera-logger position="0 0 0" wasd-controls-enabled="false"  look-controls-enabled="true" ></a-camera>
+        <a-camera camera-logger position="0 0 0" wasd-controls-enabled="false"  look-controls-enabled="true" >
+          <a-cursor id="cursor"  color="white" fuse="true" fuseTimeout=3000 raycaster="objects: .clickable"></a-cursor>
+          <!--  -->
+        </a-camera>
         <!-- Wait for the video to load. -->
         <a-assets>
             <!-- Single source video. -->
@@ -66,7 +71,7 @@
     </v-flex>
     <!-- right menu -->
     <v-flex xs2  >
-      <app-shapes :shapes="shapes"></app-shapes>
+      <app-shapes :shapes="shapes" v-if="tab=='shapes'"></app-shapes>
     </v-flex>
     <v-flex xs1 >
       <v-navigation-drawer
@@ -80,6 +85,7 @@
         v-for="item in items"
         :key="item.title"
         style="cursor :pointer"
+        @click="switchTabs(item.tab)"
       >
         <v-btn fab flat style="left : -1.6em">
           <v-icon>{{ item.icon }}</v-icon>
@@ -107,10 +113,12 @@ export default {
       valueDeterminate: 0,
       time: 0,
       duration:0,
+      tab: 'shapes',
       items: [
-          {icon: 'dashboard' },
-          {icon: 'account_box' },
-          {icon: 'gavel' }
+          {icon: 'dashboard',
+          tab: 'shapes' },
+          {icon: 'account_box' ,
+          tab: 'pictures' },
       ],
       box : 0,
       sphere:0,
@@ -180,6 +188,9 @@ export default {
       },
   },
   methods: {
+    switchTabs(tab){
+      this.tab=tab
+    },
     editShape(id){
       this.currentShape=id
       const box = document.getElementById(id)
@@ -224,7 +235,14 @@ export default {
       sphere.setAttribute("position", "2 4 -10")
       sphere.setAttribute("rotation", "0 45 0")
       sphere.setAttribute("color", "red")
+      sphere.setAttribute("id", "sphere"+ this.sphere)
       scene.appendChild(sphere);
+      this.shapesList.splice(0,0,{
+        image : '/src/assets/sphere.png',
+        type: 'sphere '+this.sphere,
+        id: 'sphere'+this.sphere
+      }),
+      this.sphere++
     },
 
   },
@@ -253,17 +271,33 @@ beforeCreate() {
     playerScript1.setAttribute('src',"/src/playerAssets/play-on-vrdisplayactivate-or-enter-vr.js");
     document.body.appendChild(playerScript1);
 
-    let playerScript2 = document.createElement('script');
-    playerScript2.setAttribute('type',"text/javascript");
-    playerScript2.setAttribute('src',"/src/playerAssets/toggle-play.js");
-    document.body.appendChild(playerScript2);
-
     window.addEventListener("keydown", function(e) {
     // space and arrow keys
     if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
         e.preventDefault();
     }
-}, false);
+    }, false);
+
+    // toggle func
+    AFRAME.registerComponent('toggle-visibility', {
+      schema: {type: 'string'},
+      init: function() {
+         var video = document.querySelector('#editor')
+          var entities
+          setInterval(() => entities = Array.from(video.querySelectorAll(this.data)), 1);
+        this.el.addEventListener('click', function (evt) {
+
+            console.log(entities);
+            for (var i = 0; i < entities.length; i++) {
+              if ( entities[i].object3D.visible === true ) {
+                entities[i].object3D.visible = false;
+              } else {
+                entities[i].object3D.visible = true;
+              }
+            }
+        });
+      },
+    });
 },
 mounted() {
     var vid = document.getElementById("video");

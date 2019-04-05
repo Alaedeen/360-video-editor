@@ -17,9 +17,9 @@
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
         <a-videosphere id="editor" class="container" rotation="0 180 0" src="#video" >
             <!-- <a-image src="/src/assets/info.png" class="clickable" toggle-visibility="#box0" position="0 1 4"  side="double"></a-image> -->
-            <!-- <a-box class="box " position="0 -1 4" rotation="-90 0 0" color="red" scale="1 1 1"  shadow ></a-box>
-            <a-image src="/src/assets/Jon.png" id="image" visible="true" class="box " scale="3 3 3" position="0 -1 4"></a-image>
-            <a-sphere position="2 -1 4" color="yellow" scale="1 1 1" ></a-sphere> -->
+            <a-cylinder class="box " position="0 -1 4" rotation="0 0 0" color="red" scale="1 1 1"  shadow ></a-cylinder>
+            <!-- <a-image src="/src/assets/Jon.png" id="image" visible="true" class="box " scale="3 3 3" position="0 -1 4"></a-image> -->
+            <!-- <a-sphere position="2 -1 4" color="yellow" scale="1 1 1" ></a-sphere> -->cylinder
         </a-videosphere>
 
         <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
@@ -123,6 +123,8 @@ export default {
       ],
       box : 0,
       sphere:0,
+      cone: 0,
+      cylinder:0,
       shapesList: [],
       currentShape: '',
         position: {
@@ -161,7 +163,15 @@ export default {
           {
             icon :'/src/assets/sphere.png',
             function: this.addSphere
-          }
+          },
+          {
+            icon :'/src/assets/cone.png',
+            function: this.addCone
+          },
+          {
+            icon :'/src/assets/cylinder.png',
+            function: this.addCylinder
+          },
         ]
     },
       shapesDetails() {
@@ -286,6 +296,45 @@ export default {
         id: 'sphere'+this.sphere
       }),
       this.sphere++
+    },
+    addCone(){
+      const scene = document.getElementById('editor')
+      const cone = document.createElement('a-cone');
+      cone.setAttribute("position", "0 -1 4")
+      cone.setAttribute("rotation", "0 45 0")
+      cone.setAttribute("color", "red")
+      cone.setAttribute("id", "cone"+ this.cone)
+      cone.setAttribute("scale", "1 1 1")
+      cone.classList.add("element")
+      cone.setAttribute("startTime", "0")
+      cone.setAttribute("endTime", this.duration)
+      scene.appendChild(cone);
+      this.shapesList.splice(0,0,{
+        image : '/src/assets/cone.png',
+        type: 'cone '+this.cone,
+        id: 'cone'+this.cone
+      }),
+      this.cone++
+    },
+
+    addCylinder(){
+      const scene = document.getElementById('editor')
+      const cylinder = document.createElement('a-cylinder');
+      cylinder.setAttribute("position", "0 -1 4")
+      cylinder.setAttribute("rotation", "0 45 0")
+      cylinder.setAttribute("color", "red")
+      cylinder.setAttribute("id", "cylinder"+ this.cylinder)
+      cylinder.setAttribute("scale", "1 1 1")
+      cylinder.classList.add("element")
+      cylinder.setAttribute("startTime", "0")
+      cylinder.setAttribute("endTime", this.duration)
+      scene.appendChild(cylinder);
+      this.shapesList.splice(0,0,{
+        image : '/src/assets/cylinder.png',
+        type: 'cylinder '+this.cylinder,
+        id: 'cylinder'+this.cylinder
+      }),
+      this.cylinder++
     },
 
   },

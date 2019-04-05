@@ -65,6 +65,8 @@
                 <v-list-tile-title>{{ shape.type }}</v-list-tile-title>
                 <v-list-tile-sub-title>from :  to : </v-list-tile-sub-title>
               </v-list-tile-content>
+              <v-spacer></v-spacer>
+              <v-btn fab flat @click="deleteElement(shape.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
             </v-list-tile>
           </v-list>
     </v-flex>
@@ -242,6 +244,15 @@ export default {
       this.period.startTime=shape.getAttribute("startTime")
       this.period.endTime=shape.getAttribute("endTime")
       this.scale.size=shape.getAttribute("scale").charAt(0)
+    },
+    deleteElement(id){
+      const scene = document.getElementById('editor')
+      const element = document.getElementById(id);
+      scene.removeChild(element)
+      var index = this.shapesList.findIndex(function (element) {
+        return (element.id == id)
+      });
+      this.shapesList.splice(index,1)
     },
     playIcon(){
       var vid = document.getElementById("video");

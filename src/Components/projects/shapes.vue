@@ -15,6 +15,7 @@
                     class="grey lighten-2"
                     @click="shape.function"
                   ></v-img>
+                  
                 </v-card>
               </v-flex>
             </v-layout>

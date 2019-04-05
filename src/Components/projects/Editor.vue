@@ -17,9 +17,9 @@
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
         <a-videosphere id="editor" class="container" rotation="0 180 0" src="#video" >
             <!-- <a-image src="/src/assets/info.png" class="clickable" toggle-visibility="#box0" position="0 1 4"  side="double"></a-image> -->
-            <a-cylinder class="box " position="0 -1 4" rotation="0 0 0" color="red" scale="1 1 1"  shadow ></a-cylinder>
+            <a-torus-knot class="box " position="0 -1 4" rotation="0 0 0" color="red" scale="1 1 1"  shadow ></a-torus-knot>
             <!-- <a-image src="/src/assets/Jon.png" id="image" visible="true" class="box " scale="3 3 3" position="0 -1 4"></a-image> -->
-            <!-- <a-sphere position="2 -1 4" color="yellow" scale="1 1 1" ></a-sphere> -->cylinder
+            <!-- <a-sphere position="2 -1 4" color="yellow" scale="1 1 1" ></a-sphere> -->
         </a-videosphere>
 
         <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
@@ -127,6 +127,8 @@ export default {
       sphere:0,
       cone: 0,
       cylinder:0,
+      torus:0,
+      torusKnot:0,
       shapesList: [],
       currentShape: '',
         position: {
@@ -173,6 +175,14 @@ export default {
           {
             icon :'/src/assets/cylinder.png',
             function: this.addCylinder
+          },
+          {
+            icon :'/src/assets/torus.png',
+            function: this.addTorus
+          },
+          {
+            icon :'/src/assets/torus-knot.jpg',
+            function: this.addTorusKnot
           },
         ]
     },
@@ -327,7 +337,6 @@ export default {
       }),
       this.cone++
     },
-
     addCylinder(){
       const scene = document.getElementById('editor')
       const cylinder = document.createElement('a-cylinder');
@@ -346,6 +355,44 @@ export default {
         id: 'cylinder'+this.cylinder
       }),
       this.cylinder++
+    },
+    addTorus(){
+      const scene = document.getElementById('editor')
+      const torus = document.createElement('a-torus');
+      torus.setAttribute("position", "0 -1 4")
+      torus.setAttribute("rotation", "0 45 0")
+      torus.setAttribute("color", "red")
+      torus.setAttribute("id", "torus"+ this.torus)
+      torus.setAttribute("scale", "1 1 1")
+      torus.classList.add("element")
+      torus.setAttribute("startTime", "0")
+      torus.setAttribute("endTime", this.duration)
+      scene.appendChild(torus);
+      this.shapesList.splice(0,0,{
+        image : '/src/assets/torus.png',
+        type: 'torus '+this.torus,
+        id: 'torus'+this.torus
+      }),
+      this.torus++
+    },
+    addTorusKnot(){
+      const scene = document.getElementById('editor')
+      const torusKnot = document.createElement('a-torus-knot');
+      torusKnot.setAttribute("position", "0 -1 4")
+      torusKnot.setAttribute("rotation", "0 45 0")
+      torusKnot.setAttribute("color", "red")
+      torusKnot.setAttribute("id", "torusKnot"+ this.torusKnot)
+      torusKnot.setAttribute("scale", "1 1 1")
+      torusKnot.classList.add("element")
+      torusKnot.setAttribute("startTime", "0")
+      torusKnot.setAttribute("endTime", this.duration)
+      scene.appendChild(torusKnot);
+      this.shapesList.splice(0,0,{
+        image : '/src/assets/torus-knot.jpg',
+        type: 'torusKnot '+this.torusKnot,
+        id: 'torusKnot'+this.torusKnot
+      }),
+      this.torusKnot++
     },
 
   },

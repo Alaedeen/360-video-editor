@@ -12,10 +12,10 @@
                     style="cursor:pointer"
                     :src="shape.icon"
                     aspect-ratio="1"
-                    class="grey lighten-2"
+                    class="white lighten-2"
                     @click="shape.function"
                   ></v-img>
-                  
+
                 </v-card>
               </v-flex>
             </v-layout>

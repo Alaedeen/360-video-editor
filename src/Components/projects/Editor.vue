@@ -17,7 +17,7 @@
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
         <a-videosphere id="editor" class="container" rotation="0 180 0" src="#video" >
             <!-- <a-image src="/src/assets/info.png" class="clickable" toggle-visibility="#box0" position="0 1 4"  side="double"></a-image> -->
-            <a-torus-knot class="box " position="0 -1 4" rotation="0 0 0" color="red" scale="1 1 1"  shadow ></a-torus-knot>
+            <a-tetrahedron class="box " position="0 -1 4" rotation="0 0 0" color="red" scale="1 1 1"  shadow  ></a-tetrahedron>
             <!-- <a-image src="/src/assets/Jon.png" id="image" visible="true" class="box " scale="3 3 3" position="0 -1 4"></a-image> -->
             <!-- <a-sphere position="2 -1 4" color="yellow" scale="1 1 1" ></a-sphere> -->
         </a-videosphere>
@@ -129,6 +129,8 @@ export default {
       cylinder:0,
       torus:0,
       torusKnot:0,
+      dodecahedron:0,
+      tetrahedron: 0,
       shapesList: [],
       currentShape: '',
         position: {
@@ -183,6 +185,14 @@ export default {
           {
             icon :'/src/assets/torus-knot.jpg',
             function: this.addTorusKnot
+          },
+          {
+            icon :'/src/assets/dodecahedron.png',
+            function: this.addDodecahedron
+          },
+          {
+            icon :'/src/assets/tetrahedron.png',
+            function: this.addTetrahedron
           },
         ]
     },
@@ -393,6 +403,44 @@ export default {
         id: 'torusKnot'+this.torusKnot
       }),
       this.torusKnot++
+    },
+    addDodecahedron(){
+      const scene = document.getElementById('editor')
+      const dodecahedron = document.createElement('a-dodecahedron');
+      dodecahedron.setAttribute("position", "0 -1 4")
+      dodecahedron.setAttribute("rotation", "0 45 0")
+      dodecahedron.setAttribute("color", "red")
+      dodecahedron.setAttribute("id", "dodecahedron"+ this.dodecahedron)
+      dodecahedron.setAttribute("scale", "1 1 1")
+      dodecahedron.classList.add("element")
+      dodecahedron.setAttribute("startTime", "0")
+      dodecahedron.setAttribute("endTime", this.duration)
+      scene.appendChild(dodecahedron);
+      this.shapesList.splice(0,0,{
+        image : '/src/assets/dodecahedron.png',
+        type: 'dodecahedron '+this.dodecahedron,
+        id: 'dodecahedron'+this.dodecahedron
+      }),
+      this.dodecahedron++
+    },
+    addTetrahedron(){
+      const scene = document.getElementById('editor')
+      const tetrahedron = document.createElement('a-tetrahedron');
+      tetrahedron.setAttribute("position", "0 -1 4")
+      tetrahedron.setAttribute("rotation", "0 45 0")
+      tetrahedron.setAttribute("color", "red")
+      tetrahedron.setAttribute("id", "tetrahedron"+ this.tetrahedron)
+      tetrahedron.setAttribute("scale", "1 1 1")
+      tetrahedron.classList.add("element")
+      tetrahedron.setAttribute("startTime", "0")
+      tetrahedron.setAttribute("endTime", this.duration)
+      scene.appendChild(tetrahedron);
+      this.shapesList.splice(0,0,{
+        image : '/src/assets/tetrahedron.png',
+        type: 'tetrahedron '+this.tetrahedron,
+        id: 'tetrahedron'+this.tetrahedron
+      }),
+      this.tetrahedron++
     },
 
   },

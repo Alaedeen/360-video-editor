@@ -16,7 +16,7 @@
 
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
         <a-videosphere id="editor" class="container" rotation="0 180 0" src="#video" >
-            <a-image src="/src/assets/info.png" class="clickable" toggle-visibility="#box0" position="0 1 4"  side="double"></a-image>
+            <!-- <a-image src="/src/assets/info.png" class="clickable" toggle-visibility="#box0" position="0 1 4"  side="double"></a-image> -->
             <!-- <a-box class="box " position="0 -1 4" rotation="-90 0 0" color="red" scale="1 1 1"  shadow ></a-box>
             <a-image src="/src/assets/Jon.png" id="image" visible="true" class="box " scale="3 3 3" position="0 -1 4"></a-image>
             <a-sphere position="2 -1 4" color="yellow" scale="1 1 1" ></a-sphere> -->
@@ -53,7 +53,7 @@
 
             <v-list-tile
               v-for="shape in shapesList"
-              :key="shape"
+              :key="shape.id"
               avatar
               @click="editShape(shape.id)"
             >
@@ -81,10 +81,10 @@
     right
     style="width : 50%; margin-left:50%"
   >
-    <v-list>
+    <v-list >
       <v-list-tile
-        v-for="item in items"
-        :key="item.title"
+        v-for="(item,index) in items"
+        :key="index"
         style="cursor :pointer"
         @click="switchTabs(item.tab)"
       >
@@ -140,6 +140,10 @@ export default {
         },
         scale: {
           size: 1
+        },
+        period: {
+          startTime:'0',
+          endTime: '0'
         }
 
 
@@ -165,7 +169,8 @@ export default {
           position :this.position,
           rotation :this.rotation,
           material: this.material,
-          scale: this.scale
+          scale: this.scale,
+          period: this.period
         }
       },
   },
@@ -196,6 +201,16 @@ export default {
         handler(val){
           const box = document.getElementById(this.currentShape)
           box.setAttribute("scale", val.size+" "+val.size+" "+val.size)
+          console.log(val);
+        }
+      },
+      period: {
+        deep:true,
+        handler(val){
+          const box = document.getElementById(this.currentShape)
+          box.setAttribute("startTime", val.startTime)
+          console.log(val);
+          box.setAttribute("endTime", val.endTime)
         }
       },
   },
@@ -205,11 +220,13 @@ export default {
     },
     editShape(id){
       this.currentShape=id
-      const box = document.getElementById(id)
-      this.position=box.getAttribute("position")
-      this.rotation=box.getAttribute("rotation")
-      this.material.color=box.getAttribute("color")
-      this.scale.size=box.getAttribute("scale").charAt(0)
+      const shape = document.getElementById(id)
+      this.position=shape.getAttribute("position")
+      this.rotation=shape.getAttribute("rotation")
+      this.material.color=shape.getAttribute("color")
+      this.period.startTime=shape.getAttribute("startTime")
+      this.period.endTime=shape.getAttribute("endTime")
+      this.scale.size=shape.getAttribute("scale").charAt(0)
     },
     playIcon(){
       var vid = document.getElementById("video");
@@ -235,6 +252,9 @@ export default {
       box.setAttribute("color", "red")
       box.setAttribute("id", "box"+ this.box)
       box.setAttribute("scale", "1 1 1")
+      box.classList.add("element")
+      box.setAttribute("startTime", "0")
+      box.setAttribute("endTime", this.duration)
       scene.appendChild(box);
       this.shapesList.splice(0,0,{
         image : '/src/assets/box.png',
@@ -251,6 +271,9 @@ export default {
       sphere.setAttribute("color", "red")
       sphere.setAttribute("id", "sphere"+ this.sphere)
       sphere.setAttribute("scale", "1 1 1")
+      sphere.classList.add("element")
+      sphere.setAttribute("startTime", "0")
+      sphere.setAttribute("endTime", this.duration)
       scene.appendChild(sphere);
       this.shapesList.splice(0,0,{
         image : '/src/assets/sphere.png',
@@ -301,8 +324,6 @@ beforeCreate() {
           var entities
           setInterval(() => entities = Array.from(video.querySelectorAll(this.data)), 1);
         this.el.addEventListener('click', function (evt) {
-
-            console.log(entities);
             for (var i = 0; i < entities.length; i++) {
               if ( entities[i].object3D.visible === true ) {
                 entities[i].object3D.visible = false;
@@ -319,7 +340,21 @@ mounted() {
     setInterval(() => this.valueDeterminate = (vid.currentTime/vid.duration)*100, 1000);
     setInterval(() => this.time = vid.currentTime, 1000);
     setInterval(() => this.duration = vid.duration, 1);
+    setInterval(() => {
+      var video = document.querySelector('#editor')
+      var entities = Array.from(video.querySelectorAll('.element'))
+      entities.forEach((entity)=> {
+        var start = entity.getAttribute('startTime')
+        console.log(start);
 
+        var end = entity.getAttribute('endTime')
+        if ((this.time>=start)&&(this.time<=end)) {
+            entity.object3D.visible = true;
+        }else{
+          entity.object3D.visible = false;
+        }
+      });
+    }, 1);
 },
 }
 </script>

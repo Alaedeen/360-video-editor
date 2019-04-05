@@ -16,16 +16,17 @@
 
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
         <a-videosphere id="editor" class="container" rotation="0 180 0" src="#video" >
-            <!-- <a-image src="/src/assets/info.png" class="clickable" toggle-visibility="#box0" position="0 1 4"  side="double"></a-image> -->
-            <a-tetrahedron class="box " position="0 -1 4" rotation="0 0 0" color="red" scale="1 1 1"  shadow  ></a-tetrahedron>
+            <!-- <a-image src="/src/assets/tag.png" class="clickable" toggle-visibility="#box0" rotate rotation="0 0 0" position="0 1 4"  side="double"></a-image> -->
+            <!-- <a-box id="box0" position="0 -1 4" rotation="0 45 0" color="red" scale="1 1 1"  shadow  ></a-box> -->
+
             <!-- <a-image src="/src/assets/Jon.png" id="image" visible="true" class="box " scale="3 3 3" position="0 -1 4"></a-image> -->
             <!-- <a-sphere position="2 -1 4" color="yellow" scale="1 1 1" ></a-sphere> -->
         </a-videosphere>
 
         <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
         <a-camera camera-logger position="0 0 0" wasd-controls-enabled="false"  look-controls-enabled="true" >
-          <a-cursor id="cursor"  color="white" fuse="true" fuseTimeout=3000 raycaster="objects: .clickable"></a-cursor>
-          <!--  -->
+          <a-cursor id="cursor"  color="white" fuse="true" raycaster="objects: .clickable"></a-cursor>
+          <!--fuse="true" fuseTimeout=3000  -->
         </a-camera>
         <!-- Wait for the video to load. -->
         <a-assets>
@@ -46,8 +47,11 @@
     <v-flex xs12>
     <v-btn fab flat style="display: inline;" ><v-icon  color="white" style="cursor : pointer;"  @click="playIcon" large> {{toggle}} </v-icon></v-btn>
     <p style="display: inline;color:white;"> <b>{{Math.floor(time) | time}} / {{Math.floor(duration) | time}}</b>  </p>
+    <v-btn fab flat style="display: inline;" ><v-icon  color="white" style="cursor : pointer;"  @click="anything" large> {{toggle}} </v-icon></v-btn>
     </v-flex>
-    <v-flex xs12>
+    <v-layout>
+      <!-- list of added items -->
+    <v-flex xs6>
       <v-list dark two-line subheader>
             <v-subheader >Added items</v-subheader>
 
@@ -70,7 +74,31 @@
             </v-list-tile>
           </v-list>
     </v-flex>
+    <!-- list of added tags -->
+    <v-flex xs6>
+      <v-list dark two-line subheader>
+            <v-subheader >Added tags</v-subheader>
 
+            <v-list-tile
+              v-for="shape in shapesList"
+              :key="shape.id"
+              avatar
+              @click="editShape(shape.id)"
+            >
+              <v-list-tile-avatar>
+                <v-img :src="shape.image" ></v-img>
+              </v-list-tile-avatar>
+
+              <v-list-tile-content>
+                <v-list-tile-title>{{ shape.type }}</v-list-tile-title>
+                <v-list-tile-sub-title>from :  to : </v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-spacer></v-spacer>
+              <v-btn fab flat @click="deleteElement(shape.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
+            </v-list-tile>
+          </v-list>
+    </v-flex>
+  </v-layout>
     </v-flex>
     <!-- right menu -->
     <v-flex xs2  >
@@ -118,10 +146,14 @@ export default {
       duration:0,
       tab: 'shapes',
       items: [
-          {icon: 'dashboard',
+          {icon: '3d_rotation',
           tab: 'shapes' },
-          {icon: 'account_box' ,
+          {icon: 'image' ,
           tab: 'pictures' },
+          {icon: 'text_format' ,
+          tab: 'text' },
+          {icon: 'add_circle' ,
+          tab: 'add' },
       ],
       box : 0,
       sphere:0,
@@ -159,6 +191,9 @@ export default {
     }
   },
   computed: {
+    project(){
+      return this.$store.state.project.editing
+    },
 
     shapes() {
       return[
@@ -252,6 +287,9 @@ export default {
       },
   },
   methods: {
+    anything(){
+      this.$store.dispatch('project/addBox',this.duration)
+    },
     switchTabs(tab){
       this.tab=tab
     },
@@ -290,7 +328,6 @@ export default {
       vid.currentTime = (this.valueDeterminate / 100)*this.duration
     },
     addBox(){
-      //<a-box click-drag position="-1 4 -10" rotation="0 45 0" color="red" shadow ></a-box>
       const scene = document.getElementById('editor')
       const box = document.createElement('a-box');
       box.setAttribute("position", "0 -1 4")
@@ -469,12 +506,7 @@ beforeCreate() {
     playerScript1.setAttribute('src',"/src/playerAssets/play-on-vrdisplayactivate-or-enter-vr.js");
     document.body.appendChild(playerScript1);
 
-    window.addEventListener("keydown", function(e) {
-    // space and arrow keys
-    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-        e.preventDefault();
-    }
-    }, false);
+    this.$store.dispatch('project/loadProject', parseInt(this.$route.params.id, 10));
 
     // toggle func
     AFRAME.registerComponent('toggle-visibility', {
@@ -484,14 +516,34 @@ beforeCreate() {
           var entities
           setInterval(() => entities = Array.from(video.querySelectorAll(this.data)), 1);
         this.el.addEventListener('click', function (evt) {
+
             for (var i = 0; i < entities.length; i++) {
+
               if ( entities[i].object3D.visible === true ) {
+
                 entities[i].object3D.visible = false;
               } else {
+
                 entities[i].object3D.visible = true;
               }
             }
         });
+      },
+    });
+
+    // rotate func
+    AFRAME.registerComponent('rotate', {
+      schema: {},
+      init: function() {
+          var rotation=0
+          setInterval(() => {
+              if (rotation==-360) {
+                rotation=0
+              }
+              rotation--
+              this.el.setAttribute('rotation','0 0 ' + rotation)
+          },1);
+
       },
     });
 },

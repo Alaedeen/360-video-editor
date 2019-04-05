@@ -39,6 +39,7 @@ export default {
           this.$store.dispatch('user/initUsers');
           this.$store.dispatch('video/initVideos');
           this.$store.dispatch('video/initAll');
+          this.$store.dispatch('project/initProjects');
         },
 }
 </script>

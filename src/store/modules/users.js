@@ -1,7 +1,7 @@
 import users from '../../data/users'
 
 const state={
-  users: [],//add patern
+  users: [],
   current: null,
   visited: null,
   loginError: false,

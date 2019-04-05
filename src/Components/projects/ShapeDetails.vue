@@ -16,16 +16,16 @@
   <b style="color :white">Scale:</b>
   <v-layout row style="height :3em; margin-top: -2em; margin-bottom: 2em">
   <v-flex class="pr-3" style="margin-top:0.85em"><v-slider  v-model="shapeDetails.scale.size" max="10" min="0.1" step="0.1"  color="white" track-color="grey" ></v-slider></v-flex>
-  <v-flex shrink style="width: 46px;"> <v-text-field dark v-model="shapeDetails.scale.size" class="mt-0" hide-details single-line type="number" ></v-text-field> </v-flex>
+  <v-flex shrink style="width: 46px;"> <v-text-field dark v-model="shapeDetails.scale.size" max="10" min="0.1" class="mt-0" hide-details single-line type="number" ></v-text-field> </v-flex>
   </v-layout>
 
   <!-- fix shape Periode -->
   <b style="color :white; margin-bottom: 2em">Periode (in seconds):</b>
   <v-layout row style="height :3em; margin-top: -1em; margin-left: 2em">
   <v-flex xs2 style="margin-top:2em" ><p style="color :white;">From: </p></v-flex>
-  <v-flex  shrink style="width: 60px;margin-right:1em"> <v-text-field dark v-model="shapeDetails.period.startTime" class="mt-0" hide-details single-line type="number" ></v-text-field> </v-flex>
+  <v-flex  shrink style="width: 60px;margin-right:1em"> <v-text-field dark v-model="shapeDetails.period.startTime" min="0" class="mt-0" hide-details single-line type="number" ></v-text-field> </v-flex>
   <v-flex xs2 style="margin-top:2em"><p style="color :white;">To: </p></v-flex>
-  <v-flex shrink style="width: 60px;"> <v-text-field dark v-model="shapeDetails.period.endTime" class="mt-0" hide-details single-line type="number" ></v-text-field> </v-flex>
+  <v-flex shrink style="width: 60px;"> <v-text-field dark v-model="shapeDetails.period.endTime" min="0" class="mt-0" hide-details single-line type="number" ></v-text-field> </v-flex>
   </v-layout>
 </div>
 </template>

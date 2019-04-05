@@ -180,6 +180,7 @@ export default {
         handler(val){
           const box = document.getElementById(this.currentShape)
           box.setAttribute("rotation", val)
+
         }
       },
       position: {
@@ -201,7 +202,6 @@ export default {
         handler(val){
           const box = document.getElementById(this.currentShape)
           box.setAttribute("scale", val.size+" "+val.size+" "+val.size)
-          console.log(val);
         }
       },
       period: {
@@ -209,8 +209,13 @@ export default {
         handler(val){
           const box = document.getElementById(this.currentShape)
           box.setAttribute("startTime", val.startTime)
-          console.log(val);
           box.setAttribute("endTime", val.endTime)
+          if (val.startTime>=val.endTime) {
+            val.startTime=val.endTime-1
+          }
+          if (val.endTime>this.duration) {
+            val.endTime=this.duration
+          }
         }
       },
   },
@@ -345,7 +350,6 @@ mounted() {
       var entities = Array.from(video.querySelectorAll('.element'))
       entities.forEach((entity)=> {
         var start = entity.getAttribute('startTime')
-        console.log(start);
 
         var end = entity.getAttribute('endTime')
         if ((this.time>=start)&&(this.time<=end)) {

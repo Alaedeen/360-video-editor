@@ -60,7 +60,7 @@ const mutations = {
     tag.classList.add("element")
     tag.classList.add("clickable")
     tag.setAttribute("toggle-visibility", ".tag" + state.editing.tag)
-    tag.setAttribute("animation", "property: scale;  to: 1.5 1.5 1.5; loop: true; dur: 500")
+    tag.setAttribute("animation", "property: scale;  to: 1.5 1.5 1.5; loop: true; dur: 1000")
     tag.setAttribute("rotate", "")
     tag.setAttribute("startTime", "0")
     tag.setAttribute("endTime", duration)
@@ -102,8 +102,9 @@ const mutations = {
       box.setAttribute("id", "box" + state.editing.box)
       box.setAttribute("scale", "1 1 1")
       box.classList.add(newElement.mode)
-      box.setAttribute("startTime", "0")
-      box.setAttribute("endTime", newElement.duration)
+      const tag = document.getElementById(newElement.mode)
+      box.setAttribute("startTime", tag.getAttribute('startTime'))
+      box.setAttribute("endTime", tag.getAttribute('endTime'))
       scene.appendChild(box);
       state.editing.tagsList[index].shapes.splice(0, 0, {
           image: '/src/assets/box.png',
@@ -119,7 +120,7 @@ const mutations = {
       if (newElement.mode === 'free') {
         const scene = document.getElementById('editor')
         const sphere = document.createElement('a-sphere');
-        sphere.setAttribute("position", "2 4 -10")
+        sphere.setAttribute("position", "2 4 8")
         sphere.setAttribute("rotation", "0 45 0")
         sphere.setAttribute("color", "red")
         sphere.setAttribute("id", "sphere" + state.editing.sphere)
@@ -140,14 +141,15 @@ const mutations = {
         });
         const scene = document.getElementById('editor')
         const sphere = document.createElement('a-sphere');
-        sphere.setAttribute("position", "2 4 -10")
+        sphere.setAttribute("position", "2 4 8")
         sphere.setAttribute("rotation", "0 45 0")
         sphere.setAttribute("color", "red")
         sphere.setAttribute("id", "sphere" + state.editing.sphere)
         sphere.setAttribute("scale", "1 1 1")
         sphere.classList.add(newElement.mode)
-        sphere.setAttribute("startTime", "0")
-        sphere.setAttribute("endTime", newElement.duration)
+        const tag = document.getElementById(newElement.mode)
+        sphere.setAttribute("startTime", tag.getAttribute('startTime'))
+        sphere.setAttribute("endTime", tag.getAttribute('endTime'))
         scene.appendChild(sphere);
         state.editing.tagsList[index].shapes.splice(0, 0, {
             image: '/src/assets/sphere.png',
@@ -189,8 +191,9 @@ const mutations = {
         cone.setAttribute("id", "cone" + state.editing.cone)
         cone.setAttribute("scale", "1 1 1")
         cone.classList.add(newElement.mode)
-        cone.setAttribute("startTime", "0")
-        cone.setAttribute("endTime", newElement.duration)
+        const tag = document.getElementById(newElement.mode)
+        cone.setAttribute("startTime", tag.getAttribute('startTime'))
+        cone.setAttribute("endTime", tag.getAttribute('endTime'))
         scene.appendChild(cone);
         state.editing.tagsList[index].shapes.splice(0, 0, {
             image: '/src/assets/cone.png',
@@ -232,8 +235,9 @@ const mutations = {
           cylinder.setAttribute("id", "cylinder" + state.editing.cylinder)
           cylinder.setAttribute("scale", "1 1 1")
           cylinder.classList.add(newElement.mode)
-          cylinder.setAttribute("startTime", "0")
-          cylinder.setAttribute("endTime", newElement.duration)
+          const tag = document.getElementById(newElement.mode)
+          cylinder.setAttribute("startTime", tag.getAttribute('startTime'))
+          cylinder.setAttribute("endTime", tag.getAttribute('endTime'))
           scene.appendChild(cylinder);
           state.editing.tagsList[index].shapes.splice(0, 0, {
               image: '/src/assets/cylinder.png',
@@ -275,8 +279,9 @@ const mutations = {
         torus.setAttribute("id", "torus" + state.editing.torus)
         torus.setAttribute("scale", "1 1 1")
         torus.classList.add(newElement.mode)
-        torus.setAttribute("startTime", "0")
-        torus.setAttribute("endTime", newElement.duration)
+        const tag = document.getElementById(newElement.mode)
+        torus.setAttribute("startTime", tag.getAttribute('startTime'))
+        torus.setAttribute("endTime", tag.getAttribute('endTime'))
         scene.appendChild(torus);
         state.editing.tagsList[index].shapes.splice(0, 0, {
             image: '/src/assets/torus.png',
@@ -318,8 +323,9 @@ const mutations = {
         torusKnot.setAttribute("id", "torusKnot" + state.editing.torusKnot)
         torusKnot.setAttribute("scale", "1 1 1")
         torusKnot.classList.add(newElement.mode)
-        torusKnot.setAttribute("startTime", "0")
-        torusKnot.setAttribute("endTime", newElement.duration)
+        const tag = document.getElementById(newElement.mode)
+        torusKnot.setAttribute("startTime", tag.getAttribute('startTime'))
+        torusKnot.setAttribute("endTime", tag.getAttribute('endTime'))
         scene.appendChild(torusKnot);
         state.editing.tagsList[index].shapes.splice(0, 0, {
             image: '/src/assets/torus-knot.jpg',
@@ -361,8 +367,9 @@ const mutations = {
         dodecahedron.setAttribute("id", "dodecahedron" + state.editing.dodecahedron)
         dodecahedron.setAttribute("scale", "1 1 1")
         dodecahedron.classList.add(newElement.mode)
-        dodecahedron.setAttribute("startTime", "0")
-        dodecahedron.setAttribute("endTime", newElement.duration)
+        const tag = document.getElementById(newElement.mode)
+        dodecahedron.setAttribute("startTime", tag.getAttribute('startTime'))
+        dodecahedron.setAttribute("endTime", tag.getAttribute('endTime'))
         scene.appendChild(dodecahedron);
         state.editing.tagsList[index].shapes.splice(0, 0, {
             image: '/src/assets/dodecahedron.png',
@@ -404,8 +411,9 @@ const mutations = {
         tetrahedron.setAttribute("id", "tetrahedron" + state.editing.tetrahedron)
         tetrahedron.setAttribute("scale", "1 1 1")
         tetrahedron.classList.add(newElement.mode)
-        tetrahedron.setAttribute("startTime", "0")
-        tetrahedron.setAttribute("endTime", newElement.duration)
+        const tag = document.getElementById(newElement.mode)
+        tetrahedron.setAttribute("startTime", tag.getAttribute('startTime'))
+        tetrahedron.setAttribute("endTime", tag.getAttribute('endTime'))
         scene.appendChild(tetrahedron);
         state.editing.tagsList[index].shapes.splice(0, 0, {
             image: '/src/assets/tetrahedron.png',

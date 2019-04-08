@@ -263,38 +263,48 @@ export default {
     rotation: {
         deep:true,
         handler(val){
-          const box = document.getElementById(this.currentShape)
-          box.setAttribute("rotation", val)
+          const element = document.getElementById(this.currentShape)
+          element.setAttribute("rotation", val)
 
         }
       },
       position: {
         deep:true,
         handler(val){
-          const box = document.getElementById(this.currentShape)
-          box.setAttribute("position", val)
+          const element = document.getElementById(this.currentShape)
+          element.setAttribute("position", val)
         }
       },
       material: {
         deep:true,
         handler(val){
-          const box = document.getElementById(this.currentShape)
-          box.setAttribute("color", val.color.toLowerCase())
+          const element = document.getElementById(this.currentShape)
+          element.setAttribute("color", val.color.toLowerCase())
         }
       },
       scale: {
         deep:true,
         handler(val){
-          const box = document.getElementById(this.currentShape)
-          box.setAttribute("scale", val.size+" "+val.size+" "+val.size)
+          const element = document.getElementById(this.currentShape)
+          element.setAttribute("scale", val.size+" "+val.size+" "+val.size)
         }
       },
       period: {
         deep:true,
         handler(val){
-          const box = document.getElementById(this.currentShape)
-          box.setAttribute("startTime", val.startTime)
-          box.setAttribute("endTime", val.endTime)
+          const element = document.getElementById(this.currentShape)
+          element.setAttribute("startTime", val.startTime)
+          element.setAttribute("endTime", val.endTime)
+          if (this.currentShape.includes("tag")) {
+               const scene = document.getElementById('editor')
+               var entities = Array.from(scene.querySelectorAll('.' + this.currentShape))
+
+
+                entities.forEach((entity) => {
+                  entity.setAttribute("startTime", val.startTime)
+                  entity.setAttribute("endTime", val.endTime)
+                });
+          }
           // if (val.startTime>=val.endTime) {
           //   val.startTime=val.endTime-1
           // }
@@ -486,6 +496,22 @@ mounted() {
           entity.object3D.visible = false;
         }
       });
+    }, 1);
+
+    setInterval(() => {
+      var video = document.querySelector('#editor')
+      for (let index = 0; index < this.project.tag; index++) {
+          var entities = Array.from(video.querySelectorAll('.tag'+index))
+
+          entities.forEach((entity)=> {
+            var start = entity.getAttribute('startTime')
+            var end = entity.getAttribute('endTime')
+            if ((this.time<start)||(this.time>end)) {
+              console.log(start);
+                entity.object3D.visible = false;
+            }
+          });
+      }
     }, 1);
 },
 }

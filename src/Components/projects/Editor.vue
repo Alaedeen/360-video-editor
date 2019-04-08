@@ -16,8 +16,8 @@
 
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
         <a-videosphere id="editor" class="container" rotation="0 180 0" src="#video" >
-            <!-- <a-image src="/src/assets/tag.png" class="clickable" toggle-visibility="#box0" rotate rotation="0 0 0" position="0 1 4"  side="double"></a-image> -->
-            <!-- <a-box id="box0" position="0 -1 4" rotation="0 45 0" color="red" scale="1 1 1"  shadow  ></a-box> -->
+            <!-- <a-image src="/src/assets/info.png" class="clickable" toggle-visibility="#box0"  rotation="0 0 0" position="0 1 4"  side="double" animation="property: scale;  to: 1.5 1.5 1.5; loop: true; dur: 500" ></a-image> -->
+            <!-- <a-box id="box0" position="0 -1 4" rotation="0 45 0" color="red" scale="1 1 1"  shadow ></a-box> -->
 
             <!-- <a-image src="/src/assets/Jon.png" id="image" visible="true" class="box " scale="3 3 3" position="0 -1 4"></a-image> -->
             <!-- <a-sphere position="2 -1 4" color="yellow" scale="1 1 1" ></a-sphere> -->
@@ -47,16 +47,18 @@
     <v-flex xs12>
     <v-btn fab flat style="display: inline;" ><v-icon  color="white" style="cursor : pointer;"  @click="playIcon" large> {{toggle}} </v-icon></v-btn>
     <p style="display: inline;color:white;"> <b>{{Math.floor(time) | time}} / {{Math.floor(duration) | time}}</b>  </p>
-    <v-btn fab flat style="display: inline;" ><v-icon  color="white" style="cursor : pointer;"  @click="anything" large> {{toggle}} </v-icon></v-btn>
     </v-flex>
     <v-layout>
       <!-- list of added items -->
-    <v-flex xs6>
+    <v-flex xs5 style="margin-right:2em">
       <v-list dark two-line subheader>
-            <v-subheader >Added items</v-subheader>
+            <v-subheader >
+              Added items
+              <v-icon color="green" v-if="mode==='free'">check</v-icon>
+              </v-subheader>
 
             <v-list-tile
-              v-for="shape in shapesList"
+              v-for="shape in project.shapesList"
               :key="shape.id"
               avatar
               @click="editShape(shape.id)"
@@ -67,7 +69,6 @@
 
               <v-list-tile-content>
                 <v-list-tile-title>{{ shape.type }}</v-list-tile-title>
-                <v-list-tile-sub-title>from :  to : </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-spacer></v-spacer>
               <v-btn fab flat @click="deleteElement(shape.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
@@ -76,27 +77,50 @@
     </v-flex>
     <!-- list of added tags -->
     <v-flex xs6>
-      <v-list dark two-line subheader>
-            <v-subheader >Added tags</v-subheader>
-
-            <v-list-tile
-              v-for="shape in shapesList"
-              :key="shape.id"
-              avatar
-              @click="editShape(shape.id)"
-            >
-              <v-list-tile-avatar>
-                <v-img :src="shape.image" ></v-img>
-              </v-list-tile-avatar>
-
-              <v-list-tile-content>
-                <v-list-tile-title>{{ shape.type }}</v-list-tile-title>
-                <v-list-tile-sub-title>from :  to : </v-list-tile-sub-title>
-              </v-list-tile-content>
+      <v-expansion-panel dark flat>
+            <v-subheader >
+              Added tags
               <v-spacer></v-spacer>
-              <v-btn fab flat @click="deleteElement(shape.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
-            </v-list-tile>
-          </v-list>
+
+              <v-btn fab flat @click="addTag()"><v-icon color="green"> add_circle</v-icon></v-btn>
+              </v-subheader>
+
+            <v-expansion-panel-content
+              v-for="tag in project.tagsList"
+              :key="tag.id"
+            >
+            <template v-slot:header>
+              <v-icon color="green" v-if="mode==tag.id">check</v-icon>
+              <div>{{ tag.id }}</div>
+              <v-btn  fab flat small  @click="tagMode(tag.id)"><v-icon color="green"> fiber_new</v-icon></v-btn>
+              <v-btn  fab flat small  @click="editShape(tag.id)"><v-icon color="orange"> edit</v-icon></v-btn>
+              <v-btn  fab flat small @click="deleteElement(tag.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
+            </template>
+                    <v-list dark two-line subheader>
+                      <v-list-tile
+                        v-for="shape in tag.shapes"
+                        :key="shape.id"
+                        avatar
+                        @click="editShape(shape.id)"
+                      >
+                        <v-list-tile-avatar>
+                          <v-img :src="shape.image" ></v-img>
+                        </v-list-tile-avatar>
+
+                        <v-list-tile-content>
+                          <v-list-tile-title>{{ shape.type }}</v-list-tile-title>
+                        </v-list-tile-content>
+                        <v-spacer></v-spacer>
+                        <v-btn fab flat @click="deleteElement(shape.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
+                      </v-list-tile>
+                    </v-list>
+            </v-expansion-panel-content>
+        </v-expansion-panel>
+
+            <v-snackbar v-model="snackbar" color="red" top timeout=3000 >
+              Choose an element to add to {{mode}}
+              <v-btn  flat @click="snackbar = false" > <v-icon color="white"> close</v-icon> </v-btn>
+            </v-snackbar>
     </v-flex>
   </v-layout>
     </v-flex>
@@ -155,16 +179,9 @@ export default {
           {icon: 'add_circle' ,
           tab: 'add' },
       ],
-      box : 0,
-      sphere:0,
-      cone: 0,
-      cylinder:0,
-      torus:0,
-      torusKnot:0,
-      dodecahedron:0,
-      tetrahedron: 0,
-      shapesList: [],
       currentShape: '',
+      snackbar: false,
+      mode: 'free',
         position: {
         x:0,
         y:0,
@@ -233,6 +250,7 @@ export default {
     },
       shapesDetails() {
         return {
+          tag: (this.currentShape.includes("tag")),
           position :this.position,
           rotation :this.rotation,
           material: this.material,
@@ -277,19 +295,16 @@ export default {
           const box = document.getElementById(this.currentShape)
           box.setAttribute("startTime", val.startTime)
           box.setAttribute("endTime", val.endTime)
-          if (val.startTime>=val.endTime) {
-            val.startTime=val.endTime-1
-          }
-          if (val.endTime>this.duration) {
-            val.endTime=this.duration
-          }
+          // if (val.startTime>=val.endTime) {
+          //   val.startTime=val.endTime-1
+          // }
+          // if (val.endTime>this.duration) {
+          //   val.endTime=this.duration
+          // }
         }
       },
   },
   methods: {
-    anything(){
-      this.$store.dispatch('project/addBox',this.duration)
-    },
     switchTabs(tab){
       this.tab=tab
     },
@@ -304,13 +319,7 @@ export default {
       this.scale.size=shape.getAttribute("scale").charAt(0)
     },
     deleteElement(id){
-      const scene = document.getElementById('editor')
-      const element = document.getElementById(id);
-      scene.removeChild(element)
-      var index = this.shapesList.findIndex(function (element) {
-        return (element.id == id)
-      });
-      this.shapesList.splice(index,1)
+      this.$store.dispatch('project/deleteElement',id)
     },
     playIcon(){
       var vid = document.getElementById("video");
@@ -327,157 +336,69 @@ export default {
       var vid = document.getElementById("video");
       vid.currentTime = (this.valueDeterminate / 100)*this.duration
     },
+    tagMode(id){
+      this.snackbar=true
+
+        this.mode=id
+    },
+    addTag(){
+      this.$store.dispatch('project/addTag',this.duration)
+    },
     addBox(){
-      const scene = document.getElementById('editor')
-      const box = document.createElement('a-box');
-      box.setAttribute("position", "0 -1 4")
-      box.setAttribute("rotation", "0 45 0")
-      box.setAttribute("color", "red")
-      box.setAttribute("id", "box"+ this.box)
-      box.setAttribute("scale", "1 1 1")
-      box.classList.add("element")
-      box.setAttribute("startTime", "0")
-      box.setAttribute("endTime", this.duration)
-      scene.appendChild(box);
-      this.shapesList.splice(0,0,{
-        image : '/src/assets/box.png',
-        type: 'box '+this.box,
-        id: 'box'+this.box
-      }),
-      this.box++
+      this.$store.dispatch('project/addBox',{
+        duration: this.duration,
+        mode: this.mode
+      })
+      this.mode='free'
     },
     addSphere(){
-      const scene = document.getElementById('editor')
-      const sphere = document.createElement('a-sphere');
-      sphere.setAttribute("position", "2 4 -10")
-      sphere.setAttribute("rotation", "0 45 0")
-      sphere.setAttribute("color", "red")
-      sphere.setAttribute("id", "sphere"+ this.sphere)
-      sphere.setAttribute("scale", "1 1 1")
-      sphere.classList.add("element")
-      sphere.setAttribute("startTime", "0")
-      sphere.setAttribute("endTime", this.duration)
-      scene.appendChild(sphere);
-      this.shapesList.splice(0,0,{
-        image : '/src/assets/sphere.png',
-        type: 'sphere '+this.sphere,
-        id: 'sphere'+this.sphere
-      }),
-      this.sphere++
+      this.$store.dispatch('project/addSphere',{
+        duration: this.duration,
+        mode: this.mode
+      })
+      this.mode='free'
     },
     addCone(){
-      const scene = document.getElementById('editor')
-      const cone = document.createElement('a-cone');
-      cone.setAttribute("position", "0 -1 4")
-      cone.setAttribute("rotation", "0 45 0")
-      cone.setAttribute("color", "red")
-      cone.setAttribute("id", "cone"+ this.cone)
-      cone.setAttribute("scale", "1 1 1")
-      cone.classList.add("element")
-      cone.setAttribute("startTime", "0")
-      cone.setAttribute("endTime", this.duration)
-      scene.appendChild(cone);
-      this.shapesList.splice(0,0,{
-        image : '/src/assets/cone.png',
-        type: 'cone '+this.cone,
-        id: 'cone'+this.cone
-      }),
-      this.cone++
+      this.$store.dispatch('project/addCone',{
+        duration: this.duration,
+        mode: this.mode
+      })
+      this.mode='free'
     },
     addCylinder(){
-      const scene = document.getElementById('editor')
-      const cylinder = document.createElement('a-cylinder');
-      cylinder.setAttribute("position", "0 -1 4")
-      cylinder.setAttribute("rotation", "0 45 0")
-      cylinder.setAttribute("color", "red")
-      cylinder.setAttribute("id", "cylinder"+ this.cylinder)
-      cylinder.setAttribute("scale", "1 1 1")
-      cylinder.classList.add("element")
-      cylinder.setAttribute("startTime", "0")
-      cylinder.setAttribute("endTime", this.duration)
-      scene.appendChild(cylinder);
-      this.shapesList.splice(0,0,{
-        image : '/src/assets/cylinder.png',
-        type: 'cylinder '+this.cylinder,
-        id: 'cylinder'+this.cylinder
-      }),
-      this.cylinder++
+      this.$store.dispatch('project/addCylinder',{
+        duration: this.duration,
+        mode: this.mode
+      })
+      this.mode='free'
     },
     addTorus(){
-      const scene = document.getElementById('editor')
-      const torus = document.createElement('a-torus');
-      torus.setAttribute("position", "0 -1 4")
-      torus.setAttribute("rotation", "0 45 0")
-      torus.setAttribute("color", "red")
-      torus.setAttribute("id", "torus"+ this.torus)
-      torus.setAttribute("scale", "1 1 1")
-      torus.classList.add("element")
-      torus.setAttribute("startTime", "0")
-      torus.setAttribute("endTime", this.duration)
-      scene.appendChild(torus);
-      this.shapesList.splice(0,0,{
-        image : '/src/assets/torus.png',
-        type: 'torus '+this.torus,
-        id: 'torus'+this.torus
-      }),
-      this.torus++
+      this.$store.dispatch('project/addTorus',{
+        duration: this.duration,
+        mode: this.mode
+      })
+      this.mode='free'
     },
     addTorusKnot(){
-      const scene = document.getElementById('editor')
-      const torusKnot = document.createElement('a-torus-knot');
-      torusKnot.setAttribute("position", "0 -1 4")
-      torusKnot.setAttribute("rotation", "0 45 0")
-      torusKnot.setAttribute("color", "red")
-      torusKnot.setAttribute("id", "torusKnot"+ this.torusKnot)
-      torusKnot.setAttribute("scale", "1 1 1")
-      torusKnot.classList.add("element")
-      torusKnot.setAttribute("startTime", "0")
-      torusKnot.setAttribute("endTime", this.duration)
-      scene.appendChild(torusKnot);
-      this.shapesList.splice(0,0,{
-        image : '/src/assets/torus-knot.jpg',
-        type: 'torusKnot '+this.torusKnot,
-        id: 'torusKnot'+this.torusKnot
-      }),
-      this.torusKnot++
+      this.$store.dispatch('project/addTorusKnot',{
+        duration: this.duration,
+        mode: this.mode
+      })
+      this.mode='free'
     },
     addDodecahedron(){
-      const scene = document.getElementById('editor')
-      const dodecahedron = document.createElement('a-dodecahedron');
-      dodecahedron.setAttribute("position", "0 -1 4")
-      dodecahedron.setAttribute("rotation", "0 45 0")
-      dodecahedron.setAttribute("color", "red")
-      dodecahedron.setAttribute("id", "dodecahedron"+ this.dodecahedron)
-      dodecahedron.setAttribute("scale", "1 1 1")
-      dodecahedron.classList.add("element")
-      dodecahedron.setAttribute("startTime", "0")
-      dodecahedron.setAttribute("endTime", this.duration)
-      scene.appendChild(dodecahedron);
-      this.shapesList.splice(0,0,{
-        image : '/src/assets/dodecahedron.png',
-        type: 'dodecahedron '+this.dodecahedron,
-        id: 'dodecahedron'+this.dodecahedron
-      }),
-      this.dodecahedron++
+      this.$store.dispatch('project/addDodecahedron',{
+        duration: this.duration,
+        mode: this.mode
+      })
+      this.mode='free'
     },
     addTetrahedron(){
-      const scene = document.getElementById('editor')
-      const tetrahedron = document.createElement('a-tetrahedron');
-      tetrahedron.setAttribute("position", "0 -1 4")
-      tetrahedron.setAttribute("rotation", "0 45 0")
-      tetrahedron.setAttribute("color", "red")
-      tetrahedron.setAttribute("id", "tetrahedron"+ this.tetrahedron)
-      tetrahedron.setAttribute("scale", "1 1 1")
-      tetrahedron.classList.add("element")
-      tetrahedron.setAttribute("startTime", "0")
-      tetrahedron.setAttribute("endTime", this.duration)
-      scene.appendChild(tetrahedron);
-      this.shapesList.splice(0,0,{
-        image : '/src/assets/tetrahedron.png',
-        type: 'tetrahedron '+this.tetrahedron,
-        id: 'tetrahedron'+this.tetrahedron
-      }),
-      this.tetrahedron++
+      this.$store.dispatch('project/addTetrahedron',{
+        duration: this.duration,
+        mode: this.mode
+      })
+      this.mode='free'
     },
 
   },

@@ -1,9 +1,11 @@
 import projects from '../../data/projects'
 import shapes from '../../data/shapes'
+import pictures from '../../data/pictures'
 
 const state = {
   projects: [],
   shapes:[],
+  pictures:[],
   editing: {}
 }
 
@@ -17,6 +19,9 @@ const mutations = {
   },
   'SET_SHAPES'(state, shapes) {
     state.shapes = shapes;
+  },
+  'SET_PICTURES'(state, pictures) {
+    state.pictures = pictures;
   },
   'LOAD_PROJECT'(state, projectId) {
     state.editing = state.projects.filter(project => {
@@ -76,50 +81,61 @@ const mutations = {
       }),
       state.editing.tag++
   },
-  'ADD_SHAPE'(state,newElement) {
+  'ADD_ELEMENT'(state,newElement) {
     if (newElement.mode==='free') {
          const scene = document.getElementById('editor')
-         const shape = document.createElement('a-'+newElement.shape.type);
-         shape.setAttribute("position", "0 -1 4")
-         shape.setAttribute("rotation", "0 45 0")
-         shape.setAttribute("color", "red")
-         shape.setAttribute("id", newElement.shape.type + state.editing.shapes.get(newElement.shape.type))
-         shape.setAttribute("scale", "1 1 1")
-         shape.classList.add("element")
-         shape.setAttribute("startTime", "0")
-         shape.setAttribute("endTime", newElement.duration)
-         scene.appendChild(shape);
+         const element = document.createElement('a-'+newElement.element.type);
+         element.setAttribute("position", "0 -1 4")
+         element.setAttribute("rotation", "0 0 0")
+         element.setAttribute("id", newElement.element.type + state.editing.shapes.get(newElement.element.type))
+         element.setAttribute("scale", "1 1 1")
+         element.classList.add("element")
+         element.setAttribute("startTime", "0")
+         element.setAttribute("endTime", newElement.duration)
+         if (newElement.element.type=='image') {
+          element.setAttribute("src", newElement.element.src)
+          element.setAttribute("width",   3)
+          element.setAttribute("height", 3 / newElement.element.ratio)
+         }
+         scene.appendChild(element);
          state.editing.shapesList.splice(0, 0, {
-             image: newElement.shape.icon,
-             type: newElement.shape.type + ' ' + state.editing.shapes.get(newElement.shape.type),
-             id: newElement.shape.type + state.editing.shapes.get(newElement.shape.type)
+             image: newElement.element.src,
+             type: newElement.element.type + ' ' + state.editing.shapes.get(newElement.element.type),
+             id: newElement.element.type + state.editing.shapes.get(newElement.element.type)
            }),
-           state.editing.shapes.set(newElement.shape.type, state.editing.shapes.get(newElement.shape.type)+1)
+           state.editing.shapes.set(newElement.element.type, state.editing.shapes.get(newElement.element.type)+1)
     }else{
       var index = state.editing.tagsList.findIndex(function (element) {
         return (element.id == newElement.mode)
       });
       const scene = document.getElementById('editor')
-      const shape = document.createElement('a-'+newElement.shape.type);
-      shape.setAttribute("position", "0 -1 4")
-      shape.setAttribute("rotation", "0 45 0")
-      shape.setAttribute("color", "red")
-      shape.setAttribute("id", newElement.shape.type + state.editing.shapes.get(newElement.shape.type))
-      shape.setAttribute("scale", "1 1 1")
-      shape.classList.add(newElement.mode)
+      const element = document.createElement('a-'+newElement.element.type);
+      element.setAttribute("position", "0 -1 4")
+      element.setAttribute("rotation", "0 0 0")
+      element.setAttribute("id", newElement.element.type + state.editing.shapes.get(newElement.element.type))
+      element.setAttribute("scale", "1 1 1")
+      element.classList.add(newElement.mode)
       const tag = document.getElementById(newElement.mode)
-      shape.setAttribute("startTime", tag.getAttribute('startTime'))
-      shape.setAttribute("endTime", tag.getAttribute('endTime'))
-      scene.appendChild(shape);
+      element.setAttribute("startTime", tag.getAttribute('startTime'))
+      element.setAttribute("endTime", tag.getAttribute('endTime'))
+      if (newElement.element.type == 'image') {
+        element.setAttribute("src", newElement.element.src)
+        element.setAttribute("width", 3)
+        element.setAttribute("height", 3 / newElement.element.ratio)
+      }
+      scene.appendChild(element);
       state.editing.tagsList[index].shapes.splice(0, 0, {
-          image: newElement.shape.icon,
-          type: newElement.shape.type + ' ' + state.editing.shapes.get(newElement.shape.type),
-          id: newElement.shape.type + state.editing.shapes.get(newElement.shape.type)
+          image: newElement.element.src,
+          type: newElement.element.type + ' ' + state.editing.shapes.get(newElement.element.type),
+          id: newElement.element.type + state.editing.shapes.get(newElement.element.type)
         }),
-        state.editing.shapes.set(newElement.shape.type,state.editing.shapes.get(newElement.shape.type)+1 )
+        state.editing.shapes.set(newElement.element.type,state.editing.shapes.get(newElement.element.type)+1 )
     }
 
   },
+  'ADD_PICTURE'(state,picture) {
+    state.pictures.splice(0,0,picture)
+  }
 }
 
 const actions = {
@@ -128,6 +144,9 @@ const actions = {
   },
   initShapes: ({commit}) => {
     commit('SET_SHAPES', shapes)
+  },
+  initPictures: ({commit}) => {
+    commit('SET_PICTURES', pictures)
   },
   loadProject: ({commit},projectId)=>{
     commit('LOAD_PROJECT',projectId)
@@ -138,9 +157,12 @@ const actions = {
   addTag: ({commit},duration)=>{
     commit('ADD_TAG',duration)
   },
-  addShape: ({commit},newElement)=>{
-    commit('ADD_SHAPE',newElement)
+  addElement: ({commit},newElement)=>{
+    commit('ADD_ELEMENT',newElement)
   },
+  addPicture: ({commit},picture)=>{
+    commit('ADD_PICTURE',picture)
+  }
 }
 
 export const project = {

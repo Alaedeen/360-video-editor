@@ -12,6 +12,7 @@ export default [
       ['torus-knot', 0],
       ['dodecahedron', 0],
       ['tetrahedron', 0],
+      ['image', 0],
     ]),
     tag: 0,
     shapesList: [],

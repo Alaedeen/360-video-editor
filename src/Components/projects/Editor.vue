@@ -54,7 +54,7 @@
       <v-list dark two-line subheader>
             <v-subheader >
               Added items
-              <v-icon color="green" v-if="shapeAdding.mode==='free'">check</v-icon>
+              <v-icon color="green" v-if="mode.mode==='free'">check</v-icon>
               </v-subheader>
 
             <v-list-tile
@@ -90,7 +90,7 @@
               :key="tag.id"
             >
             <template v-slot:header>
-              <v-icon color="green" v-if="shapeAdding.mode==tag.id">check</v-icon>
+              <v-icon color="green" v-if="mode.mode==tag.id">check</v-icon>
               <div>{{ tag.id }}</div>
               <v-btn  fab flat small  @click="tagMode(tag.id)"><v-icon color="green"> fiber_new</v-icon></v-btn>
               <v-btn  fab flat small  @click="editShape(tag.id)"><v-icon color="orange"> edit</v-icon></v-btn>
@@ -118,7 +118,7 @@
         </v-expansion-panel>
 
             <v-snackbar v-model="snackbar" color="red" top timeout=3000 >
-              Choose an element to add to {{mode}}
+              Choose an element to add to {{mode.mode}}
               <v-btn  flat @click="snackbar = false" > <v-icon color="white"> close</v-icon> </v-btn>
             </v-snackbar>
     </v-flex>
@@ -127,7 +127,7 @@
     <!-- right menu -->
     <v-flex xs2  >
       <app-shapes :shapeAdding="shapeAdding" v-if="tab=='shapes'"></app-shapes>
-      <app-pictures v-if="tab=='pictures'"></app-pictures>
+      <app-pictures :pictureAdding="pictureAdding" v-if="tab=='pictures'"></app-pictures>
     </v-flex>
     <v-flex xs1 >
       <v-navigation-drawer
@@ -173,40 +173,20 @@ export default {
       duration:0,
       tab: 'shapes',
       items: [
-          {icon: '3d_rotation',
-          tab: 'shapes' },
-          {icon: 'image' ,
-          tab: 'pictures' },
-          {icon: 'subscriptions' ,
-          tab: 'videos' },
-          {icon: 'text_format' ,
-          tab: 'text' },
-          {icon: 'add_circle' ,
-          tab: 'add' },
+          {icon: '3d_rotation', tab: 'shapes' },
+          {icon: 'image' , tab: 'pictures' },
+          {icon: 'subscriptions' , tab: 'videos' },
+          {icon: 'text_format' , tab: 'text' },
+          {icon: 'add_circle' , tab: 'add' },
       ],
       currentShape: '',
       snackbar: false,
-      mode: 'free',
-        position: {
-        x:0,
-        y:0,
-        z:0
-        },
-        rotation: {
-        x:0,
-        y:0,
-        z:0
-        },
-        material: {
-          color: '#194d33',
-        },
-        scale: {
-          size: 1
-        },
-        period: {
-          startTime:'0',
-          endTime: '0'
-        }
+      mode: {mode: 'free'},
+      position: { x:0, y:0, z:0 },
+      rotation: { x:0, y:0, z:0 },
+      material: { color: '#194d33', },
+      scale: { size: 1 },
+      period: { startTime:'0', endTime: '0' }
 
 
 
@@ -216,27 +196,30 @@ export default {
     project(){
       return this.$store.state.project.editing
     },
-
-    shapes() {
-      return this.$store.state.project.shapes
-    },
-      shapesDetails() {
-        return {
-          tag: (this.currentShape.includes("tag")),
-          position :this.position,
-          rotation :this.rotation,
-          material: this.material,
-          scale: this.scale,
-          period: this.period
-        }
-      },
-      shapeAdding(){
-        return {
-          shapes :this.shapes,
-          mode: this.mode,
-          duration: this.duration
-        }
+    shapesDetails() {
+      return {
+        tag: (this.currentShape.includes("tag")),
+        position :this.position,
+        rotation :this.rotation,
+        material: this.material,
+        scale: this.scale,
+        period: this.period
       }
+    },
+    shapeAdding(){
+      return {
+        shapes : this.$store.state.project.shapes,
+        mode: this.mode,
+        duration: this.duration
+      }
+    },
+    pictureAdding(){
+      return {
+        pictures : this.$store.state.project.pictures,
+        mode: this.mode,
+        duration: this.duration
+      }
+    }
   },
   watch: {
     rotation: {
@@ -328,7 +311,7 @@ export default {
     tagMode(id){
       this.snackbar=true
 
-        this.mode=id
+        this.mode.mode=id
     },
     addTag(){
       this.$store.dispatch('project/addTag',this.duration)

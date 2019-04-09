@@ -10,7 +10,7 @@
                 <v-card flat tile>
                   <v-img
                     style="cursor:pointer"
-                    :src="shape.icon"
+                    :src="shape.src"
                     aspect-ratio="1"
                     class="white lighten-2"
                     @click="addShape(shape)"
@@ -38,12 +38,12 @@ data () {
     },
     methods: {
       addShape(shape){
-        this.$store.dispatch('project/addShape',{
-          shape:shape,
+        this.$store.dispatch('project/addElement',{
+        element:shape,
         duration: this.shapeAdding.duration,
-        mode: this.shapeAdding.mode
+        mode: this.shapeAdding.mode.mode
       })
-      this.shapeAdding.mode='free'
+      this.shapeAdding.mode.mode='free'
       }
     },
 

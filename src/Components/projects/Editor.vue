@@ -54,7 +54,7 @@
       <v-list dark two-line subheader>
             <v-subheader >
               Added items
-              <v-icon color="green" v-if="mode==='free'">check</v-icon>
+              <v-icon color="green" v-if="shapeAdding.mode==='free'">check</v-icon>
               </v-subheader>
 
             <v-list-tile
@@ -90,7 +90,7 @@
               :key="tag.id"
             >
             <template v-slot:header>
-              <v-icon color="green" v-if="mode==tag.id">check</v-icon>
+              <v-icon color="green" v-if="shapeAdding.mode==tag.id">check</v-icon>
               <div>{{ tag.id }}</div>
               <v-btn  fab flat small  @click="tagMode(tag.id)"><v-icon color="green"> fiber_new</v-icon></v-btn>
               <v-btn  fab flat small  @click="editShape(tag.id)"><v-icon color="orange"> edit</v-icon></v-btn>
@@ -126,7 +126,8 @@
     </v-flex>
     <!-- right menu -->
     <v-flex xs2  >
-      <app-shapes :shapes="shapes" v-if="tab=='shapes'"></app-shapes>
+      <app-shapes :shapeAdding="shapeAdding" v-if="tab=='shapes'"></app-shapes>
+      <app-pictures v-if="tab=='pictures'"></app-pictures>
     </v-flex>
     <v-flex xs1 >
       <v-navigation-drawer
@@ -156,11 +157,13 @@
 <script>
 import Shapes from './shapes.vue'
 import ShapeDetails from './ShapeDetails.vue'
+import Pictures from './Pictures.vue'
 
 export default {
   components: {
     appShapes: Shapes,
     shapeDetails:ShapeDetails,
+    appPictures: Pictures,
   },
   data() {
     return {
@@ -174,6 +177,8 @@ export default {
           tab: 'shapes' },
           {icon: 'image' ,
           tab: 'pictures' },
+          {icon: 'subscriptions' ,
+          tab: 'videos' },
           {icon: 'text_format' ,
           tab: 'text' },
           {icon: 'add_circle' ,
@@ -213,40 +218,7 @@ export default {
     },
 
     shapes() {
-      return[
-          {
-            icon: '/src/assets/box.png',
-            function: this.addBox
-          },
-          {
-            icon :'/src/assets/sphere.png',
-            function: this.addSphere
-          },
-          {
-            icon :'/src/assets/cone.png',
-            function: this.addCone
-          },
-          {
-            icon :'/src/assets/cylinder.png',
-            function: this.addCylinder
-          },
-          {
-            icon :'/src/assets/torus.png',
-            function: this.addTorus
-          },
-          {
-            icon :'/src/assets/torus-knot.jpg',
-            function: this.addTorusKnot
-          },
-          {
-            icon :'/src/assets/dodecahedron.png',
-            function: this.addDodecahedron
-          },
-          {
-            icon :'/src/assets/tetrahedron.png',
-            function: this.addTetrahedron
-          },
-        ]
+      return this.$store.state.project.shapes
     },
       shapesDetails() {
         return {
@@ -258,6 +230,13 @@ export default {
           period: this.period
         }
       },
+      shapeAdding(){
+        return {
+          shapes :this.shapes,
+          mode: this.mode,
+          duration: this.duration
+        }
+      }
   },
   watch: {
     rotation: {
@@ -353,62 +332,6 @@ export default {
     },
     addTag(){
       this.$store.dispatch('project/addTag',this.duration)
-    },
-    addBox(){
-      this.$store.dispatch('project/addBox',{
-        duration: this.duration,
-        mode: this.mode
-      })
-      this.mode='free'
-    },
-    addSphere(){
-      this.$store.dispatch('project/addSphere',{
-        duration: this.duration,
-        mode: this.mode
-      })
-      this.mode='free'
-    },
-    addCone(){
-      this.$store.dispatch('project/addCone',{
-        duration: this.duration,
-        mode: this.mode
-      })
-      this.mode='free'
-    },
-    addCylinder(){
-      this.$store.dispatch('project/addCylinder',{
-        duration: this.duration,
-        mode: this.mode
-      })
-      this.mode='free'
-    },
-    addTorus(){
-      this.$store.dispatch('project/addTorus',{
-        duration: this.duration,
-        mode: this.mode
-      })
-      this.mode='free'
-    },
-    addTorusKnot(){
-      this.$store.dispatch('project/addTorusKnot',{
-        duration: this.duration,
-        mode: this.mode
-      })
-      this.mode='free'
-    },
-    addDodecahedron(){
-      this.$store.dispatch('project/addDodecahedron',{
-        duration: this.duration,
-        mode: this.mode
-      })
-      this.mode='free'
-    },
-    addTetrahedron(){
-      this.$store.dispatch('project/addTetrahedron',{
-        duration: this.duration,
-        mode: this.mode
-      })
-      this.mode='free'
     },
 
   },

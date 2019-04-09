@@ -5,7 +5,7 @@
               <v-flex
 
                 xs6
-                v-for="(shape, index) in shapes" :key="index"
+                v-for="(shape, index) in shapeAdding.shapes" :key="index"
               >
                 <v-card flat tile>
                   <v-img
@@ -13,7 +13,7 @@
                     :src="shape.icon"
                     aspect-ratio="1"
                     class="white lighten-2"
-                    @click="shape.function"
+                    @click="addShape(shape)"
                   ></v-img>
 
                 </v-card>
@@ -26,16 +26,26 @@
 <script>
 export default {
   props: {
-  shapes : {
-    type: Array,
-    default: []
+  shapeAdding : {
+    type: Object,
+    default: {}
   },
 },
 data () {
       return {
 
       }
-    }
+    },
+    methods: {
+      addShape(shape){
+        this.$store.dispatch('project/addShape',{
+          shape:shape,
+        duration: this.shapeAdding.duration,
+        mode: this.shapeAdding.mode
+      })
+      this.shapeAdding.mode='free'
+      }
+    },
 
 }
 </script>

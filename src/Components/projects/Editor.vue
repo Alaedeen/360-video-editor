@@ -128,6 +128,7 @@
     <v-flex xs2  >
       <app-shapes :shapeAdding="shapeAdding" v-if="tab=='shapes'"></app-shapes>
       <app-pictures :pictureAdding="pictureAdding" v-if="tab=='pictures'"></app-pictures>
+      <app-videos :videoAdding="videoAdding" v-if="tab=='videos'"></app-videos>
     </v-flex>
     <v-flex xs1 >
       <v-navigation-drawer
@@ -158,12 +159,14 @@
 import Shapes from './shapes.vue'
 import ShapeDetails from './ShapeDetails.vue'
 import Pictures from './Pictures.vue'
+import Videos from './Videos.vue'
 
 export default {
   components: {
     appShapes: Shapes,
     shapeDetails:ShapeDetails,
     appPictures: Pictures,
+    appVideos: Videos,
   },
   data() {
     return {
@@ -199,6 +202,8 @@ export default {
     shapesDetails() {
       return {
         tag: (this.currentShape.includes("tag")),
+        image: (this.currentShape.includes("image")),
+        video: (this.currentShape.includes("video")),
         position :this.position,
         rotation :this.rotation,
         material: this.material,
@@ -216,6 +221,13 @@ export default {
     pictureAdding(){
       return {
         pictures : this.$store.state.project.pictures,
+        mode: this.mode,
+        duration: this.duration
+      }
+    },
+    videoAdding(){
+      return {
+        videos : this.$store.state.project.videos,
         mode: this.mode,
         duration: this.duration
       }

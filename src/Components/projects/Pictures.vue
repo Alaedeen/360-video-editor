@@ -61,7 +61,7 @@ export default {
         })
   },
   methods: {
-     async onImageSelected(event){
+      onImageSelected(event){
       const files = event.target.files
       var ratio=0
 			if(files[0] !== undefined) {

@@ -11,7 +11,7 @@
   </div>
 
   <!-- fix shape Color -->
-  <div v-if="!shapeDetails.tag">
+  <div v-if="!shapeDetails.tag && !shapeDetails.image && !shapeDetails.video">
   <b style="color :white">Color:</b>
   <swatches-picker v-model="shapeDetails.material.color" show-fallback :colors="colors" row-length=8 swatch-size=30  ></swatches-picker>
   </div>

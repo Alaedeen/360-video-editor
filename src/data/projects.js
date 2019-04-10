@@ -13,6 +13,7 @@ export default [
       ['dodecahedron', 0],
       ['tetrahedron', 0],
       ['image', 0],
+      ['video', 0],
     ]),
     tag: 0,
     shapesList: [],

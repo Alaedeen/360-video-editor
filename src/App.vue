@@ -42,6 +42,7 @@ export default {
           this.$store.dispatch('project/initProjects');
           this.$store.dispatch('project/initShapes');
           this.$store.dispatch('project/initPictures');
+          this.$store.dispatch('project/initVideos');
         },
 }
 </script>

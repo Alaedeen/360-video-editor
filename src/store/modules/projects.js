@@ -1,11 +1,13 @@
 import projects from '../../data/projects'
 import shapes from '../../data/shapes'
 import pictures from '../../data/pictures'
+import videos from '../../data/2dVideos'
 
 const state = {
   projects: [],
   shapes:[],
-  pictures:[],
+  pictures: [],
+  videos: [],
   editing: {}
 }
 
@@ -22,6 +24,9 @@ const mutations = {
   },
   'SET_PICTURES'(state, pictures) {
     state.pictures = pictures;
+  },
+  'SET_VIDEOS'(state, videos) {
+    state.videos = videos;
   },
   'LOAD_PROJECT'(state, projectId) {
     state.editing = state.projects.filter(project => {
@@ -97,6 +102,11 @@ const mutations = {
           element.setAttribute("width",   3)
           element.setAttribute("height", 3 / newElement.element.ratio)
          }
+         if (newElement.element.type == 'video') {
+           element.setAttribute("src", newElement.element.src)
+          element.setAttribute("width",   3)
+          element.setAttribute("height", 3 / newElement.element.ratio)
+         }
          scene.appendChild(element);
          state.editing.shapesList.splice(0, 0, {
              image: newElement.element.src,
@@ -123,6 +133,11 @@ const mutations = {
         element.setAttribute("width", 3)
         element.setAttribute("height", 3 / newElement.element.ratio)
       }
+      if (newElement.element.type == 'video') {
+        element.setAttribute("src", newElement.element.src)
+        element.setAttribute("width", 3)
+        element.setAttribute("height", 3 / newElement.element.ratio)
+      }
       scene.appendChild(element);
       state.editing.tagsList[index].shapes.splice(0, 0, {
           image: newElement.element.src,
@@ -135,7 +150,10 @@ const mutations = {
   },
   'ADD_PICTURE'(state,picture) {
     state.pictures.splice(0,0,picture)
-  }
+  },
+  'ADD_VIDEO'(state, video) {
+    state.videos.splice(0, 0, video)
+  },
 }
 
 const actions = {
@@ -147,6 +165,9 @@ const actions = {
   },
   initPictures: ({commit}) => {
     commit('SET_PICTURES', pictures)
+  },
+  initVideos: ({commit}) => {
+    commit('SET_VIDEOS', videos)
   },
   loadProject: ({commit},projectId)=>{
     commit('LOAD_PROJECT',projectId)
@@ -162,7 +183,10 @@ const actions = {
   },
   addPicture: ({commit},picture)=>{
     commit('ADD_PICTURE',picture)
-  }
+  },
+  addVideo: ({commit},video)=>{
+    commit('ADD_VIDEO',video)
+  },
 }
 
 export const project = {

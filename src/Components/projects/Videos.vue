@@ -1,5 +1,5 @@
 <template>
-<div style="margin-right: -5em;margin-top: 2em;">
+<div style="margin-top: 2em;overflow-y: scroll;overflow-x: hidden; margin-right: -5em; height: 40em">
   <label id="#bb" class="btn"> Add New Video
     <input type="file" id="File"  accept="video/*"  size="60" @change="onVideoSelected" >
   </label>

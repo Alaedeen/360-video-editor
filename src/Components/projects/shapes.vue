@@ -1,5 +1,5 @@
 <template>
-<div style="margin-right: -5em;">
+<div style="overflow-y: scroll;overflow-x: hidden; margin-right: -5em; height: 40em">
         <v-container grid-list-sm fluid>
             <v-layout row wrap>
               <v-flex

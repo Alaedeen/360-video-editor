@@ -1,5 +1,5 @@
 <template>
-<div style="margin-right: -5em;margin-top: 2em;">
+<div style="margin-top: 2em; overflow-y: scroll;overflow-x: hidden; margin-right: -5em; height: 40em">
   <label id="#bb" class="btn"> Add New Picture
     <input type="file" id="File" accept="image/*"  size="60" @change="onImageSelected" >
   </label>

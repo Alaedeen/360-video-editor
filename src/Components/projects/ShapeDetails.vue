@@ -1,5 +1,5 @@
 <template>
-<div style="margin-top:1em">
+<div style="margin-top:1em; overflow-y: scroll;overflow-x: hidden;  ">
   <!-- fix shape position -->
   <b style="color :white ">Position : {x,y,z}</b>
   <app-sliders :propriety="shapeDetails.position"></app-sliders>
@@ -17,10 +17,10 @@
   </div>
 
   <!-- fix shape Scale -->
-  <div v-if="!shapeDetails.tag">
+  <div v-if="!shapeDetails.tag" style="margin-left:3em;">
   <b style="color :white">Scale:</b>
   <v-layout row style="height :3em; margin-top: -2em; margin-bottom: 2em">
-  <v-flex class="pr-3" style="margin-top:0.85em"><v-slider  v-model="shapeDetails.scale.size" max="10" min="0.1" step="0.1"  color="white" track-color="grey" ></v-slider></v-flex>
+  <v-flex xs9 class="pr-3" style="margin-top:0.85em;"><v-slider  v-model="shapeDetails.scale.size" max="10" min="0.1" step="0.1"  color="white" track-color="grey" ></v-slider></v-flex>
   <v-flex shrink style="width: 46px;"> <v-text-field dark v-model="shapeDetails.scale.size" max="10" min="0.1" class="mt-0" hide-details single-line type="number" ></v-text-field> </v-flex>
   </v-layout>
   </div>
@@ -61,6 +61,24 @@ data() {
 </script>
 
 <style scoped>
+/* width */
+::-webkit-scrollbar {
+  width: 0.1em;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 </style>
 

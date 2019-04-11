@@ -2,10 +2,10 @@
 <div>
   <v-layout row >
     <!-- left menu -->
-    <v-flex xs3 style="margin-left:2em; margin-right:2em;margin-top:2em;">
+    <v-flex xs3 style=" margin-top:2em;">
         <div>
-          <b style="color: white; font-size : 1.5em; ">Editing : {{currentShape}} </b>
-          <shape-details :shapeDetails="shapesDetails"></shape-details>
+          <b style="color: white; font-size : 1.5em; margin-left:0.5em; ">Editing : {{currentShape}} </b>
+          <shape-details style="margin-left:1em;" :shapeDetails="shapesDetails"></shape-details>
         </div>
     </v-flex>
     <!-- video preview -->
@@ -56,23 +56,24 @@
               Added items
               <v-icon color="green" v-if="mode.mode==='free'">check</v-icon>
               </v-subheader>
+            <div style="overflow-y: scroll;overflow-x: hidden; height: 5em">
+              <v-list-tile
+                v-for="shape in project.shapesList"
+                :key="shape.id"
+                avatar
+                @click="editShape(shape.id)"
+              >
+                <v-list-tile-avatar>
+                  <v-img :src="shape.image" ></v-img>
+                </v-list-tile-avatar>
 
-            <v-list-tile
-              v-for="shape in project.shapesList"
-              :key="shape.id"
-              avatar
-              @click="editShape(shape.id)"
-            >
-              <v-list-tile-avatar>
-                <v-img :src="shape.image" ></v-img>
-              </v-list-tile-avatar>
-
-              <v-list-tile-content>
-                <v-list-tile-title>{{ shape.type }}</v-list-tile-title>
-              </v-list-tile-content>
-              <v-spacer></v-spacer>
-              <v-btn fab flat @click="deleteElement(shape.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
-            </v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ shape.type }}</v-list-tile-title>
+                </v-list-tile-content>
+                <v-spacer></v-spacer>
+                <v-btn fab flat @click="deleteElement(shape.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
+              </v-list-tile>
+            </div>
           </v-list>
     </v-flex>
     <!-- list of added tags -->
@@ -84,37 +85,38 @@
 
               <v-btn fab flat @click="addTag()"><v-icon color="green"> add_circle</v-icon></v-btn>
               </v-subheader>
+            <div :style="scroll">
+                <v-expansion-panel-content
+                  v-for="tag in project.tagsList"
+                  :key="tag.id"
+                >
+                <template v-slot:header>
+                  <v-icon color="green" v-if="mode.mode==tag.id">check</v-icon>
+                  <div>{{ tag.id }}</div>
+                  <v-btn  fab flat small  @click="tagMode(tag.id)"><v-icon color="green"> fiber_new</v-icon></v-btn>
+                  <v-btn  fab flat small  @click="editShape(tag.id)"><v-icon color="orange"> edit</v-icon></v-btn>
+                  <v-btn  fab flat small @click="deleteElement(tag.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
+                </template>
+                        <v-list dark two-line subheader>
+                          <v-list-tile
+                            v-for="shape in tag.shapes"
+                            :key="shape.id"
+                            avatar
+                            @click="editShape(shape.id)"
+                          >
+                            <v-list-tile-avatar>
+                              <v-img :src="shape.image" ></v-img>
+                            </v-list-tile-avatar>
 
-            <v-expansion-panel-content
-              v-for="tag in project.tagsList"
-              :key="tag.id"
-            >
-            <template v-slot:header>
-              <v-icon color="green" v-if="mode.mode==tag.id">check</v-icon>
-              <div>{{ tag.id }}</div>
-              <v-btn  fab flat small  @click="tagMode(tag.id)"><v-icon color="green"> fiber_new</v-icon></v-btn>
-              <v-btn  fab flat small  @click="editShape(tag.id)"><v-icon color="orange"> edit</v-icon></v-btn>
-              <v-btn  fab flat small @click="deleteElement(tag.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
-            </template>
-                    <v-list dark two-line subheader>
-                      <v-list-tile
-                        v-for="shape in tag.shapes"
-                        :key="shape.id"
-                        avatar
-                        @click="editShape(shape.id)"
-                      >
-                        <v-list-tile-avatar>
-                          <v-img :src="shape.image" ></v-img>
-                        </v-list-tile-avatar>
-
-                        <v-list-tile-content>
-                          <v-list-tile-title>{{ shape.type }}</v-list-tile-title>
-                        </v-list-tile-content>
-                        <v-spacer></v-spacer>
-                        <v-btn fab flat @click="deleteElement(shape.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
-                      </v-list-tile>
-                    </v-list>
-            </v-expansion-panel-content>
+                            <v-list-tile-content>
+                              <v-list-tile-title>{{ shape.type }}</v-list-tile-title>
+                            </v-list-tile-content>
+                            <v-spacer></v-spacer>
+                            <v-btn fab flat @click="deleteElement(shape.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
+                          </v-list-tile>
+                        </v-list>
+                </v-expansion-panel-content>
+            </div>
         </v-expansion-panel>
 
             <v-snackbar v-model="snackbar" color="red" top timeout=3000 >
@@ -125,11 +127,14 @@
   </v-layout>
     </v-flex>
     <!-- right menu -->
+
     <v-flex xs2  >
       <app-shapes :shapeAdding="shapeAdding" v-if="tab=='shapes'"></app-shapes>
       <app-pictures :pictureAdding="pictureAdding" v-if="tab=='pictures'"></app-pictures>
       <app-videos :videoAdding="videoAdding" v-if="tab=='videos'"></app-videos>
+
     </v-flex>
+
     <v-flex xs1 >
       <v-navigation-drawer
     dark
@@ -196,6 +201,17 @@ export default {
     }
   },
   computed: {
+    scroll(){
+      if (this.project.tagsList.length>0) {
+          return {
+            overflowY : 'scroll',
+            overflowX : 'hidden',
+             height : '5em'
+          }
+      }else{
+        return {}
+      }
+    },
     project(){
       return this.$store.state.project.editing
     },
@@ -436,6 +452,24 @@ mounted() {
 </script>
 
 <style scoped>
+/* width */
+::-webkit-scrollbar {
+  width: 0.1em;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 </style>
 

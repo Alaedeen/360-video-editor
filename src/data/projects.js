@@ -14,6 +14,7 @@ export default [
       ['tetrahedron', 0],
       ['image', 0],
       ['video', 0],
+      ['text', 0],
     ]),
     tag: 0,
     shapesList: [],

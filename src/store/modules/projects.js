@@ -2,12 +2,14 @@ import projects from '../../data/projects'
 import shapes from '../../data/shapes'
 import pictures from '../../data/pictures'
 import videos from '../../data/2dVideos'
+import fonts from '../../data/fonts'
 
 const state = {
   projects: [],
   shapes:[],
   pictures: [],
   videos: [],
+  fonts: [],
   editing: {}
 }
 
@@ -28,13 +30,21 @@ const mutations = {
   'SET_VIDEOS'(state, videos) {
     state.videos = videos;
   },
+  'SET_FONTS'(state, fonts) {
+    state.fonts = fonts;
+  },
   'LOAD_PROJECT'(state, projectId) {
     state.editing = state.projects.filter(project => {
       return project.projectId == projectId
     })[0]
   },
   'DELETE_ELEMENT'(state, id) {
-    const scene = document.getElementById('editor')
+    var scene = null
+    if (id.includes('text')) {
+      scene = document.getElementById('text')
+    } else {
+      scene = document.getElementById('editor')
+    }
     const element = document.getElementById(id);
     if (id.includes("tag")) {
         var index = state.editing.tagsList.findIndex(function (element) {
@@ -88,7 +98,12 @@ const mutations = {
   },
   'ADD_ELEMENT'(state,newElement) {
     if (newElement.mode==='free') {
-         const scene = document.getElementById('editor')
+      var scene = null
+      if (newElement.element.type=='text') {
+        scene = document.getElementById('text')
+      }else{
+        scene = document.getElementById('editor')
+      }
          const element = document.createElement('a-'+newElement.element.type);
          element.setAttribute("position", "0 -1 4")
          element.setAttribute("rotation", "0 0 0")
@@ -107,6 +122,10 @@ const mutations = {
           element.setAttribute("width",   3)
           element.setAttribute("height", 3 / newElement.element.ratio)
          }
+         if (newElement.element.type == 'text') {
+            element.setAttribute("font", newElement.element.font)
+            element.setAttribute("value", 'Some text here!')
+         }
          scene.appendChild(element);
          state.editing.shapesList.splice(0, 0, {
              image: newElement.element.src,
@@ -118,7 +137,12 @@ const mutations = {
       var index = state.editing.tagsList.findIndex(function (element) {
         return (element.id == newElement.mode)
       });
-      const scene = document.getElementById('editor')
+      var scene = null
+      if (newElement.element.type == 'text') {
+        scene = document.getElementById('text')
+      } else {
+        scene = document.getElementById('editor')
+      }
       const element = document.createElement('a-'+newElement.element.type);
       element.setAttribute("position", "0 -1 4")
       element.setAttribute("rotation", "0 0 0")
@@ -137,6 +161,10 @@ const mutations = {
         element.setAttribute("src", newElement.element.src)
         element.setAttribute("width", 3)
         element.setAttribute("height", 3 / newElement.element.ratio)
+      }
+      if (newElement.element.type == 'text') {
+        element.setAttribute("font", newElement.element.font)
+        element.setAttribute("value", 'Some text here!')
       }
       scene.appendChild(element);
       state.editing.tagsList[index].shapes.splice(0, 0, {
@@ -168,6 +196,9 @@ const actions = {
   },
   initVideos: ({commit}) => {
     commit('SET_VIDEOS', videos)
+  },
+  initFonts: ({commit}) => {
+    commit('SET_FONTS', fonts)
   },
   loadProject: ({commit},projectId)=>{
     commit('LOAD_PROJECT',projectId)

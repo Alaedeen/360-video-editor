@@ -13,14 +13,15 @@
     <v-flex xs6 style="padding-top: 1em">
       <v-layout>
       <a-scene embedded style=" padding-top: 45%;" vr-mode-ui="enabled: false">
+        <a-entity id="text" >
+            <!-- <a-text id="box0" font="sourcecodepro" scale="2 2 2" value="Hello, World!" color="white" position="-1.6 0 -1.1"></a-text> -->
+        </a-entity>
 
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
         <a-videosphere id="editor" class="container" rotation="0 180 0" src="#video" >
             <!-- <a-image src="/src/assets/info.png" class="clickable" toggle-visibility="#box0"  rotation="0 0 0" position="0 1 4"  side="double" animation="property: scale;  to: 1.5 1.5 1.5; loop: true; dur: 500" ></a-image> -->
             <!-- <a-box id="box0" position="0 -1 4" rotation="0 45 0" color="red" scale="1 1 1"  shadow ></a-box> -->
 
-            <!-- <a-image src="/src/assets/Jon.png" id="image" visible="true" class="box " scale="3 3 3" position="0 -1 4"></a-image> -->
-            <!-- <a-sphere position="2 -1 4" color="yellow" scale="1 1 1" ></a-sphere> -->
         </a-videosphere>
 
         <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
@@ -119,7 +120,7 @@
             </div>
         </v-expansion-panel>
 
-            <v-snackbar v-model="snackbar" color="red" top timeout=3000 >
+            <v-snackbar v-model="snackbar" color="red" top :timeout="3000" >
               Choose an element to add to {{mode.mode}}
               <v-btn  flat @click="snackbar = false" > <v-icon color="white"> close</v-icon> </v-btn>
             </v-snackbar>
@@ -132,6 +133,7 @@
       <app-shapes :shapeAdding="shapeAdding" v-if="tab=='shapes'"></app-shapes>
       <app-pictures :pictureAdding="pictureAdding" v-if="tab=='pictures'"></app-pictures>
       <app-videos :videoAdding="videoAdding" v-if="tab=='videos'"></app-videos>
+      <app-text :textAdding="textAdding" v-if="tab=='text'"></app-text>
 
     </v-flex>
 
@@ -165,6 +167,7 @@ import Shapes from './shapes.vue'
 import ShapeDetails from './ShapeDetails.vue'
 import Pictures from './Pictures.vue'
 import Videos from './Videos.vue'
+import Text from './Text.vue'
 
 export default {
   components: {
@@ -172,6 +175,7 @@ export default {
     shapeDetails:ShapeDetails,
     appPictures: Pictures,
     appVideos: Videos,
+    appText: Text
   },
   data() {
     return {
@@ -190,6 +194,7 @@ export default {
       currentShape: '',
       snackbar: false,
       mode: {mode: 'free'},
+      text: {value: ''},
       position: { x:0, y:0, z:0 },
       rotation: { x:0, y:0, z:0 },
       material: { color: '#194d33', },
@@ -220,11 +225,13 @@ export default {
         tag: (this.currentShape.includes("tag")),
         image: (this.currentShape.includes("image")),
         video: (this.currentShape.includes("video")),
+        text: (this.currentShape.includes("text")),
         position :this.position,
         rotation :this.rotation,
         material: this.material,
         scale: this.scale,
-        period: this.period
+        period: this.period,
+        value: this.text
       }
     },
     shapeAdding(){
@@ -244,6 +251,13 @@ export default {
     videoAdding(){
       return {
         videos : this.$store.state.project.videos,
+        mode: this.mode,
+        duration: this.duration
+      }
+    },
+    textAdding(){
+      return {
+        fonts : this.$store.state.project.fonts,
         mode: this.mode,
         duration: this.duration
       }
@@ -303,6 +317,13 @@ export default {
           // }
         }
       },
+      text: {
+        deep:true,
+        handler(val){
+          const element = document.getElementById(this.currentShape)
+          element.setAttribute("value", val.value)
+        }
+      },
   },
   methods: {
     switchTabs(tab){
@@ -316,7 +337,9 @@ export default {
       this.material.color=shape.getAttribute("color")
       this.period.startTime=shape.getAttribute("startTime")
       this.period.endTime=shape.getAttribute("endTime")
-      this.scale.size=shape.getAttribute("scale").charAt(0)
+      this.text.value= shape.getAttribute("value")
+      this.scale.size=shape.getAttribute("scale").substring(0, 1)
+
     },
     deleteElement(id){
       this.$store.dispatch('project/deleteElement',id)
@@ -377,9 +400,8 @@ beforeCreate() {
     AFRAME.registerComponent('toggle-visibility', {
       schema: {type: 'string'},
       init: function() {
-         var video = document.querySelector('#editor')
           var entities
-          setInterval(() => entities = Array.from(video.querySelectorAll(this.data)), 1);
+          setInterval(() => entities = Array.from(document.querySelectorAll(this.data)), 1);
         this.el.addEventListener('click', function (evt) {
 
             for (var i = 0; i < entities.length; i++) {

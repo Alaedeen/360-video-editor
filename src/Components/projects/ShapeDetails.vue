@@ -1,5 +1,19 @@
 <template>
 <div style="margin-top:1em; overflow-y: scroll;overflow-x: hidden;  ">
+
+  <!-- fix shape Text -->
+  <div v-if="shapeDetails.text">
+  <b style="color :white">Text: </b>
+  <v-textarea
+            name="input-7-1"
+            label="Text value"
+            dark
+            color="white"
+            v-model="shapeDetails.value.value"
+            hint="you can type your text here"
+          ></v-textarea>
+  </div>
+
   <!-- fix shape position -->
   <b style="color :white ">Position : {x,y,z}</b>
   <app-sliders :propriety="shapeDetails.position"></app-sliders>

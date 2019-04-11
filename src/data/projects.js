@@ -2,6 +2,8 @@ export default [
   {
     projectId: 0,
     userId: 3,
+    thumbnail: '/src/assets/video1.jpg',
+    video: '/src/assets/Pods-360.mp4',
     title: 'My video',
     shapes: new Map([
       ['box', 0],

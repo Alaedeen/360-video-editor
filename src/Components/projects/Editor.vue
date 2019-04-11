@@ -34,7 +34,7 @@
             <!-- Single source video. -->
             <video id="video" style="display:none" crossorigin="anonymous" playsinline webkit-playsinline>
                 <!-- MP4 video source. -->
-                <source type="video/mp4" src="/src/assets/Pods-360.mp4" />
+                <source type="video/mp4" :src="project.video" />
             </video>
         </a-assets>
     </a-scene>

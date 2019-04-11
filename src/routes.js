@@ -9,6 +9,7 @@ import AdminsManagement from './Components/administration/Admins.vue'
 import UploadRequests from './Components/administration/UploadRequests.vue'
 import ComplainsManagement from './Components/administration/Complains.vue'
 import Editor from './Components/projects/Editor.vue'
+import Library from './Components/projects/Library.vue'
 
 export const routes = [
   {
@@ -65,5 +66,10 @@ export const routes = [
   path: '/edit/:id',
   component: Editor,
   name: 'Editor'
+},
+{
+  path: '/library',
+  component: Library,
+  name: 'Library'
 }
 ]

@@ -127,11 +127,20 @@ const mutations = {
             element.setAttribute("value", 'Some text here!')
          }
          scene.appendChild(element);
-         state.editing.shapesList.splice(0, 0, {
+         if (newElement.element.type == 'video') {
+            state.editing.shapesList.splice(0, 0, {
+              image: newElement.element.thumbnail,
+              type: newElement.element.type + ' ' + state.editing.shapes.get(newElement.element.type),
+              id: newElement.element.type + state.editing.shapes.get(newElement.element.type)
+            })
+         }else{
+           state.editing.shapesList.splice(0, 0, {
              image: newElement.element.src,
              type: newElement.element.type + ' ' + state.editing.shapes.get(newElement.element.type),
              id: newElement.element.type + state.editing.shapes.get(newElement.element.type)
-           }),
+           })
+         }
+
            state.editing.shapes.set(newElement.element.type, state.editing.shapes.get(newElement.element.type)+1)
     }else{
       var index = state.editing.tagsList.findIndex(function (element) {
@@ -167,11 +176,19 @@ const mutations = {
         element.setAttribute("value", 'Some text here!')
       }
       scene.appendChild(element);
-      state.editing.tagsList[index].shapes.splice(0, 0, {
+      if (newElement.element.type == 'video') {
+        state.editing.shapesList.splice(0, 0, {
+          image: newElement.element.thumbnail,
+          type: newElement.element.type + ' ' + state.editing.shapes.get(newElement.element.type),
+          id: newElement.element.type + state.editing.shapes.get(newElement.element.type)
+        })
+      } else {
+        state.editing.shapesList.splice(0, 0, {
           image: newElement.element.src,
           type: newElement.element.type + ' ' + state.editing.shapes.get(newElement.element.type),
           id: newElement.element.type + state.editing.shapes.get(newElement.element.type)
-        }),
+        })
+      }
         state.editing.shapes.set(newElement.element.type,state.editing.shapes.get(newElement.element.type)+1 )
     }
 

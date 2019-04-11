@@ -21,7 +21,7 @@
         <a-videosphere id="editor" class="container" rotation="0 180 0" src="#video" >
             <!-- <a-image src="/src/assets/info.png" class="clickable" toggle-visibility="#box0"  rotation="0 0 0" position="0 1 4"  side="double" animation="property: scale;  to: 1.5 1.5 1.5; loop: true; dur: 500" ></a-image> -->
             <!-- <a-box id="box0" position="0 -1 4" rotation="0 45 0" color="red" scale="1 1 1"  shadow ></a-box> -->
-
+            <!-- <a-gltf-model src="/src/assets/adamHead/adamHead.gltf" scale="1 1 1" position="0 -1 4" rotation="0 0 0" ></a-gltf-model> -->
         </a-videosphere>
 
         <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->

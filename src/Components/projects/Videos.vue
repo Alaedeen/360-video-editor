@@ -12,7 +12,7 @@
 
               >
                 <v-card dark flat tile style="cursor: pointer" @click="addVideo(video)" >
-                    <video :src="video.src" width="230em" ></video>
+                    <v-img :src="video.thumbnail" ></v-img>
 
                 </v-card>
               </v-flex>
@@ -51,7 +51,8 @@ export default {
         var newVideo= {
               src: this.src,
               type: 'video',
-              ratio : val.ratio
+              ratio : val.ratio,
+              thumbnail: '/src/assets/video1.jpg'
             }
             this.$store.dispatch('project/addVideo',newVideo)
       }

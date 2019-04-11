@@ -199,6 +199,9 @@ const mutations = {
   'ADD_VIDEO'(state, video) {
     state.videos.splice(0, 0, video)
   },
+  'ADD_PROJECT'(state, projects) {
+    state.projects.splice(0, 0, projects)
+  },
 }
 
 const actions = {
@@ -234,6 +237,9 @@ const actions = {
   },
   addVideo: ({commit},video)=>{
     commit('ADD_VIDEO',video)
+  },
+  addProject: ({commit},project)=>{
+    commit('ADD_PROJECT',project)
   },
 }
 

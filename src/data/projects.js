@@ -4,7 +4,7 @@ export default [
     userId: 3,
     thumbnail: '/src/assets/video1.jpg',
     video: '/src/assets/Pods-360.mp4',
-    title: 'My video',
+    title: 'My project',
     shapes: new Map([
       ['box', 0],
       ['sphere', 0],

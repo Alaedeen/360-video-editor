@@ -4,11 +4,28 @@
         <v-card dark >
           <v-img
             :src="project.thumbnail"
-            height="7em"
-            style=" padding-top: 36.25%;"
+            height= "7em"
+            @click="edit(project.projectId)"
+            style="cursor: pointer"
           >
           </v-img>
-              <p class="text-sm-left" style="padding: 0.5em"> <b> {{project.title}} </b> </p>
+          <v-card-text
+          style="position: relative; padding-bottom: 0.1em" >
+                <v-btn
+                absolute
+                color="red"
+                class="white--text"
+                fab
+                small
+                right
+                top
+              >
+                <v-icon>share</v-icon>
+              </v-btn>
+
+              <p class="text-sm-left" > <b> {{project.title}} </b> </p>
+          </v-card-text>
+
         </v-card>
 
 </div>
@@ -17,6 +34,12 @@
 <script>
 export default {
   props: ['project'],
+  methods: {
+    edit(id){
+      var url = '/edit/'+id
+      this.$router.push({path:url})
+    }
+  },
 
 }
 </script>

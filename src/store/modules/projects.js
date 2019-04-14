@@ -177,13 +177,13 @@ const mutations = {
       }
       scene.appendChild(element);
       if (newElement.element.type == 'video') {
-        state.editing.shapesList.splice(0, 0, {
+        state.editing.tagsList[index].shapes.splice(0, 0, {
           image: newElement.element.thumbnail,
           type: newElement.element.type + ' ' + state.editing.shapes.get(newElement.element.type),
           id: newElement.element.type + state.editing.shapes.get(newElement.element.type)
         })
       } else {
-        state.editing.shapesList.splice(0, 0, {
+        state.editing.tagsList[index].shapes.splice(0, 0, {
           image: newElement.element.src,
           type: newElement.element.type + ' ' + state.editing.shapes.get(newElement.element.type),
           id: newElement.element.type + state.editing.shapes.get(newElement.element.type)

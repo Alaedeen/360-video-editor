@@ -4,7 +4,7 @@
     <!-- left menu -->
     <v-flex xs3 style=" margin-top:2em;">
         <div>
-          <b style="color: white; font-size : 1.5em; margin-left:0.5em; ">Editing : {{currentShape}} </b>
+          <b style="color: white; font-size : 1.5em; margin-left:0.5em; cursor: pointer" @click="copyElement">Editing : {{currentShape}} </b>
           <shape-details style="margin-left:1em;" :shapeDetails="shapesDetails"></shape-details>
         </div>
     </v-flex>
@@ -326,6 +326,34 @@ export default {
       },
   },
   methods: {
+    copyElement(){ // finish this
+      const elements = Array.from(document.getElementById("editor").children)
+      var project = {}
+      var elCount = 0
+      elements.forEach(element => {
+        project['element'+elCount]= {}
+        project['element'+elCount].tagName=element.tagName
+        project['element'+elCount].position={}
+        project['element'+elCount].position.x=element.getAttribute("position").x
+        project['element'+elCount].position.y=element.getAttribute("position").y
+        project['element'+elCount].position.z=element.getAttribute("position").z
+        project['element'+elCount].rotation=element.getAttribute("rotation")
+        project['element'+elCount].color=element.getAttribute("color")
+        project['element'+elCount].startTime=element.getAttribute("startTime")
+        project['element'+elCount].endTime=element.getAttribute("endTime")
+        project['element'+elCount].value= element.getAttribute("value")
+        project['element'+elCount].scale={}
+        project['element'+elCount].scale.x=element.getAttribute("scale").x
+        project['element'+elCount].scale.y=element.getAttribute("scale").y
+        project['element'+elCount].scale.z=element.getAttribute("scale").z
+        elCount++
+      });
+      for (const key in project.element0) {
+          console.log(key);//get all the keys
+      }
+
+
+    },
     switchTabs(tab){
       this.tab=tab
     },

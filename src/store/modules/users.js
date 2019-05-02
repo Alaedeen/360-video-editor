@@ -1,4 +1,5 @@
 import users from '../../data/users'
+import Axios from 'axios';
 
 const state={
   users: [],
@@ -20,21 +21,20 @@ const mutations = {
       state.current = $cookies.get('user')
     },
     'ADD_USER'(state, log) {
-      log.id=state.users.length
-      var U = state.users.filter(user => {
-        return (user.email == log.email) || (user.name.toUpperCase() == log.name.toUpperCase())
-      })
+      Axios.post('http://localhost:8000/api/v1/users', log)
+      .then(res => console.log(res))
+      .catch(error => console.log(error))
 
-      if (U.length != 0) {
-        state.signupError = true
-        setTimeout(function () {
-          state.signupError = false
-        }, 2000);
-      } else {
-        $cookies.set('user', log, -1);
-        state.current = log
-        state.users.push(log)
-      }
+      // if (U.length != 0) {
+      //   state.signupError = true
+      //   setTimeout(function () {
+      //     state.signupError = false
+      //   }, 2000);
+      // } else {
+      //   $cookies.set('user', log, -1);
+      //   state.current = log
+      //   state.users.push(log)
+      // }
     },
     'UPDATE_USER'(state,update){
       var U = state.users.filter(user => {

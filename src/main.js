@@ -8,8 +8,9 @@ import Vuelidate from 'vuelidate'
 import VueCookies from 'vue-cookies'
 import aframe from 'aframe';
 import registerClickDrag from 'aframe-click-drag-component';
+import Axios from 'axios'
 registerClickDrag(aframe);
-
+Vue.prototype.$http = Axios;
 
 import {
   routes

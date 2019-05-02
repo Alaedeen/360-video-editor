@@ -3,7 +3,7 @@ export default [
     projectId: 0,
     userId: 3,
     thumbnail: '/src/assets/video1.jpg',
-    video: '/src/assets/Pods-360.mp4',
+    video: '/src/playerAssets/London Park.mp4',
     title: 'My project',
     shapes: new Map([
       ['box', 0],

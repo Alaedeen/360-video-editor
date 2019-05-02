@@ -157,28 +157,19 @@ export default {
     return {
       dialog: false,
       user: {
-              id: 1,
               name: '',
               email: '',
               password: '',
-              roles: ['user'],
-              dateOfBirth: {
-                day: null,
-                month: null,
-                year: null
-              },
+              birthDay: null,
+              birthMonth: null,
+              birthYear: null,
               countryOfResidence: '',
               description: '',
-              profilePic: '/src/assets/user.png',
-              joined: null,
+              profilePic: 'http://localhost:8000/assets/profilePictures/user.png',
+              JoiningDay: null,
+              JoiningMonth: null,
+              JoiningYear: null,
               subscribers : 0,
-              subscriptions: [],
-              videosLikes: [],
-              videosDislikes: [],
-              commentsLikes: [],
-              commentsDislikes: [],
-              repliesLikes: [],
-              repliesDislikes: [],
             },
         passwordVisible:false,
         passwordVisible1:false,
@@ -236,7 +227,9 @@ export default {
           this.form='You must fill all fields'
           this.dialog = false
       }else if (!this.error) {
-        this.user.joined=this.date
+        this.user.JoiningDay=this.date.day
+        this.user.JoiningMonth=this.date.month
+        this.user.JoiningYear=this.date.year
          this.$store.dispatch('user/addUser', this.user);
          if (this.current!= null) {
            this.dialog = false

@@ -161,11 +161,11 @@ export default {
               email: '',
               password: '',
               birthDay: null,
-              birthMonth: null,
+              birthMonth: '',
               birthYear: null,
               countryOfResidence: '',
               description: '',
-              profilePic: 'http://localhost:8000/assets/profilePictures/user.png',
+              profilePic: 'user.png',
               JoiningDay: null,
               JoiningMonth: null,
               JoiningYear: null,
@@ -236,6 +236,11 @@ export default {
             this.$router.go(-2)
          }
       }
+    }
+  },
+  beforeCreate() {
+    if (this.$store.state.user.current!=null) {
+      this.$router.push({ path: '/'});
     }
   },
 }

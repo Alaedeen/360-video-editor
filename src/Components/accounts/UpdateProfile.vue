@@ -13,7 +13,7 @@
                v-on="on"
           >
 
-            <v-img :src="user.profilePic" alt="avatar">
+            <v-img :src="'http://localhost:8000/assets/profilePictures/'+user.profilePic" alt="avatar">
               <v-expand-transition  >
             <div
               v-if="hover"

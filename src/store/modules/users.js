@@ -22,19 +22,22 @@ const mutations = {
     },
     'ADD_USER'(state, log) {
       Axios.post('http://localhost:8000/api/v1/users', log)
-      .then(res => console.log(res))
+      .then(
+        res => {
+          if (res.data.response.code!=201) {
+            state.signupError = true
+            setTimeout(function () {
+              state.signupError = false
+            }, 2000);
+          } else {
+            $cookies.set('user', res.data.response.data, -1);
+            $cookies.set('token', res.data.response.token, -1);
+            state.current = res.data.response.data
+            window.location.reload()
+          }
+        }
+      )
       .catch(error => console.log(error))
-
-      // if (U.length != 0) {
-      //   state.signupError = true
-      //   setTimeout(function () {
-      //     state.signupError = false
-      //   }, 2000);
-      // } else {
-      //   $cookies.set('user', log, -1);
-      //   state.current = log
-      //   state.users.push(log)
-      // }
     },
     'UPDATE_USER'(state,update){
       var U = state.users.filter(user => {

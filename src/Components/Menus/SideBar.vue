@@ -13,7 +13,7 @@
       <v-list class="pa-0">
         <v-list-tile avatar>
           <v-list-tile-avatar >
-            <img :src="current.profilePic">
+            <img :src="'http://localhost:8000/assets/profilePictures/'+ current.profilePic">
           </v-list-tile-avatar>
 
           <v-list-tile-content

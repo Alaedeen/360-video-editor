@@ -461,6 +461,11 @@ beforeCreate() {
 
       },
     });
+
+    // check login
+    if (this.$store.state.user.current==null) {
+      this.$router.push({ path: '/'});
+    }
 },
 mounted() {
     var vid = document.getElementById("video");

@@ -83,19 +83,25 @@ const mutations = {
 
     },
     'SIGN_IN'(state, log) {
-      var U = state.users.filter(user => {
-        return (user.email == log.email) && (user.password == log.password)
-      })
-      if (U.length == 0) {
-        state.loginError=true
-        setTimeout(function () {
-          state.loginError = false
-        }, 2000);
+      Axios.get('http://localhost:8000/api/v1/login', { params: { email: log.email, password: log.password } })
+      .then(
+        res => {
+          if (res.data.response.code != 200) {
+            state.loginError = true
+            setTimeout(function () {
+              state.loginError = false
+            }, 2000);
 
-      } else {
-        $cookies.set('user', U[0], -1);
-        state.current = $cookies.get('user')
-      }
+          } else {
+            $cookies.set('user', res.data.response.data, -1);
+            $cookies.set('token', res.data.token, -1);
+            state.current = res.data.response.data
+            window.location.reload()
+          }
+        }
+      )
+      .catch(error => console.log(error))
+
     },
     'LOG_OUT'(state){
       $cookies.remove('user')

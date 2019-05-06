@@ -238,11 +238,6 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    if (this.$store.state.user.current!=null) {
-      this.$router.push({ path: '/'});
-    }
-  },
 }
 </script>
 

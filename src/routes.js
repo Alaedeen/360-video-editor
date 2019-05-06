@@ -11,6 +11,8 @@ import ComplainsManagement from './Components/administration/Complains.vue'
 import Editor from './Components/projects/Editor.vue'
 import Library from './Components/projects/Library.vue'
 
+// import store from './store/store'
+
 export const routes = [
   {
     path: '/',
@@ -20,17 +22,38 @@ export const routes = [
   {
   path: '/login',
   component: Login,
-  name: 'login'
+  name: 'login',
+    beforeEnter: (to, from, next) => {
+      if ($cookies.get('user') != null) {
+        next('/')
+      } else {
+        next(true)
+      }
+    }
 },
  {
   path: '/sign_up',
   component: SignUp,
-  name: 'signup'
+  name: 'signup',
+    beforeEnter: (to, from, next) => {
+      if ($cookies.get('user') != null) {
+        next('/')
+      } else {
+        next(true)
+      }
+    }
 },
 {
   path: '/my_profile',
   component: MyProfile,
-  name: 'myprofile'
+  name: 'myprofile',
+    beforeEnter: (to, from, next) => {
+      if ($cookies.get('user') == null) {
+        next('/')
+      } else {
+        next(true)
+      }
+    }
 },
 {
   path: '/watch/:id',
@@ -45,31 +68,73 @@ export const routes = [
 {
   path: '/users_management',
   component: UsersManagement,
-  name: 'Users_Management'
+  name: 'Users_Management',
+    beforeEnter: (to, from, next) => {
+      if ($cookies.get('user') == null || $cookies.get('user').roles.length == 1) {
+        next('/')
+      } else {
+        next(true)
+      }
+    }
 },
 {
   path: '/admins_management',
   component: AdminsManagement,
-  name: 'Admins_Management'
+  name: 'Admins_Management',
+    beforeEnter: (to, from, next) => {
+      if ($cookies.get('user') == null || $cookies.get('user').roles.length < 3) {
+        next('/')
+      } else {
+        next(true)
+      }
+    }
 },
 {
   path: '/upload_requests',
   component: UploadRequests,
-  name: 'Upload_Requests'
+  name: 'Upload_Requests',
+    beforeEnter: (to, from, next) => {
+      if ($cookies.get('user') == null || $cookies.get('user').roles.length == 1) {
+        next('/')
+      } else {
+        next(true)
+      }
+    }
 },
 {
   path: '/complains_management',
   component: ComplainsManagement,
-  name: 'Complains_Management'
+  name: 'Complains_Management',
+    beforeEnter: (to, from, next) => {
+      if ($cookies.get('user') == null || $cookies.get('user').roles.length == 1) {
+        next('/')
+      } else {
+        next(true)
+      }
+    }
 },
 {
   path: '/edit/:id',
   component: Editor,
-  name: 'Editor'
+  name: 'Editor',
+    beforeEnter: (to, from, next) => {
+      if ($cookies.get('user') == null) {
+        next('/')
+      } else {
+        next(true)
+      }
+    }
 },
 {
   path: '/library',
   component: Library,
-  name: 'Library'
+  name: 'Library',
+  beforeEnter: (to, from, next) =>{
+    if ($cookies.get('user') == null) {
+      next('/')
+    }else{
+      next(true)
+    }
+  }
 }
 ]

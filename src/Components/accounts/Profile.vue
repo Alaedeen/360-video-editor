@@ -128,11 +128,6 @@ computed: {
         return this.$store.state.video.myVideos
       }
     },
-beforeCreate() {
-    if (this.$store.state.user.current==null) {
-      this.$router.push({ path: '/' })
-    }
-},
 created() {
   this.$store.dispatch('video/userVideos',this.current.id)
 },

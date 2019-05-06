@@ -30,8 +30,9 @@ const mutations = {
               state.signupError = false
             }, 2000);
           } else {
+
             $cookies.set('user', res.data.response.data, -1);
-            $cookies.set('token', res.data.response.token, -1);
+            $cookies.set('token', res.data.token, -1);
             state.current = res.data.response.data
             window.location.reload()
           }

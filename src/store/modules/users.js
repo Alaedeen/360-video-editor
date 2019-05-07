@@ -6,7 +6,8 @@ const state={
   current: null,
   visited: null,
   loginError: false,
-  signupError: false
+  signupError: false,
+  usersCount:0
 }
 
 const getters= {
@@ -16,9 +17,29 @@ const getters= {
 }
 
 const mutations = {
-    'SET_USERS'(state, users) {
-      state.users = users;
-      state.current = $cookies.get('user')
+    'INIT_CURRENT'(){
+        state.current = $cookies.get('user')
+    },
+    'SET_USERS'(state, request) {
+      var config = {
+        params: {
+          role: request.role,
+          offset: request.offset,
+          limit: request.limit,
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+
+      Axios.get('http://localhost:8000/api/v1/users',config)
+      .then(
+        res => {
+          state.users=res.data.response.data
+          state.usersCount=res.data.count
+        }
+      )
+      .catch(error => console.log(error))
     },
     'ADD_USER'(state, log) {
       Axios.post('http://localhost:8000/api/v1/users', log)
@@ -208,8 +229,11 @@ const mutations = {
 }
 
 const actions = {
-  initUsers: ({commit}) => {
-    commit('SET_USERS', users)
+  initCurrent: ({commit}) => {
+    commit('INIT_CURRENT')
+  },
+  setUsers: ({commit}, request) => {
+    commit('SET_USERS', request)
   },
   signIn: ({commit},  order) =>{
       commit('SIGN_IN' ,order)

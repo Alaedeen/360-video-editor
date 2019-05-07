@@ -12,9 +12,11 @@
       </v-flex>
       <v-data-table
         :headers="headers"
-        :items="users"
+        :items="pageUsers"
         class="elevation-1"
         dark
+        hide-actions
+        :pagination.sync="pagination"
       >
         <template v-slot:items="props" >
           <tr style="cursor: pointer" >
@@ -28,6 +30,10 @@
           </tr>
         </template>
       </v-data-table>
+
+      <div class="text-xs-center pt-2">
+        <v-pagination v-model="pagination.page" :length="pages" dark color="black" ></v-pagination>
+      </div>
 
        <!-- delete dialog -->
             <v-dialog
@@ -121,20 +127,24 @@ export default {
       dialog1: false,
       dialog2: false,
       name:'',
-      id: 0
+      id: 0,
+      pagination: {
+        descending: false,
+        rowsPerPage: 4,
+        page:1
+      },
+      pageUsers : []
     }
   },
   components: {
   appEdit: ProfileEdit
 },
 computed: {
+  pages(){
+    return Math.ceil(this.$store.state.user.usersCount/4)
+  },
   users(){
-    var all= this.$store.state.user.users.filter(user => {
-      return user.roles.length==1
-    });
-    return all.filter(one => {
-      return one.name.toUpperCase().includes(this.search.toUpperCase())
-    });
+      return this.$store.state.user.users
   },
   current(){
         return this.$store.state.user.current
@@ -146,6 +156,29 @@ watch: {
         this.search=''
       }
     },
+     pagination: {
+      handler(val){
+          var request = {
+            role : 'user',
+            offset: (val.page * 4)-4,
+            limit: 4
+          }
+          this.$store.dispatch('user/setUsers',request)
+
+      },
+      deep:true
+    },
+    users: function (val){
+        this.pageUsers=[]
+        for (let index = 0; index < (this.pagination.page*4)-4; index++) {
+            this.pageUsers.push(null)
+        }
+        for (let index = (this.pagination.page*4)-4; index < (this.pagination.page*4)-(4-val.length); index++) {
+          this.pageUsers.push(val[index-((this.pagination.page*4)-4)])
+
+      }
+
+    }
   },
   methods: {
     deleteBtn(id,name){
@@ -167,6 +200,14 @@ watch: {
       this.dialog2 = false
       this.$store.dispatch('user/addAdmin',id)
     }
+  },
+  beforeCreate() {
+    var request = {
+      role : 'user',
+      offset: 0,
+      limit: 4
+    }
+    this.$store.dispatch('user/setUsers',request)
   },
 }
 </script>

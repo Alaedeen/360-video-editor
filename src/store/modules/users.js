@@ -7,7 +7,8 @@ const state={
   visited: null,
   loginError: false,
   signupError: false,
-  usersCount:0
+  usersCount:0,
+  userLoading: false
 }
 
 const getters= {
@@ -31,12 +32,13 @@ const mutations = {
           Authorization: "Bearer " + $cookies.get('token')
         }
       }
-
+      state.userLoading=true
       Axios.get('http://localhost:8000/api/v1/users',config)
       .then(
         res => {
           state.users=res.data.response.data
           state.usersCount=res.data.count
+          state.userLoading = false
         }
       )
       .catch(error => console.log(error))
@@ -53,12 +55,13 @@ const mutations = {
           Authorization: "Bearer " + $cookies.get('token')
         }
       }
-
+      state.userLoading = true
       Axios.get('http://localhost:8000/api/v1/usersbyname',config)
       .then(
         res => {
           state.users=res.data.response.data
           state.usersCount=res.data.count
+          state.userLoading = false
         }
       )
       .catch(error => console.log(error))

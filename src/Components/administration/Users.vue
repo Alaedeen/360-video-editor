@@ -35,6 +35,28 @@
         <v-pagination v-model="pagination.page" :length="pages" dark color="black" ></v-pagination>
       </div>
 
+      <!-- Loader -->
+       <v-dialog
+          v-model="dialog"
+          hide-overlay
+          persistent
+          width="300"
+        >
+          <v-card
+            color="blue"
+            dark
+          >
+            <v-card-text>
+              Loading...
+              <v-progress-linear
+                indeterminate
+                color="black"
+                class="mb-0"
+              ></v-progress-linear>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+
        <!-- delete dialog -->
             <v-dialog
                 v-model="dialog1"
@@ -133,13 +155,16 @@ export default {
         rowsPerPage: 4,
         page:1
       },
-      pageUsers : []
+      pageUsers : [],
     }
   },
   components: {
   appEdit: ProfileEdit
 },
 computed: {
+  dialog(){
+    return this.$store.state.user.userLoading
+  },
   pages(){
     return Math.ceil(this.$store.state.user.usersCount/4)
   },

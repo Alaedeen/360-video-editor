@@ -197,8 +197,6 @@ watch: {
       deep:true
     },
     users: function (val){
-      console.log(val);
-
         this.pageUsers=[]
         for (let index = 0; index < (this.pagination.page*4)-4; index++) {
             this.pageUsers.push(null)

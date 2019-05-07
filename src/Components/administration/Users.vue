@@ -155,20 +155,50 @@ watch: {
       if (val==null) {
         this.search=''
       }
+      if (val=='') {
+        var request = {
+            role : 'user',
+            offset: 0,
+            limit: 4
+          }
+          this.$store.dispatch('user/setUsers',request)
+          this.pagination.page=1
+      }else{
+          var request = {
+            role : 'user',
+            name: val,
+            offset: 0,
+            limit: 4
+          }
+          this.$store.dispatch('user/filterUsers',request)
+          this.pagination.page=1
+      }
     },
      pagination: {
       handler(val){
+        if (this.search=='') {
           var request = {
             role : 'user',
             offset: (val.page * 4)-4,
             limit: 4
           }
           this.$store.dispatch('user/setUsers',request)
+        }else{
+           var request1 = {
+            role : 'user',
+            name: this.search,
+            offset: (val.page * 4)-4,
+            limit: 4
+          }
+          this.$store.dispatch('user/filterUsers',request1)
+        }
 
       },
       deep:true
     },
     users: function (val){
+      console.log(val);
+
         this.pageUsers=[]
         for (let index = 0; index < (this.pagination.page*4)-4; index++) {
             this.pageUsers.push(null)

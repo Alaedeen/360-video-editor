@@ -41,6 +41,28 @@ const mutations = {
       )
       .catch(error => console.log(error))
     },
+    'FILTER_USERS'(state, request) {
+      var config = {
+        params: {
+          role: request.role,
+          name: request.name,
+          offset: request.offset,
+          limit: request.limit,
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+
+      Axios.get('http://localhost:8000/api/v1/usersbyname',config)
+      .then(
+        res => {
+          state.users=res.data.response.data
+          state.usersCount=res.data.count
+        }
+      )
+      .catch(error => console.log(error))
+    },
     'ADD_USER'(state, log) {
       Axios.post('http://localhost:8000/api/v1/users', log)
       .then(
@@ -234,6 +256,9 @@ const actions = {
   },
   setUsers: ({commit}, request) => {
     commit('SET_USERS', request)
+  },
+  filterUsers: ({ commit }, request) => {
+    commit('FILTER_USERS', request)
   },
   signIn: ({commit},  order) =>{
       commit('SIGN_IN' ,order)

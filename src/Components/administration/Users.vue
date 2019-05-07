@@ -233,7 +233,7 @@ watch: {
 
     }
   },
-  methods: {
+methods: {
     deleteBtn(id,name){
       this.id=id
       this.name=name
@@ -254,7 +254,7 @@ watch: {
       this.$store.dispatch('user/addAdmin',id)
     }
   },
-  beforeCreate() {
+beforeCreate() {
     var request = {
       role : 'user',
       offset: 0,

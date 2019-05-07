@@ -1,4 +1,3 @@
-import users from '../../data/users'
 import Axios from 'axios';
 
 const state={
@@ -106,26 +105,23 @@ const mutations = {
 
     },
     'DELETE_USER'(state,id){
-      state.users.splice(id, 1, {
-        id: id,
-        name: '',
-        email: '',
-        password: '',
-        roles: [],
-        dateOfBirth: {},
-        countryOfResidence: '',
-        description: '',
-        profilePic: '',
-        joined: {},
-        subscribers: 0,
-        subscriptions: [],
-        videosLikes: [],
-        videosDislikes: [],
-        commentsLikes: [],
-        commentsDislikes: [],
-        repliesLikes: [],
-        repliesDislikes: [],
-      })
+      var config = {
+        params: {
+          id:id
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      state.userLoading = true
+      Axios.delete('http://localhost:8000/api/v1/users', config)
+        .then(
+          res => {
+            state.userLoading = false
+            window.location.reload()
+          }
+        )
+        .catch(error => console.log(error))
 
     },
     'SIGN_IN'(state, log) {

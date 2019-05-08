@@ -60,7 +60,7 @@
                     <v-btn
                       color="red darken-1"
                       flat="flat"
-                      @click="removeAdmin(id)"
+                      @click="removeAdminHandler(id)"
                     >
                       yes
                     </v-btn>
@@ -168,16 +168,24 @@ watch: {
   methods: {
     ...mapActions({
       setUsers:'user/setUsers',
-      filterUsers: 'user/filterUsers'
+      filterUsers: 'user/filterUsers',
+      removeAdmin: 'user/removeAdmin'
     }),
     removeBtn(id,name){
       this.id=id
       this.name=name
       this.dialog1 = true
     },
-    removeAdmin(id){
+    removeAdminHandler(id){
       this.dialog1 = false
-      this.$store.dispatch('user/removeAdmin',id)
+      this.removeAdmin(id).then(()=>{
+        var request = {
+        role : 'admin',
+        offset: 0,
+        limit: 4
+        }
+        this.setUsers(request)
+      })
     }
   },
   beforeCreate() {

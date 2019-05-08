@@ -1,4 +1,3 @@
-import Axios from 'axios';
 import {userService} from '../../services/userService'
 const state={
   users: [],
@@ -24,48 +23,23 @@ const mutations = {
         state.users = data
         state.usersCount = count
     },
-    'FILTER_USERS'(state, request) {
-      var config = {
-        params: {
-          role: request.role,
-          name: request.name,
-          offset: request.offset,
-          limit: request.limit,
-        },
-        headers: {
-          Authorization: "Bearer " + $cookies.get('token')
-        }
-      }
-      state.userLoading = true
-      Axios.get('http://localhost:8000/api/v1/usersbyname',config)
-      .then(
-        res => {
-          state.users=res.data.response.data
-          state.usersCount=res.data.count
-          state.userLoading = false
-        }
-      )
-      .catch(error => console.log(error))
+    'FILTER_USERS'(state, {data,count}) {
+        state.users = data
+        state.usersCount = count
     },
-    'ADD_USER'(state, log) {
-      Axios.post('http://localhost:8000/api/v1/users', log)
-      .then(
-        res => {
-          if (res.data.response.code!=201) {
-            state.signupError = true
-            setTimeout(function () {
-              state.signupError = false
-            }, 2000);
-          } else {
+    'ADD_USER'(state, {user,code,token}) {
 
-            $cookies.set('user', res.data.response.data, -1);
-            $cookies.set('token', res.data.token, -1);
-            state.current = res.data.response.data
-            window.location.reload()
-          }
-        }
-      )
-      .catch(error => console.log(error))
+      if (code!=201) {
+        state.signupError = true
+        setTimeout(function () {
+          state.signupError = false
+        }, 2000);
+      } else {
+
+        $cookies.set('user', user, -1);
+        $cookies.set('token', token, -1);
+        state.current = user
+      }
     },
     'UPDATE_USER'(state,update){
       var U = state.users.filter(user => {
@@ -86,48 +60,22 @@ const mutations = {
       }
 
     },
-  SET_LOADING(state,loading){
-    state.loading = loading
-  },
-    'DELETE_USER'(state,id){
-      var config = {
-        params: {
-          id:id
-        },
-        headers: {
-          Authorization: "Bearer " + $cookies.get('token')
-        }
-      }
-      state.userLoading = true
-      Axios.delete('http://localhost:8000/api/v1/users', config)
-        .then(
-          res => {
-            state.userLoading = false
-            window.location.reload()
-          }
-        )
-        .catch(error => console.log(error))
-
+    SET_LOADING(state,loading){
+      state.userLoading = loading
     },
-    'SIGN_IN'(state, log) {
-      Axios.get('http://localhost:8000/api/v1/login', { params: { email: log.email, password: log.password } })
-      .then(
-        res => {
-          if (res.data.response.code != 200) {
-            state.loginError = true
-            setTimeout(function () {
-              state.loginError = false
-            }, 2000);
+    'SIGN_IN'(state, {user,code,token}) {
 
-          } else {
-            $cookies.set('user', res.data.response.data, -1);
-            $cookies.set('token', res.data.token, -1);
-            state.current = res.data.response.data
-            window.location.reload()
-          }
-        }
-      )
-      .catch(error => console.log(error))
+      if (code != 200) {
+        state.loginError = true
+        setTimeout(function () {
+          state.loginError = false
+        }, 2000);
+
+      } else {
+         $cookies.set('user', user, -1);
+         $cookies.set('token', token, -1);
+         state.current = user
+      }
 
     },
     'LOG_OUT'(state){
@@ -217,13 +165,6 @@ const mutations = {
         state.current.subscriptions.splice(state.current.subscriptions.indexOf(state.visited.id), 1) //update cookie
         state.users.splice(state.current.id, 1, state.current)
       },
-    'REMOVE_ADMIN'(state, id) {
-      var user = state.users.filter(user => {
-        return (user.id == id)
-      })[0]
-      user.roles.splice(1,1)
-      state.users.splice(user.id, 1, user)
-    }
 }
 
 const actions = {
@@ -233,23 +174,40 @@ const actions = {
   setUsers: ({commit}, request) => {
      commit('SET_LOADING', true)
     userService.fetchUsers(request).then((data)=>{
-      console.log('userService then : ', data)
         commit('SET_LOADING', false)
         commit('SET_USERS', {
           count: data.data.count,
           data: data.data.response.data
         })
-        resolve()
     })
   },
   filterUsers: ({ commit }, request) => {
-    commit('FILTER_USERS', request)
+    commit('SET_LOADING', true)
+    userService.filterUsers(request).then((data) => {
+      commit('SET_LOADING', false)
+      commit('FILTER_USERS', {
+        count: data.data.count,
+        data: data.data.response.data
+      })
+    })
   },
   signIn: ({commit},  order) =>{
-      commit('SIGN_IN' ,order)
+    userService.signIn(order).then((res) => {
+      commit('SIGN_IN', {
+        user: res.data.response.data,
+        code: res.data.response.code,
+        token: res.data.token
+      })
+    })
   },
   addUser: ({commit},order)=>{
-    commit('ADD_USER', order)
+    userService.addUser(order).then((res) => {
+      commit('ADD_USER', {
+        user: res.data.response.data,
+        code: res.data.response.code,
+        token: res.data.token
+      })
+    })
   },
   logOut: ({commit})=>{
     commit('LOG_OUT')
@@ -308,34 +266,32 @@ const actions = {
   },
   //delete user
   deleteUser: ({commit},id)=>{
-    commit('DELETE_USER',id)
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      userService.deleteUser(id).then(() => {
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
   },
   //add remove admin
   addAdmin: ({commit},id)=>{
    return new Promise((resolve,reject)=>{
-     var config = {
-       params: {
-         id: id
-       },
-       headers: {
-         Authorization: "Bearer " + $cookies.get('token')
-       }
-     }
-     state.userLoading = true
-     var f = new FormData()
-     f.append('admin', true)
-     Axios.put('http://localhost:8000/api/v1/users', f, config)
-       .then(
-         res => {
-           state.userLoading = false
-           resolve()
-         }
-       )
-       .catch(error => console.log(error))
+       commit('SET_LOADING', true)
+       userService.addAdmin(id).then(() => {
+         commit('SET_LOADING', false)
+         resolve()
+       })
    })
   },
   removeAdmin: ({commit},id)=>{
-    commit('REMOVE_ADMIN',id)
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      userService.removeAdmin(id).then(() => {
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
   }
 }
 

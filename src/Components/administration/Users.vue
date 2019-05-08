@@ -84,7 +84,7 @@
                     <v-btn
                       color="red darken-1"
                       flat="flat"
-                      @click="deleteUser(id)"
+                      @click="deleteUserHundler(id)"
                     >
                       yes
                     </v-btn>
@@ -132,7 +132,7 @@
 
 <script>
 import ProfileEdit from '../accounts/UpdateProfile.vue'
-import {mapGetters,mapActions} from 'vuex'
+import {mapActions} from 'vuex'
 export default {
 
   data() {
@@ -163,9 +163,6 @@ export default {
   appEdit: ProfileEdit
 },
 computed: {
-  ...mapGetters({
-    users1:'user/users'
-  }),
   dialog(){
     return this.$store.state.user.userLoading
   },
@@ -190,7 +187,7 @@ watch: {
             offset: 0,
             limit: 4
           }
-          this.$store.dispatch('user/setUsers',request)
+          this.setUsers(request)
           this.pagination.page=1
       }else{
           var request = {
@@ -199,7 +196,7 @@ watch: {
             offset: 0,
             limit: 4
           }
-          this.$store.dispatch('user/filterUsers',request)
+          this.filterUsers(request)
           this.pagination.page=1
       }
     },
@@ -211,7 +208,7 @@ watch: {
             offset: (val.page * 4)-4,
             limit: 4
           }
-          this.$store.dispatch('user/setUsers',request)
+          this.setUsers(request)
         }else{
            var request1 = {
             role : 'user',
@@ -219,7 +216,7 @@ watch: {
             offset: (val.page * 4)-4,
             limit: 4
           }
-          this.$store.dispatch('user/filterUsers',request1)
+          this.filterUsers(request1)
         }
 
       },
@@ -239,8 +236,10 @@ watch: {
   },
 methods: {
   ...mapActions({
-    initUsers:'user/setUsers',
-    addAdmin:'user/addAdmin'
+    setUsers:'user/setUsers',
+    addAdmin:'user/addAdmin',
+    deleteUser: 'user/deleteUser',
+    filterUsers: 'user/filterUsers'
   }),
     deleteBtn(id,name){
       this.id=id
@@ -252,20 +251,26 @@ methods: {
       this.name=name
       this.dialog2 = true
     },
-    deleteUser(id){
+    deleteUserHundler(id){
       this.dialog1 = false
-      //alert(id)
-      this.$store.dispatch('user/deleteUser',id)
+      this.deleteUser(id).then(()=>{
+        var request = {
+        role : 'user',
+        offset: 0,
+        limit: 4
+        }
+        this.setUsers(request)
+      })
     },
     addAdminHundler(id){
       this.dialog2 = false
       this.addAdmin(id).then(()=>{
-          var request = {
-          role : 'user',
-          offset: 0,
-          limit: 4
-          }
-           this.initUsers(request)
+        var request = {
+        role : 'user',
+        offset: 0,
+        limit: 4
+        }
+        this.setUsers(request)
       })
 
     }
@@ -276,7 +281,7 @@ beforeCreate() {
       offset: 0,
       limit: 4
     }
-      this.initUsers(request)
+      this.setUsers(request)
   },
 }
 </script>

@@ -179,6 +179,12 @@ export default {
         timeout : 6000
     }
   },
+  watch: {
+    current: function(){
+      this.dialog = false
+      this.$router.go(-2)
+    }
+  },
   computed: {
     current(){
         return this.$store.state.user.current
@@ -231,10 +237,6 @@ export default {
         this.user.JoiningMonth=this.date.month
         this.user.JoiningYear=this.date.year
          this.$store.dispatch('user/addUser', this.user);
-         if (this.current!= null) {
-           this.dialog = false
-            this.$router.go(-2)
-         }
       }
     }
   },

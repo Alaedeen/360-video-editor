@@ -98,6 +98,11 @@ export default {
         timeout : 6000
     }
   },
+  watch: {
+    current: function(){
+      this.$router.go(-1)
+    }
+  },
   computed: {
     current(){
         return this.$store.state.user.current
@@ -113,10 +118,6 @@ export default {
           this.form='You must fill all fields'
       }else if (!this.error) {
          this.$store.dispatch('user/signIn', this.user);
-         if (this.current!= null) {
-            //this.$router.push({path:'/'})
-            this.$router.go(-1)
-         }
       }
     }
   },

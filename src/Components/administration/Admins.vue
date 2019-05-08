@@ -73,6 +73,7 @@
 
 <script>
 import ProfileEdit from '../accounts/UpdateProfile.vue'
+import {mapActions} from 'vuex'
 export default {
   data() {
     return {
@@ -117,7 +118,7 @@ watch: {
             offset: 0,
             limit: 4
           }
-          this.$store.dispatch('user/setUsers',request)
+          this.setUsers(request)
           this.pagination.page=1
       }else{
           var request = {
@@ -126,7 +127,7 @@ watch: {
             offset: 0,
             limit: 4
           }
-          this.$store.dispatch('user/filterUsers',request)
+          this.filterUsers(request)
           this.pagination.page=1
       }
     },
@@ -138,7 +139,7 @@ watch: {
             offset: (val.page * 4)-4,
             limit: 4
           }
-          this.$store.dispatch('user/setUsers',request)
+          this.setUsers(request)
         }else{
            var request1 = {
             role : 'admin',
@@ -146,7 +147,7 @@ watch: {
             offset: (val.page * 4)-4,
             limit: 4
           }
-          this.$store.dispatch('user/filterUsers',request1)
+          this.filterUsers(request1)
         }
 
       },
@@ -165,6 +166,10 @@ watch: {
     }
   },
   methods: {
+    ...mapActions({
+      setUsers:'user/setUsers',
+      filterUsers: 'user/filterUsers'
+    }),
     removeBtn(id,name){
       this.id=id
       this.name=name
@@ -181,7 +186,7 @@ watch: {
       offset: 0,
       limit: 4
     }
-    this.$store.dispatch('user/setUsers',request)
+    this.setUsers(request)
   },
 }
 </script>

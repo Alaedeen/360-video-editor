@@ -1,5 +1,5 @@
 import Axios from 'axios';
-
+import {userService} from '../../services/userService'
 const state={
   users: [],
   current: null,
@@ -20,27 +20,9 @@ const mutations = {
     'INIT_CURRENT'(){
         state.current = $cookies.get('user')
     },
-    'SET_USERS'(state, request) {
-      var config = {
-        params: {
-          role: request.role,
-          offset: request.offset,
-          limit: request.limit,
-        },
-        headers: {
-          Authorization: "Bearer " + $cookies.get('token')
-        }
-      }
-      state.userLoading=true
-      Axios.get('http://localhost:8000/api/v1/users',config)
-      .then(
-        res => {
-          state.users=res.data.response.data
-          state.usersCount=res.data.count
-          state.userLoading = false
-        }
-      )
-      .catch(error => console.log(error))
+    'SET_USERS'(state, {data,count}) {
+        state.users = data
+        state.usersCount = count
     },
     'FILTER_USERS'(state, request) {
       var config = {
@@ -104,6 +86,9 @@ const mutations = {
       }
 
     },
+  SET_LOADING(state,loading){
+    state.loading = loading
+  },
     'DELETE_USER'(state,id){
       var config = {
         params: {
@@ -232,14 +217,6 @@ const mutations = {
         state.current.subscriptions.splice(state.current.subscriptions.indexOf(state.visited.id), 1) //update cookie
         state.users.splice(state.current.id, 1, state.current)
       },
-    //add remove admin
-    'ADD_ADMIN'(state,id) {
-      var user = state.users.filter(user => {
-        return (user.id == id)
-      })[0]
-      user.roles.push('admin')
-      state.users.splice(user.id,1,user)
-    },
     'REMOVE_ADMIN'(state, id) {
       var user = state.users.filter(user => {
         return (user.id == id)
@@ -254,7 +231,16 @@ const actions = {
     commit('INIT_CURRENT')
   },
   setUsers: ({commit}, request) => {
-    commit('SET_USERS', request)
+     commit('SET_LOADING', true)
+    userService.fetchUsers(request).then((data)=>{
+      console.log('userService then : ', data)
+        commit('SET_LOADING', false)
+        commit('SET_USERS', {
+          count: data.data.count,
+          data: data.data.response.data
+        })
+        resolve()
+    })
   },
   filterUsers: ({ commit }, request) => {
     commit('FILTER_USERS', request)
@@ -326,7 +312,27 @@ const actions = {
   },
   //add remove admin
   addAdmin: ({commit},id)=>{
-    commit('ADD_ADMIN',id)
+   return new Promise((resolve,reject)=>{
+     var config = {
+       params: {
+         id: id
+       },
+       headers: {
+         Authorization: "Bearer " + $cookies.get('token')
+       }
+     }
+     state.userLoading = true
+     var f = new FormData()
+     f.append('admin', true)
+     Axios.put('http://localhost:8000/api/v1/users', f, config)
+       .then(
+         res => {
+           state.userLoading = false
+           resolve()
+         }
+       )
+       .catch(error => console.log(error))
+   })
   },
   removeAdmin: ({commit},id)=>{
     commit('REMOVE_ADMIN',id)

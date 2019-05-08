@@ -119,7 +119,7 @@
                         <v-btn
                           color="green darken-1"
                           flat="flat"
-                          @click="addAdmin(id)"
+                          @click="addAdminHundler(id)"
                         >
                           yes
                         </v-btn>
@@ -132,6 +132,7 @@
 
 <script>
 import ProfileEdit from '../accounts/UpdateProfile.vue'
+import {mapGetters,mapActions} from 'vuex'
 export default {
 
   data() {
@@ -162,6 +163,9 @@ export default {
   appEdit: ProfileEdit
 },
 computed: {
+  ...mapGetters({
+    users1:'user/users'
+  }),
   dialog(){
     return this.$store.state.user.userLoading
   },
@@ -234,6 +238,10 @@ watch: {
     }
   },
 methods: {
+  ...mapActions({
+    initUsers:'user/setUsers',
+    addAdmin:'user/addAdmin'
+  }),
     deleteBtn(id,name){
       this.id=id
       this.name=name
@@ -249,9 +257,17 @@ methods: {
       //alert(id)
       this.$store.dispatch('user/deleteUser',id)
     },
-    addAdmin(id){
+    addAdminHundler(id){
       this.dialog2 = false
-      this.$store.dispatch('user/addAdmin',id)
+      this.addAdmin(id).then(()=>{
+          var request = {
+          role : 'user',
+          offset: 0,
+          limit: 4
+          }
+           this.initUsers(request)
+      })
+
     }
   },
 beforeCreate() {
@@ -260,7 +276,7 @@ beforeCreate() {
       offset: 0,
       limit: 4
     }
-    this.$store.dispatch('user/setUsers',request)
+      this.initUsers(request)
   },
 }
 </script>

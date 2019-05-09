@@ -184,6 +184,28 @@
           </v-btn>
         </v-snackbar>
         <!-- mail or name already used end-->
+        <!-- Loader -->
+       <v-dialog
+          v-model="load"
+          hide-overlay
+          persistent
+          width="300"
+        >
+          <v-card
+            color="blue"
+            dark
+          >
+            <v-card-text>
+              Loading...
+              <v-progress-linear
+                indeterminate
+                color="black"
+                class="mb-0"
+              ></v-progress-linear>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+
 </div>
 </template>
 
@@ -219,6 +241,9 @@ export default {
     }
   },
   computed:  {
+    load(){
+    return this.$store.state.user.userLoading
+  },
     days() {
       switch(this.month){
         case 'January': case 'March': case 'May': case 'Jully': case 'August': case 'October': case 'December': var i=31
@@ -260,88 +285,92 @@ export default {
     this.valid = this.validate()
   },
   methods: {
-        pickFile () {
-            this.$refs.image.click ()
-        },
- validate(pass = this.password){
-        var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-        return strongRegex.test(pass);
+    pickFile () {
+        this.$refs.image.click ()
     },
-		onFilePicked (e) {
-			const files = e.target.files
-			if(files[0] !== undefined) {
-				this.imageName = files[0].name
-				if(this.imageName.lastIndexOf('.') <= 0) {
-					return
-				}
-				const fr = new FileReader ()
-				fr.readAsDataURL(files[0])
-				fr.addEventListener('load', () => {
-					this.imageUrl = fr.result
-					this.imageFile = files[0] // this is an image file that can be sent to server...
-				})
-			} else {
-				this.imageName = ''
-				this.imageFile = ''
-				this.imageUrl = ''
+    validate(pass = this.password){
+      var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+      return strongRegex.test(pass);
+    },
+    onFilePicked (e) {
+      const files = e.target.files
+      if(files[0] !== undefined) {
+      this.imageName = files[0].name
+      if(this.imageName.lastIndexOf('.') <= 0) {
+        return
       }
-      // console.log(this.imageFile);
-      // console.log(this.imageName);
-      // console.log(this.imageUrl);
+      const fr = new FileReader ()
+      fr.readAsDataURL(files[0])
+      fr.addEventListener('load', () => {
+        this.imageUrl = fr.result
+        this.imageFile = files[0] // this is an image file that can be sent to server...
+      })
+      } else {
+      this.imageName = ''
+      this.imageFile = ''
+      this.imageUrl = ''
+      }
 
     },
     cancel(){
-        this.dialog = false
-        this.imageUrl= this.user.profilePic
-        this.password =this.user.password
-        this.name= this.user.name
-        this.email= this.user.email
-        this.description= this.user.description
-        this.month= this.user.dateOfBirth.month
-        this.day= this.user.dateOfBirth.day
-        this.year= this.user.dateOfBirth.year
-        this.country= this.user.countryOfResidence
+      this.dialog = false
+      this.imageUrl= this.user.profilePic
+      this.password =this.user.password
+      this.name= this.user.name
+      this.email= this.user.email
+      this.description= this.user.description
+      this.month= this.user.dateOfBirth.month
+      this.day= this.user.dateOfBirth.day
+      this.year= this.user.dateOfBirth.year
+      this.country= this.user.countryOfResidence
     },
     save(){
 
-        var updatedUser = {
-          id: this.user.id,
-          name: this.name,
-          email: this.email,
-          password: this.password,
-          roles: this.user.roles,
-            dateOfBirth: {
-              day: this.day,
-              month: this.month,
-              year: this.year
-            },
-            countryOfResidence: this.country,
-            description: this.description,
-            profilePic: this.imageUrl,
-            joined: this.user.joined,
-            subscribers : this.user.subscribers,
-            subscriptions: this.user.subscriptions,
-            videosLikes: this.user.videosLikes,
-            videosDislikes: this.user.videosDislikes,
-            commentsLikes: this.user.commentsLikes,
-            commentsDislikes: this.user.commentsDislikes,
-            repliesLikes: this.user.repliesLikes,
-            repliesDislikes: this.user.repliesDislikes,
-        }
-        var update ={
-          updatedUser: updatedUser,
-          action: this.action
-        }
-        this.$store.dispatch('user/updateUser',update)
-        if (!this.snackbar) {
-          this.dialog = false
-        }
+      var updatedUser = {
+        id: this.user.id,
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        dateOfBirth: {
+          day: this.day,
+          month: this.month,
+          year: this.year
+        },
+        countryOfResidence: this.country,
+        description: this.description,
+        profilePic: this.imageFile
+      }
+      var update ={
+        updatedUser: updatedUser,
+        action: this.action
+      }
+      this.$store.dispatch('user/updateUser',update).then(
+        ()=>{
+          if (!this.snackbar) {
+            this.dialog = false
+            if (this.action=='user') {
+              this.$store.dispatch('user/getUser',this.user.id)
+            }else{
+              var route = window.location.pathname
+              if (route=='/users_management') {
+                var request = {
+                role : 'user',
+                offset: 0,
+                limit: 4
+                }
+              } else {
+                var request = {
+                role : 'admin',
+                offset: 0,
+                limit: 4
+                }
+              }
 
-        if (this.action=='user') {
-          this.$cookies.set('user', updatedUser, -1);
+              this.$store.dispatch('user/setUsers',request)
+            }
+          }
         }
-
-
+      )
 
     },
     cancelPictureUpdate(){

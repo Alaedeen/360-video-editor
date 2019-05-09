@@ -41,22 +41,13 @@ const mutations = {
         state.current = user
       }
     },
-    'UPDATE_USER'(state,update){
-      var U = state.users.filter(user => {
-        return ((user.email == update.updatedUser.email) || (user.name.toUpperCase() == update.updatedUser.name.toUpperCase())) && (user.id != update.updatedUser.id)
-      })
+    'UPDATE_USER'(state,code){
 
-      if (U.length != 0) {
+      if (code != 200) {
         state.signupError = true
         setTimeout(function () {
           state.signupError = false
         }, 2000);
-      } else {
-        if (update.action == 'user') {
-          state.current = update.updatedUser
-          $cookies.remove('user')
-        }
-        state.users.splice(update.updatedUser.id, 1, update.updatedUser)
       }
 
     },
@@ -164,7 +155,12 @@ const mutations = {
         state.users.splice(state.visited.id, 1, state.visited)
         state.current.subscriptions.splice(state.current.subscriptions.indexOf(state.visited.id), 1) //update cookie
         state.users.splice(state.current.id, 1, state.current)
-      },
+    },
+    'GET_USER'(state,user) {
+      state.current = user
+      $cookies.remove('user')
+      $cookies.set('user', user, -1);
+    }
 }
 
 const actions = {
@@ -252,7 +248,14 @@ const actions = {
     commit('REMOVE_REPLY_DISLIKE', id)
   },
   updateUser: ({commit}, update)=>{
-    commit('UPDATE_USER',update)
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      userService.updateUser(update.updatedUser).then((res) => {
+        commit('UPDATE_USER', res.data.code)
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
   },
   visitAccount: ({commit}, id)=>{
     commit('VISIT_ACCOUNT',id)
@@ -288,6 +291,16 @@ const actions = {
     return new Promise((resolve, reject) => {
       commit('SET_LOADING', true)
       userService.removeAdmin(id).then(() => {
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
+  },
+  getUser:({commit},id)=>{
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      userService.getUser(id).then((data) => {
+        commit('GET_USER', data.data.data)
         commit('SET_LOADING', false)
         resolve()
       })

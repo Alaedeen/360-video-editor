@@ -120,5 +120,49 @@ export const userService = {
           })
         .catch(error => console.log(error))
     })
+  },
+  updateUser(user){
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          id: user.id
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      var f = new FormData()
+      f.append('name', user.name)
+      f.append('email', user.email)
+      if (user.password!=undefined) {
+        f.append('password', user.password)
+      }
+      f.append('birthDay', user.dateOfBirth.day)
+      f.append('birthMonth', user.dateOfBirth.month)
+      f.append('birthYear', user.dateOfBirth.year)
+      f.append('country', user.countryOfResidence)
+      f.append('description', user.description)
+      if (user.profilePic!='') {
+        f.append('profilePicture', user.profilePic)
+      }
+      Axios.put('http://localhost:8000/api/v1/users', f, config).then(
+          (res) => {
+            resolve(res)
+          })
+        .catch(error => console.log(error))
+    })
+  },
+  getUser(id){
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          id: id
+        }
+      }
+      Axios.get('http://localhost:8000/api/v1/user', config).then((data) => {
+          resolve(data)
+        })
+        .catch(error => console.log(error))
+    })
   }
 }

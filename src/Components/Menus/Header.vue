@@ -63,7 +63,7 @@ export default {
       if (val==null) {
         this.search=''
       }
-      this.$store.dispatch('video/filterVideos', val);
+      this.$store.dispatch('video/setSearch', val);
     },
   },
     computed: {

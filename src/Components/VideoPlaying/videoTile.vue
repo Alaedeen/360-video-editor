@@ -4,7 +4,7 @@
         <template v-slot:activator="{ on }">
         <v-card dark v-on="on">
           <v-img
-            :src="vid.thumbnail"
+            :src="'http://localhost:8000/assets/project/videos/thumbnails/'+vid.thumbnail"
             height="7em"
             style=" padding-top: 36.25%;"
           >

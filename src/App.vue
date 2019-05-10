@@ -37,7 +37,6 @@ export default {
   },
   created() {
           this.$store.dispatch('user/initCurrent');
-          this.$store.dispatch('video/initVideos');
           this.$store.dispatch('video/initAll');
           this.$store.dispatch('project/initProjects');
           this.$store.dispatch('project/initShapes');

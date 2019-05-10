@@ -1,10 +1,13 @@
 import videos from '../../data/videos'
-
+import {videoService} from '../../services/videoService'
 const state = {
   videos: [],
+  search: '',
   filtredVideos: [],
   myVideos: [],
-  playing: {}
+  playing: {},
+  videosCount: 0,
+  videoLoading: false
 }
 
 const getters = {
@@ -14,13 +17,19 @@ const getters = {
 }
 
 const mutations = {
-  'SET_VIDEOS'(state, videos) {
-    state.videos = videos;
+  SET_LOADING(state, loading) {
+    state.videoLoading = loading
   },
-  'FILTER_VIDEOS'(state, title) {
-    state.filtredVideos = state.videos.filter(video => {
-      return video.title.toUpperCase().includes(title.toUpperCase())
-    });
+  'SET_VIDEOS'(state, {data,count}) {
+        state.videos = data
+        state.videosCount = count
+  },
+  'SET_SEARCH'(state, val){
+    state.search=val
+  },
+  'FILTER_VIDEOS'(state, {data,count}) {
+        state.filtredVideos = data
+        state.videosCount = count
   },
   'USER_VIDEOS'(state,id) {
     state.myVideos = state.videos.filter(video => {
@@ -310,14 +319,33 @@ const mutations = {
 }
 
 const actions = {
-  initVideos: ({commit}) => {
-    commit('SET_VIDEOS', videos)
+  setVideos: ({commit}, request) => {
+    commit('SET_LOADING', true)
+    videoService.fetchVideos(request).then((data) => {
+      console.log(data);
+
+      commit('SET_LOADING', false)
+      commit('SET_VIDEOS', {
+        count: data.data.count,
+        data: data.data.response.data
+      })
+    })
   },
   initAll: ({commit}) => {
     commit('INIT_ALL')
   },
-  filterVideos: ({commit},title)=>{
-    commit('FILTER_VIDEOS', title)
+  setSearch: ({commit}, val) =>{
+    commit('SET_SEARCH', val)
+  },
+  filterVideos: ({commit},request)=>{
+    commit('SET_LOADING', true)
+    videoService.filterVideos(request).then((data) => {
+      commit('SET_LOADING', false)
+      commit('FILTER_VIDEOS', {
+        count: data.data.count,
+        data: data.data.response.data
+      })
+    })
   },
   userVideos: ({commit},id)=>{
     commit('USER_VIDEOS', id)

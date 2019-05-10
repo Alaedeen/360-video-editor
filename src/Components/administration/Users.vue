@@ -6,9 +6,10 @@
               single-line
               label="Search"
               outline
+              :autofocus="true"
               color="grey"
               clearable
-              v-model="search"></v-text-field>
+              v-model="search" @input="filter" ></v-text-field>
       </v-flex>
       <v-data-table
         :headers="headers"
@@ -133,6 +134,7 @@
 <script>
 import ProfileEdit from '../accounts/UpdateProfile.vue'
 import {mapActions} from 'vuex'
+import _ from 'lodash'
 export default {
 
   data() {
@@ -188,15 +190,6 @@ watch: {
             limit: 4
           }
           this.setUsers(request)
-          this.pagination.page=1
-      }else{
-          var request = {
-            role : 'user',
-            name: val,
-            offset: 0,
-            limit: 4
-          }
-          this.filterUsers(request)
           this.pagination.page=1
       }
     },
@@ -273,7 +266,18 @@ methods: {
         this.setUsers(request)
       })
 
-    }
+    },
+
+    filter: _.debounce(function()  {
+      var request = {
+        role : 'user',
+        name: this.search,
+        offset: 0,
+        limit: 4
+      }
+      this.filterUsers(request)
+      this.pagination.page=1
+    }, 500)
   },
 beforeCreate() {
     var request = {

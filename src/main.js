@@ -9,8 +9,11 @@ import VueCookies from 'vue-cookies'
 import aframe from 'aframe';
 import registerClickDrag from 'aframe-click-drag-component';
 import Axios from 'axios'
+import _ from 'lodash'
+
 registerClickDrag(aframe);
 Vue.prototype.$http = Axios;
+Vue.prototype.$_ = _;
 
 import {
   routes

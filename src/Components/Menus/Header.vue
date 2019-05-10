@@ -16,7 +16,8 @@
            outline
            clearable
         v-model="search"
-        v-if="home"></v-text-field>
+        v-if="home"
+        @input="filter"></v-text-field>
       <v-spacer></v-spacer>
 
 
@@ -46,6 +47,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
   data() {
     return {
@@ -63,7 +65,7 @@ export default {
       if (val==null) {
         this.search=''
       }
-      this.$store.dispatch('video/setSearch', val);
+
     },
   },
     computed: {
@@ -80,7 +82,10 @@ export default {
       },
       gohome(){
         this.$router.push({path : '/'})
-      }
+      },
+      filter: _.debounce(function()  {
+        this.$store.dispatch('video/setSearch', this.search);
+      }, 500)
     },
 }
 </script>

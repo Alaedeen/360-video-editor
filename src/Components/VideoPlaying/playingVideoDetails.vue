@@ -28,7 +28,7 @@
                               color="grey lighten-4"
                               v-on="on"
                             >
-                              <v-img :src="visited.profilePic" alt="avatar"
+                              <v-img :src="'http://localhost:8000/assets/profilePictures/'+visited.profilePic" alt="avatar"
                               style="cursor: pointer"
                               @click="visitAccount"></v-img>
                         </v-avatar>
@@ -58,6 +58,7 @@
 </template>
 <script>
 import actions from './userActions.vue'
+import { mapActions } from 'vuex';
 export default {
   data() {
     return {
@@ -145,10 +146,10 @@ computed: {
     }
   },
 },
-created() {
-  this.$store.dispatch('user/visitAccount',this.video.userId)
-},
 methods: {
+  ...mapActions({
+    getAccount : 'user/visitAccount'
+  }),
   visitAccount(){
   this.$router.push({path: '/visit/' + this.video.userId})
   },

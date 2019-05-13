@@ -39,10 +39,8 @@ const mutations = {
     state.filtredVideos = state.videos;
     state.myVideos = state.videos;
   },
-  'LOAD_VIDEO'(state,vidId) {
-    state.playing = state.videos.filter(video => {
-      return video.vidId == vidId
-    })[0]
+  'LOAD_VIDEO'(state, video) {
+    state.playing = video
   },
   //add/remove like to a video
   'ADD_VIDEO_LIKE'(state,id){
@@ -321,7 +319,6 @@ const actions = {
   setVideos: ({commit}, request) => {
     commit('SET_LOADING', true)
     videoService.fetchVideos(request).then((data) => {
-      console.log(data);
 
       commit('SET_LOADING', false)
       commit('SET_VIDEOS', {
@@ -349,8 +346,6 @@ const actions = {
   userVideos: ({commit},request)=>{
     commit('SET_LOADING', true)
     videoService.userVideos(request).then((data) => {
-      console.log(data);
-
       commit('SET_LOADING', false)
       commit('USER_VIDEOS', {
         count: data.data.count,
@@ -359,7 +354,13 @@ const actions = {
     })
   },
   loadVideo: ({commit},vidId)=>{
-    commit('LOAD_VIDEO',vidId)
+    return new Promise((resolve, reject) => {
+        videoService.loadVideo(vidId).then((data) => {
+          commit('LOAD_VIDEO', data.data.data)
+          resolve()
+        })
+    })
+
   },
   //video like dislike
   addVideoLike: ({commit}, id)=>{

@@ -10,7 +10,7 @@
     </v-flex>
     <v-flex xs12  md8  style="paddingLeft: 3em; paddingTop: 1em">
       <!-- video details -->
-          <app-details :video="video"></app-details>
+          <app-details :video="video" ></app-details>
       <!-- video details end-->
 
       <!-- comments -->
@@ -33,19 +33,26 @@ import player from './player.vue'
 import details from './playingVideoDetails.vue'
 import comments from './videoComments.vue'
 import next from './watchNext.vue'
+import { mapActions } from 'vuex';
 export default {
-
+  methods: {
+    ...mapActions({
+      getAccount : 'user/visitAccount'
+    }),
+  },
   computed: {
     video(){
       return this.$store.state.video.playing
     },
     videos(){
       return this.$store.state.video.videos
-    }
+    },
   },
+  mounted() {
+    this.$store.dispatch('video/loadVideo', parseInt(this.$route.params.id, 10)).then(()=>{
+      this.getAccount(this.video.userId)
+    })
 
-  beforeCreate() {
-    this.$store.dispatch('video/loadVideo', parseInt(this.$route.params.id, 10));
   },
   components: {
     appPlayer: player,

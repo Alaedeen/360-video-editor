@@ -138,10 +138,8 @@ const mutations = {
       state.users.splice(state.current.id, 1, state.current)
     },
     //visit other user account
-    'VISIT_ACCOUNT'(state,id){
-      state.visited = state.users.filter(user => {
-        return (user.id == id)
-      })[0]
+    'VISIT_ACCOUNT'(state, user) {
+      state.visited = user
     },
     //add remove subscription
     'ADD_SUBSCRIPTION'(state){
@@ -258,7 +256,12 @@ const actions = {
     })
   },
   visitAccount: ({commit}, id)=>{
-    commit('VISIT_ACCOUNT',id)
+      commit('SET_LOADING', true)
+      userService.getUser(id).then((data) => {
+        commit('VISIT_ACCOUNT', data.data.data)
+        commit('SET_LOADING', false)
+        resolve()
+      })
   },
   //add remove subscriptions
   addSbuscription: ({commit})=>{

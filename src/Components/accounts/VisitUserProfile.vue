@@ -29,7 +29,7 @@
         <v-avatar
           size= '65'
           color="grey lighten-4">
-          <v-img :src="user.profilePic" alt="avatar"></v-img>
+          <v-img :src="'http://localhost:8000/assets/profilePictures/'+user.profilePic" alt="avatar"></v-img>
         </v-avatar>
 
         <h2 class = 'name'> {{user.name}} </h2>

@@ -111,6 +111,28 @@
           </div>
         </v-app>
 
+      <!-- Loader -->
+  <v-dialog
+    v-model="dialog"
+    hide-overlay
+    persistent
+    width="300"
+  >
+    <v-card
+      color="blue"
+      dark
+    >
+      <v-card-text>
+        Loading...
+        <v-progress-linear
+          indeterminate
+          color="black"
+          class="mb-0"
+        ></v-progress-linear>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
+
 </div>
 </template>
 
@@ -124,7 +146,7 @@ export default {
       page : 1
     }
   },
-computed: {
+  computed: {
     current() {
       return this.$store.state.user.current
     },
@@ -134,6 +156,19 @@ computed: {
     pages() {
     return Math.ceil(this.$store.state.video.videosCount/18)
     },
+    dialog(){
+      return this.$store.state.video.videoLoading
+    },
+  },
+  watch: {
+    page: function (val){
+      var request = {
+        id: this.current.id,
+        offset: (val * 18) - 18,
+        limit: 18
+      }
+      this.$store.dispatch('video/userVideos', request)
+    }
   },
   created() {
     var request = {

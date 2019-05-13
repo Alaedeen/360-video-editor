@@ -61,6 +61,9 @@
                         </v-flex>
                       </v-layout>
                     </v-container>
+                        <div class="text-xs-center pt-2" v-if="videos!=null">
+                          <v-pagination v-model="page" :length="pages" dark color="black" ></v-pagination>
+                        </div>
                   </div>
                   <div v-if="tab=='About'">
                       <v-container grid-list-md text-xs-center>
@@ -117,25 +120,34 @@ import ProfileEdit from './UpdateProfile.vue'
 export default {
   data() {
     return {
-      tabs :['Online videos', 'About' ]
+      tabs :['Online videos', 'About' ],
+      page : 1
     }
   },
 computed: {
-      current() {
-        return this.$store.state.user.current
-      },
-      videos(){
-        return this.$store.state.video.myVideos
-      }
+    current() {
+      return this.$store.state.user.current
     },
-created() {
-  this.$store.dispatch('video/userVideos',this.current.id)
-},
-components: {
-  appTile: videoTile,
-  appEdit: ProfileEdit
-},
-methods: {
+    videos(){
+      return this.$store.state.video.myVideos
+    },
+    pages() {
+    return Math.ceil(this.$store.state.video.videosCount/18)
+    },
+  },
+  created() {
+    var request = {
+      id: this.current.id,
+      offset: 0,
+      limit: 18
+    }
+    this.$store.dispatch('video/userVideos',request)
+  },
+  components: {
+    appTile: videoTile,
+    appEdit: ProfileEdit
+  },
+  methods: {
     watch(id){
       var url = '/watch/'+id
       this.$router.push({path:url})

@@ -39,4 +39,25 @@ export const videoService = {
         .catch(error => console.log(error))
     })
   },
+  userVideos(request){
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          id: request.id,
+          offset: request.offset,
+          limit: request.limit,
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.get('http://localhost:8000/api/v1/user/videos', config)
+        .then(
+          data => {
+            resolve(data)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  }
 }

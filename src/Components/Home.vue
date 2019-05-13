@@ -8,7 +8,7 @@
     </v-layout>
   </v-container>
 
-  <div class="text-xs-center pt-2">
+  <div class="text-xs-center pt-2" v-if="videos!=null">
     <v-pagination v-model="page" :length="pages" dark color="black" ></v-pagination>
   </div>
 

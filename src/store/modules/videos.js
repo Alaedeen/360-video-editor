@@ -31,10 +31,9 @@ const mutations = {
         state.filtredVideos = data
         state.videosCount = count
   },
-  'USER_VIDEOS'(state,id) {
-    state.myVideos = state.videos.filter(video => {
-      return video.userId==id
-    });
+  'USER_VIDEOS'(state,{data,count}) {
+    state.myVideos = data
+    state.videosCount = count
   },
   'INIT_ALL'(state) {
     state.filtredVideos = state.videos;
@@ -347,8 +346,17 @@ const actions = {
       })
     })
   },
-  userVideos: ({commit},id)=>{
-    commit('USER_VIDEOS', id)
+  userVideos: ({commit},request)=>{
+    commit('SET_LOADING', true)
+    videoService.userVideos(request).then((data) => {
+      console.log(data);
+
+      commit('SET_LOADING', false)
+      commit('USER_VIDEOS', {
+        count: data.data.count,
+        data: data.data.response.data
+      })
+    })
   },
   loadVideo: ({commit},vidId)=>{
     commit('LOAD_VIDEO',vidId)

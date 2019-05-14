@@ -270,7 +270,7 @@ const actions = {
         id: state.visited.id,
         subscribers: state.visited.subscribers+1
       }
-      userService.addSubscriber(request).then(() => {
+      userService.updateSubscribers(request).then(() => {
         var request1 = {
           idSubscriber: state.current.id,
           idSubscribed: state.visited.id
@@ -283,7 +283,18 @@ const actions = {
     })
   },
   removeSbuscription: ({commit})=>{
-    commit('REMOVE_SUBSCRIPTION')
+    return new Promise((resolve, reject) => {
+      var request = {
+        id: state.visited.id,
+        subscribers: state.visited.subscribers - 1
+      }
+      userService.updateSubscribers(request).then(() => {
+        userService.removeSubscription(state.current.id).then(() => {
+          commit('REMOVE_SUBSCRIPTION')
+          resolve()
+        })
+      })
+    })
   },
   //delete user
   deleteUser: ({commit},id)=>{

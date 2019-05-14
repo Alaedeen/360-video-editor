@@ -165,7 +165,7 @@ export const userService = {
         .catch(error => console.log(error))
     })
   },
-  addSubscriber(request) {
+  updateSubscribers(request) {
     return new Promise((resolve, reject) => {
       var config = {
         params: {
@@ -194,6 +194,25 @@ export const userService = {
         }
       }
       Axios.post('http://localhost:8000/api/v1/subscriptions', request, config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
+  removeSubscription(id) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          id: id
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.delete('http://localhost:8000/api/v1/subscriptions', config)
         .then(
           res => {
             resolve(res)

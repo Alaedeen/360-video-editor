@@ -256,12 +256,14 @@ const actions = {
     })
   },
   visitAccount: ({commit}, id)=>{
+    return new Promise((resolve, reject) => {
       commit('SET_LOADING', true)
       userService.getUser(id).then((data) => {
         commit('VISIT_ACCOUNT', data.data.data)
         commit('SET_LOADING', false)
         resolve()
       })
+    })
   },
   //add remove subscriptions
   addSbuscription: ({commit})=>{

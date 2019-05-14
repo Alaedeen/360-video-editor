@@ -65,6 +65,9 @@
                         </v-flex>
                       </v-layout>
                     </v-container>
+                    <div class="text-xs-center pt-2" v-if="videos!=null">
+                      <v-pagination v-model="page" :length="pages" dark color="black" ></v-pagination>
+                    </div>
                   </div>
                   <div v-if="tab=='About'">
                       <v-container grid-list-md text-xs-center>
@@ -121,66 +124,85 @@ import ProfileEdit from './UpdateProfile.vue'
 export default {
   data() {
     return {
-      tabs :['Online videos', 'About' ]
+      tabs :['Online videos', 'About' ],
+      page : 1
     }
   },
 computed: {
-      user() {
-        return this.$store.state.user.visited
-      },
-      videos(){
-        return this.$store.state.video.myVideos
-      },
-      //subscribe
-      subscribed(){
-        if (this.$store.state.user.current==null) {
-          return false
-        }else {
-          return this.$store.state.user.current.subscriptions.includes(this.user.id)
-        }
-      },
-      subscribeBtn(){
-        if (!this.subscribed) {
-          return {
-            color :'red',
-            label : 'SUBSCRIBE'
-          }
-        }else{
-          return {
-            color :'grey',
-            label : 'SUBSCRIBED'
-          }
-        }
-      },
+    user() {
+      return this.$store.state.user.visited
     },
-    beforeCreate() {
-      this.$store.dispatch('user/visitAccount',parseInt(this.$route.params.id, 10))
+    videos(){
+      return this.$store.state.video.myVideos
     },
-created() {
-  this.$store.dispatch('video/userVideos',this.user.id)
-},
-components: {
-  appTile: videoTile,
-  appEdit: ProfileEdit
-},
-methods: {
-    watch(id){
-      var url = '/watch/'+id
-      this.$router.push({path:url})
+    pages() {
+    return Math.ceil(this.$store.state.video.videosCount/18)
     },
-    //Subscribe
-    subscribe(){
+    //subscribe
+    subscribed(){
       if (this.$store.state.user.current==null) {
-              this.$router.push({path:'/login'})
-          }else{
-            if (!this.subscribed) {
-              this.$store.dispatch('user/addSbuscription')
-            }else{
-              this.$store.dispatch('user/removeSbuscription')
-            }
-          }
+        return false
+      }else {
+        return this.$store.state.user.current.subscriptions.includes(this.user.id)
+      }
+    },
+    subscribeBtn(){
+      if (!this.subscribed) {
+        return {
+          color :'red',
+          label : 'SUBSCRIBE'
+        }
+      }else{
+        return {
+          color :'grey',
+          label : 'SUBSCRIBED'
+        }
+      }
+    },
+  },
+  watch: {
+    page: function (val){
+      var request = {
+        id: this.user.id,
+        offset: (val * 18) - 18,
+        limit: 18
+      }
+      this.$store.dispatch('video/userVideos', request)
     }
   },
+  created() {
+    this.$store.dispatch('user/visitAccount',parseInt(this.$route.params.id, 10)).then(()=>{
+      var request = {
+        id: this.user.id,
+        offset: 0,
+        limit: 18
+      }
+      this.$store.dispatch('video/userVideos',request)
+    })
+
+  },
+  components: {
+    appTile: videoTile,
+    appEdit: ProfileEdit
+  },
+  methods: {
+      watch(id){
+        var url = '/watch/'+id
+        this.$router.push({path:url})
+      },
+      //Subscribe
+      subscribe(){
+        if (this.$store.state.user.current==null) {
+                this.$router.push({path:'/login'})
+            }else{
+              if (!this.subscribed) {
+                this.$store.dispatch('user/addSbuscription')
+              }else{
+                this.$store.dispatch('user/removeSbuscription')
+              }
+            }
+      }
+    },
 
 }
 

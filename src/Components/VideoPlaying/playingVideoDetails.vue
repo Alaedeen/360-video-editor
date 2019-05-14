@@ -164,11 +164,13 @@ methods: {
             this.$store.dispatch('user/removeVideoDislike',this.video.vidId)
             this.$store.dispatch('video/removeVideoDislike',this.video.vidId)
           }
-          this.$store.dispatch('user/addVideoLike',this.video.vidId)
-          this.$store.dispatch('video/addVideoLike',this.video.vidId)
+          this.$store.dispatch('user/addVideoLike',this.video.vidId).then(()=>{
+            this.$store.dispatch('video/addVideoLike',this.video.vidId)
+          })
         }else{
-          this.$store.dispatch('user/removeVideoLike',this.video.vidId)
-          this.$store.dispatch('video/removeVideoLike',this.video.vidId)
+          this.$store.dispatch('user/removeVideoLike',this.video.vidId).then(()=>{
+            this.$store.dispatch('video/removeVideoLike',this.video.vidId)
+          })
         }
       }
   },

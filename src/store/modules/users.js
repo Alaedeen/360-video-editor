@@ -74,12 +74,14 @@ const mutations = {
     },
     //video like dislike
     'ADD_VIDEO_LIKE'(state, id) {
-        state.current.videosLikes.push(id)//update cookie
-        state.users.splice(state.current.id,1,state.current)
+        state.current.videosLikes.push(id)
+        $cookies.remove('user')
+        $cookies.set('user', state.current, -1);
     },
     'REMOVE_VIDEO_LIKE'(state, id) {
-      state.current.videosLikes.splice(state.current.videosLikes.indexOf(id), 1) //update cookie
-      state.users.splice(state.current.id, 1, state.current)
+      state.current.videosLikes.splice(state.current.videosLikes.indexOf(id), 1)
+      $cookies.remove('user')
+      $cookies.set('user', state.current, -1);
     },
     'ADD_VIDEO_DISLIKE'(state, id) {
       state.current.videosDislikes.push(id) //update cookie
@@ -208,10 +210,24 @@ const actions = {
   },
   //video likes dislikes
   addVideoLike: ({commit}, id)=>{
-    commit('ADD_VIDEO_LIKE',id)
+    return new Promise((resolve, reject) => {
+      var request = {
+        idUser: state.current.id,
+        idVideo: id
+      }
+      userService.addvideoLike(request).then(() => {
+        commit('ADD_VIDEO_LIKE', id)
+        resolve()
+      })
+    })
   },
   removeVideoLike: ({commit}, id)=>{
-    commit('REMOVE_VIDEO_LIKE', id)
+    return new Promise((resolve, reject) => {
+        userService.removevideoLike(id).then(() => {
+          commit('REMOVE_VIDEO_LIKE', id)
+          resolve()
+        })
+    })
   },
   addVideoDislike: ({commit}, id)=>{
     commit('ADD_VIDEO_DISLIKE',id)

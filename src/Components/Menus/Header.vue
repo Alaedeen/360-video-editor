@@ -28,10 +28,12 @@
       overlap
       color="red"
       v-if="current!= null">
-        <template v-slot:badge>
-          <span  class="bounce-7 box">6</span>
+        <template
+        v-slot:badge>
+          <span  >6</span>
         </template>
         <v-icon
+          class="bounce-7 box"
           large
           color="grey lighten-1"
         >

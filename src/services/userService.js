@@ -221,4 +221,39 @@ export const userService = {
         .catch(error => console.log(error))
     })
   },
+  addvideoLike(request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.post('http://localhost:8000/api/v1/videosLikes', request, config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
+  removevideoLike(id) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          id: id
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.delete('http://localhost:8000/api/v1/videosLikes', config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
 }

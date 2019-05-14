@@ -143,16 +143,16 @@ const mutations = {
     },
     //add remove subscription
     'ADD_SUBSCRIPTION'(state){
-        state.visited.subscribers++
-        state.users.splice(state.visited.id, 1, state.visited)
-        state.current.subscriptions.push(state.visited.id) //update cookie
-        state.users.splice(state.current.id, 1, state.current)
+      state.visited.subscribers++
+      state.current.subscriptions.push(state.visited.id)
+      $cookies.remove('user')
+      $cookies.set('user', state.current, -1);
     },
     'REMOVE_SUBSCRIPTION'(state) {
-        state.visited.subscribers--
-        state.users.splice(state.visited.id, 1, state.visited)
-        state.current.subscriptions.splice(state.current.subscriptions.indexOf(state.visited.id), 1) //update cookie
-        state.users.splice(state.current.id, 1, state.current)
+      state.visited.subscribers--
+      state.current.subscriptions.splice(state.current.subscriptions.indexOf(state.visited.id), 1)
+      $cookies.remove('user')
+      $cookies.set('user', state.current, -1);
     },
     'GET_USER'(state,user) {
       state.current = user
@@ -265,7 +265,22 @@ const actions = {
   },
   //add remove subscriptions
   addSbuscription: ({commit})=>{
-    commit('ADD_SUBSCRIPTION')
+    return new Promise((resolve, reject) => {
+      var request = {
+        id: state.visited.id,
+        subscribers: state.visited.subscribers+1
+      }
+      userService.addSubscriber(request).then(() => {
+        var request1 = {
+          idSubscriber: state.current.id,
+          idSubscribed: state.visited.id
+        }
+        userService.addSubscription(request1).then(() => {
+          commit('ADD_SUBSCRIPTION')
+          resolve()
+        })
+      })
+    })
   },
   removeSbuscription: ({commit})=>{
     commit('REMOVE_SUBSCRIPTION')

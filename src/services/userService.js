@@ -164,5 +164,42 @@ export const userService = {
         })
         .catch(error => console.log(error))
     })
-  }
+  },
+  addSubscriber(request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          id: request.id
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      var f = new FormData()
+      f.append('subscribers', request.subscribers)
+      Axios.put('http://localhost:8000/api/v1/users', f, config)
+        .then(
+          () => {
+            resolve()
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
+  addSubscription(request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.post('http://localhost:8000/api/v1/subscriptions', request, config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
 }

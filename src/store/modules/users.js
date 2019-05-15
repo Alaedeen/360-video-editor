@@ -331,7 +331,11 @@ const actions = {
         subscribers: state.visited.subscribers - 1
       }
       userService.updateSubscribers(request).then(() => {
-        userService.removeSubscription(state.current.id).then(() => {
+        var queries = {
+          idUser : state.current.id,
+          idSub : state.visited.id
+        }
+        userService.removeSubscription(queries).then(() => {
           commit('REMOVE_SUBSCRIPTION')
           resolve()
         })

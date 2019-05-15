@@ -202,11 +202,12 @@ export const userService = {
         .catch(error => console.log(error))
     })
   },
-  removeSubscription(id) {
+  removeSubscription(queries) {
     return new Promise((resolve, reject) => {
       var config = {
         params: {
-          id: id
+          idUser: queries.idUser,
+          idSub: queries.idSub
         },
         headers: {
           Authorization: "Bearer " + $cookies.get('token')

@@ -2,7 +2,7 @@
   <div>
     <div>
                   <v-avatar style="display: inline-block;" size= '40'>
-                    <img :src="comment.profilePic">
+                    <img :src="'http://localhost:8000/assets/profilePictures/'+comment.profilePic">
                   </v-avatar>
                   <p style="color: grey; display: inline-block; marginLeft: 1em">
                       <b> {{comment.nameUser}} </b>
@@ -59,9 +59,8 @@ export default {
     }
   },
   props : {
-    comment: {
-      type : Object,
-      default: {}
+    index: {
+      type : Number
     },
     reply: {
       type : Boolean,
@@ -78,6 +77,9 @@ export default {
       }else{
         return this.$store.state.user.current
       }
+    },
+    comment(){
+      return this.$store.state.video.playing.comments[this.index]
     },
     commentItems(){
       return [

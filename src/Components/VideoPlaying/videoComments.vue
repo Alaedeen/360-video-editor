@@ -20,14 +20,13 @@
             <div class="profile" style="width: 100%">
                 <div v-for="(comment,index) in comments" :key="index">
                   <v-divider color="grey" v-if="index>0" ></v-divider>
-                    <app-comment :comment="comment"  :reply="replies[index]" :videoId="videoId"></app-comment>
+                    <app-comment :index="index"  :reply="replies[index]" :videoId="videoId"></app-comment>
 
                   </div>
             </div>
 
           </v-layout>
           <!-- video Comments end -->
-
   </div>
 </template>
 <script>
@@ -39,7 +38,7 @@ export default {
       replies: []
     }
   },
-  props: ['comments','videoId'],
+  props: ['videoId'],
   components: {
     appComment: comment
   },
@@ -51,7 +50,9 @@ export default {
         return this.$store.state.user.current
       }
     },
-
+    comments(){
+      return this.$store.state.video.playing.comments
+    }
   },
   methods: {
     addComment(){
@@ -63,7 +64,9 @@ export default {
           text: this.comment,
           user: this.user
         }
-        this.$store.dispatch('video/addComment',comm)
+        this.$store.dispatch('video/addComment',comm).then(()=>{
+          this.$forceUpdate();
+        })
         this.comment=''
         this.replies.splice(0,0,false)
       }

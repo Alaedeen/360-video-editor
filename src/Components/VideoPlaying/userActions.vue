@@ -20,7 +20,7 @@ methods:{
     this.dislikeVideo()
   }
 },mounted() {
-  console.log(this.items)
+  // console.log(this.items)
 },
 }
 </script>

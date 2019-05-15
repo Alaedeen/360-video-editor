@@ -43,22 +43,6 @@ const mutations = {
     state.playing = video
   },
 
-  //add/remove dislike to a video
-  'ADD_VIDEO_DISLIKE'(state, id) {
-    var vid = state.videos.filter(video => {
-      return video.vidId == id
-    })[0]
-    vid.dislikes++;
-    videos.splice(vid.vidId, 1, vid)
-  },
-  'REMOVE_VIDEO_DISLIKE'(state, id) {
-    var vid = state.videos.filter(video => {
-      return video.vidId == id
-    })[0]
-    vid.dislikes--;
-    videos.splice(vid.vidId, 1, vid)
-  },
-
   //add comment
   'ADD_COMMENT'(state,comment) {
     var vid = state.videos.filter(video => {
@@ -377,10 +361,32 @@ const actions = {
     })
   },
   addVideoDislike: ({commit}, id)=>{
-    commit('ADD_VIDEO_DISLIKE',id)
+    return new Promise((resolve, reject) => {
+      var video = {
+        dislikes: ++state.playing.dislikes
+      }
+      var request = {
+        video: video,
+        id: id
+      }
+      videoService.updateVideo(request).then((data) => {
+        resolve()
+      })
+    })
   },
   removeVideoDislike: ({commit}, id)=>{
-    commit('REMOVE_VIDEO_DISLIKE', id)
+    return new Promise((resolve, reject) => {
+      var video = {
+        dislikes: --state.playing.dislikes
+      }
+      var request = {
+        video: video,
+        id: id
+      }
+      videoService.updateVideo(request).then((data) => {
+        resolve()
+      })
+    })
   },
   //add comment
   addComment: ({commit},comment)=>{

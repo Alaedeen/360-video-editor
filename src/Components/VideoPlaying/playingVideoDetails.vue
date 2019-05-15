@@ -161,8 +161,9 @@ methods: {
       else{
         if (!this.liked) {
           if (this.disliked) {
-            this.$store.dispatch('user/removeVideoDislike',this.video.vidId)
-            this.$store.dispatch('video/removeVideoDislike',this.video.vidId)
+            this.$store.dispatch('user/removeVideoDislike',this.video.vidId).then(()=>{
+              this.$store.dispatch('video/removeVideoDislike',this.video.vidId)
+            })
           }
           this.$store.dispatch('user/addVideoLike',this.video.vidId).then(()=>{
             this.$store.dispatch('video/addVideoLike',this.video.vidId)
@@ -181,14 +182,17 @@ methods: {
       else{
         if (!this.disliked) {
           if (this.liked) {
-            this.$store.dispatch('user/removeVideoLike',this.video.vidId)
-            this.$store.dispatch('video/removeVideoLike',this.video.vidId)
+            this.$store.dispatch('user/removeVideoLike',this.video.vidId).then(()=>{
+              this.$store.dispatch('video/removeVideoLike',this.video.vidId)
+            })
           }
-          this.$store.dispatch('user/addVideoDislike',this.video.vidId)
-          this.$store.dispatch('video/addVideoDislike',this.video.vidId)
+          this.$store.dispatch('user/addVideoDislike',this.video.vidId).then(()=>{
+            this.$store.dispatch('video/addVideoDislike',this.video.vidId)
+          })
         }else{
-          this.$store.dispatch('user/removeVideoDislike',this.video.vidId)
-          this.$store.dispatch('video/removeVideoDislike',this.video.vidId)
+          this.$store.dispatch('user/removeVideoDislike',this.video.vidId).then(()=>{
+            this.$store.dispatch('video/removeVideoDislike',this.video.vidId)
+          })
         }
       }
   },

@@ -237,17 +237,54 @@ export const userService = {
         .catch(error => console.log(error))
     })
   },
-  removevideoLike(id) {
+  removevideoLike(queries) {
     return new Promise((resolve, reject) => {
       var config = {
         params: {
-          id: id
+          idVideo: queries.idVideo,
+          idUser: queries.idUser
         },
         headers: {
           Authorization: "Bearer " + $cookies.get('token')
         }
       }
       Axios.delete('http://localhost:8000/api/v1/videosLikes', config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
+  addvideoDislike(request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.post('http://localhost:8000/api/v1/videosDislikes', request, config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
+  removevideoDislike(queries) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          idVideo: queries.idVideo,
+          idUser: queries.idUser
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.delete('http://localhost:8000/api/v1/videosDislikes', config)
         .then(
           res => {
             resolve(res)

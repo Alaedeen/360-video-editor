@@ -44,10 +44,10 @@ const mutations = {
   },
 
   //add comment
-  'ADD_COMMENT'(state,comment) {
+  'ADD_COMMENT'(state,{comment,id}) {
     var com = {
       idUser: comment.idUser,
-      idComment: 99999999999,
+      idComment: id,
       videoId: comment.videoId,
       nameUser: comment.nameUser,
       profilePic: comment.profilePic,
@@ -62,7 +62,6 @@ const mutations = {
       replies : []
     }
     state.playing.comments.splice(0, 0, com)
-    console.log(state.playing.comments);
   },
 
   //add/remove like to a comment
@@ -413,7 +412,12 @@ const actions = {
     }
     return new Promise((resolve, reject) => {
       videoService.addComment(com).then((data) => {
-        commit('ADD_COMMENT', com)
+        commit('ADD_COMMENT',
+        {
+          comment : com,
+          id: data.data.data
+        }
+        )
         resolve()
       })
     })

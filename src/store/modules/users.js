@@ -96,26 +96,30 @@ const mutations = {
 
     //comment like dislike
     'ADD_COMMENT_LIKE'(state, id) {
-      state.current.commentsLikes.push(id) //update cookie
-      state.users.splice(state.current.id, 1, state.current)
+      state.current.commentsLikes.push(id)
+      $cookies.remove('user')
+      $cookies.set('user', state.current, -1);
     },
     'REMOVE_COMMENT_LIKE'(state, id) {
       var index = state.current.commentsLikes.findIndex(function (element) {
         return (element.videoId == id.videoId) && (element.commentId == id.commentId)
       });
-      state.current.commentsLikes.splice(index, 1) //update cookie
-      state.users.splice(state.current.id, 1, state.current)
+      state.current.commentsLikes.splice(index, 1)
+      $cookies.remove('user')
+      $cookies.set('user', state.current, -1);
     },
     'ADD_COMMENT_DISLIKE'(state, id) {
-      state.current.commentsDislikes.push(id) //update cookie
-      state.users.splice(state.current.id, 1, state.current)
+      state.current.commentsDislikes.push(id)
+      $cookies.remove('user')
+      $cookies.set('user', state.current, -1);
     },
     'REMOVE_COMMENT_DISLIKE'(state, id) {
       var index = state.current.commentsDislikes.findIndex(function (element) {
         return (element.videoId == id.videoId) && (element.commentId == id.commentId)
       });
-      state.current.commentsDislikes.splice(index, 1) //update cookie
-      state.users.splice(state.current.id, 1, state.current)
+      state.current.commentsDislikes.splice(index, 1)
+      $cookies.remove('user')
+      $cookies.set('user', state.current, -1);
     },
 
     //reply like dislike
@@ -261,16 +265,56 @@ const actions = {
   },
   //comment likes dislikes
   addCommentLike: ({commit}, id)=>{
-    commit('ADD_COMMENT_LIKE',id)
+    return new Promise((resolve, reject) => {
+      var request = {
+        idUser: state.current.id,
+        idVideo: id.videoId,
+        idComment: id.commentId
+      }
+      userService.addcommentLike(request).then(() => {
+        commit('ADD_COMMENT_LIKE', id)
+        resolve()
+      })
+    })
   },
   removeCommentLike: ({commit}, id)=>{
-    commit('REMOVE_COMMENT_LIKE', id)
+    return new Promise((resolve, reject) => {
+      var queries = {
+        idUser: state.current.id,
+        idVideo: id.videoId,
+        idComment: id.commentId
+      }
+      userService.removecommentLike(queries).then(() => {
+        commit('REMOVE_COMMENT_LIKE', id)
+        resolve()
+      })
+    })
   },
   addCommentDislike: ({commit}, id)=>{
-    commit('ADD_COMMENT_DISLIKE',id)
+    return new Promise((resolve, reject) => {
+      var request = {
+        idUser: state.current.id,
+        idVideo: id.videoId,
+        idComment: id.commentId
+      }
+      userService.addcommentDislike(request).then(() => {
+        commit('ADD_COMMENT_DISLIKE', id)
+        resolve()
+      })
+    })
   },
   removeCommentDislike: ({commit}, id)=>{
-    commit('REMOVE_COMMENT_DISLIKE', id)
+    return new Promise((resolve, reject) => {
+      var queries = {
+        idUser: state.current.id,
+        idVideo: id.videoId,
+        idComment: id.commentId
+      }
+      userService.removecommentDislike(queries).then(() => {
+        commit('REMOVE_COMMENT_DISLIKE', id)
+        resolve()
+      })
+    })
   },
   //reply likes dislikes
   addReplyLike: ({commit}, id)=>{

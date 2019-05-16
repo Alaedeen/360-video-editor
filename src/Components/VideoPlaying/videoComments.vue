@@ -18,7 +18,7 @@
           <!-- video comments -->
             <v-layout row wrap style="width: 100%">
             <div class="profile" style="width: 100%">
-                <div v-for="(comment,index) in comments" :key="index">
+                <div v-for="(comment,index) in comments" :key="comment.idComment">
                   <v-divider color="grey" v-if="index>0" ></v-divider>
                     <app-comment :index="index"  :reply="replies[index]" :videoId="videoId"></app-comment>
 

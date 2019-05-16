@@ -65,51 +65,31 @@ const mutations = {
   },
 
   //add/remove like to a comment
-  'ADD_COMMENT_LIKE'(state, id) {
-    var vid = state.videos.filter(video => {
-      return video.vidId == id.videoId
-    })[0]
-    var com = vid.comments.filter(comment =>{
-      return comment.idComment == id.commentId
-    })[0]
-    com.likes++
-    vid.comments.splice((vid.comments.length - 1) - com.idComment, 1, com)
-    videos.splice(vid.vidId, 1, vid)
+  'ADD_COMMENT_LIKE'(state, com) {
+    var index = state.playing.comments.findIndex(function (element) {
+      return (element.commentId == com.commentId)
+    });
+    state.playing.comments.splice(index, 1, com)
   },
-  'REMOVE_COMMENT_LIKE'(state, id) {
-    var vid = state.videos.filter(video => {
-      return video.vidId == id.videoId
-    })[0]
-    var com = vid.comments.filter(comment => {
-      return comment.idComment == id.commentId
-    })[0]
-    com.likes--
-    vid.comments.splice((vid.comments.length - 1) - com.idComment, 1, com)
-    videos.splice(vid.vidId, 1, vid)
+  'REMOVE_COMMENT_LIKE'(state, com) {
+    var index = state.playing.comments.findIndex(function (element) {
+      return (element.commentId == com.commentId)
+    });
+    state.playing.comments.splice(index, 1, com)
   },
 
   //add/remove dislike to a comment
-  'ADD_COMMENT_DISLIKE'(state, id) {
-    var vid = state.videos.filter(video => {
-      return video.vidId == id.videoId
-    })[0]
-    var com = vid.comments.filter(comment => {
-      return comment.idComment == id.commentId
-    })[0]
-    com.dislikes++
-    vid.comments.splice((vid.comments.length - 1) - com.idComment, 1, com)
-    videos.splice(vid.vidId, 1, vid)
+  'ADD_COMMENT_DISLIKE'(state, com) {
+    var index = state.playing.comments.findIndex(function (element) {
+      return (element.commentId == com.commentId)
+    });
+    state.playing.comments.splice(index, 1, com)
   },
-  'REMOVE_COMMENT_DISLIKE'(state, id) {
-    var vid = state.videos.filter(video => {
-      return video.vidId == id.videoId
-    })[0]
-    var com = vid.comments.filter(comment => {
-      return comment.idComment == id.commentId
-    })[0]
-    com.dislikes--
-    vid.comments.splice((vid.comments.length - 1) - com.idComment, 1, com)
-    videos.splice(vid.vidId, 1, vid)
+  'REMOVE_COMMENT_DISLIKE'(state, com) {
+    var index = state.playing.comments.findIndex(function (element) {
+      return (element.commentId == com.commentId)
+    });
+    state.playing.comments.splice(index, 1, com)
   },
 
   //add reply
@@ -424,16 +404,76 @@ const actions = {
   },
   //comment like dislike
   addCommentLike: ({commit}, id)=>{
-    commit('ADD_COMMENT_LIKE',id)
+    return new Promise((resolve, reject) => {
+      var com = state.playing.comments.filter(comment => {
+        return comment.idComment == id.commentId
+      })[0]
+      var comment = {
+        likes: ++com.likes
+      }
+      var request = {
+        comment: comment,
+        id: id.commentId
+      }
+      videoService.updateComment(request).then((data) => {
+        commit('ADD_COMMENT_LIKE', com)
+        resolve()
+      })
+    })
   },
   removeCommentLike: ({commit}, id)=>{
-    commit('REMOVE_COMMENT_LIKE', id)
+    return new Promise((resolve, reject) => {
+      var com = state.playing.comments.filter(comment => {
+        return comment.idComment == id.commentId
+      })[0]
+      var comment = {
+        likes: --com.likes
+      }
+      var request = {
+        comment: comment,
+        id: id.commentId
+      }
+      videoService.updateComment(request).then((data) => {
+        commit('REMOVE_COMMENT_LIKE', com)
+        resolve()
+      })
+    })
   },
   addCommentDislike: ({commit}, id)=>{
-    commit('ADD_COMMENT_DISLIKE',id)
+    return new Promise((resolve, reject) => {
+      var com = state.playing.comments.filter(comment => {
+        return comment.idComment == id.commentId
+      })[0]
+      var comment = {
+        dislikes: ++com.dislikes
+      }
+      var request = {
+        comment: comment,
+        id: id.commentId
+      }
+      videoService.updateComment(request).then((data) => {
+        commit('ADD_COMMENT_DISLIKE', com)
+        resolve()
+      })
+    })
   },
   removeCommentDislike: ({commit}, id)=>{
-    commit('REMOVE_COMMENT_DISLIKE', id)
+    return new Promise((resolve, reject) => {
+      var com = state.playing.comments.filter(comment => {
+        return comment.idComment == id.commentId
+      })[0]
+      var comment = {
+        dislikes: --com.dislikes
+      }
+      var request = {
+        comment: comment,
+        id: id.commentId
+      }
+      videoService.updateComment(request).then((data) => {
+        commit('REMOVE_COMMENT_DISLIKE', com)
+        resolve()
+      })
+    })
   },
   //add reply
   addReply: ({commit},reply)=>{

@@ -294,4 +294,78 @@ export const userService = {
         .catch(error => console.log(error))
     })
   },
+  addcommentLike(request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.post('http://localhost:8000/api/v1/commentsLikes', request, config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
+  removecommentLike(queries) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          idVideo: queries.idVideo,
+          idUser: queries.idUser,
+          idComment: queries.idComment,
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.delete('http://localhost:8000/api/v1/commentsLikes', config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
+  addcommentDislike(request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.post('http://localhost:8000/api/v1/commentsDislikes', request, config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
+  removecommentDislike(queries) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          idVideo: queries.idVideo,
+          idUser: queries.idUser,
+          idComment: queries.idComment,
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.delete('http://localhost:8000/api/v1/commentsDislikes', config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
 }

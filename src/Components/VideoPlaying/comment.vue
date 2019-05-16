@@ -35,7 +35,7 @@
                         <div>View replies</div>
                       </template>
                       <!-- comment replies -->
-                          <div  class="profile" style="paddingLeft: 3em;">
+                          <div  class="profile" style="paddingLeft: 3em;" v-if="comment.replies.length!=0">
                                 <div v-for="(commentReply,index) in comment.replies" :key="index" >
                                   <v-divider color="grey" v-if="index>0"></v-divider>
                                         <app-reply :reply="commentReply " :idComment="comment.idComment"></app-reply>
@@ -168,14 +168,17 @@ export default {
 
           if (!this.liked) {
             if (this.disliked) {
-              this.$store.dispatch('user/removeCommentDislike',ids)
-              this.$store.dispatch('video/removeCommentDislike',ids)
+              this.$store.dispatch('user/removeCommentDislike',ids).then(()=>{
+                this.$store.dispatch('video/removeCommentDislike',ids)
+              })
             }
-            this.$store.dispatch('user/addCommentLike',ids)
-            this.$store.dispatch('video/addCommentLike',ids)
+            this.$store.dispatch('user/addCommentLike',ids).then(()=>{
+              this.$store.dispatch('video/addCommentLike',ids)
+            })
           }else{
-            this.$store.dispatch('user/removeCommentLike',ids)
-            this.$store.dispatch('video/removeCommentLike',ids)
+            this.$store.dispatch('user/removeCommentLike',ids).then(()=>{
+              this.$store.dispatch('video/removeCommentLike',ids)
+            })
           }
         }
     },
@@ -191,14 +194,17 @@ export default {
 
           if (!this.disliked) {
             if (this.liked) {
-              this.$store.dispatch('user/removeCommentLike',ids)
-              this.$store.dispatch('video/removeCommentLike',ids)
+              this.$store.dispatch('user/removeCommentLike',ids).then(()=>{
+               this.$store.dispatch('video/removeCommentLike',ids)
+              })
             }
-            this.$store.dispatch('user/addCommentDislike',ids)
-            this.$store.dispatch('video/addCommentDislike',ids)
+            this.$store.dispatch('user/addCommentDislike',ids).then(()=>{
+              this.$store.dispatch('video/addCommentDislike',ids)
+            })
           }else{
-            this.$store.dispatch('user/removeCommentDislike',ids)
-            this.$store.dispatch('video/removeCommentDislike',ids)
+            this.$store.dispatch('user/removeCommentDislike',ids).then(()=>{
+              this.$store.dispatch('video/removeCommentDislike',ids)
+            })
           }
         }
     },

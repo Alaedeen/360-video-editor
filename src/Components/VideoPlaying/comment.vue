@@ -213,7 +213,6 @@ export default {
         this.$router.push({path: '/login'})
       }else{
         var reply = {
-          id : this.videoId,
           idComment: this.comment.idComment,
           text: this.replyText,
           user: this.user

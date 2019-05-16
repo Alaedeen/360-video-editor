@@ -133,4 +133,20 @@ export const videoService = {
         .catch(error => console.log(error))
     })
   },
+  addReply(reply) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.post('http://localhost:8000/api/v1/reply', reply, config)
+        .then(
+          data => {
+            resolve(data)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
 }

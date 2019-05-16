@@ -64,103 +64,28 @@ const mutations = {
     state.playing.comments.splice(0, 0, com)
   },
 
-  //add/remove like to a comment
-  'ADD_COMMENT_LIKE'(state, com) {
-    var index = state.playing.comments.findIndex(function (element) {
-      return (element.commentId == com.commentId)
-    });
-    state.playing.comments.splice(index, 1, com)
-  },
-  'REMOVE_COMMENT_LIKE'(state, com) {
-    var index = state.playing.comments.findIndex(function (element) {
-      return (element.commentId == com.commentId)
-    });
-    state.playing.comments.splice(index, 1, com)
-  },
-
-  //add/remove dislike to a comment
-  'ADD_COMMENT_DISLIKE'(state, com) {
-    var index = state.playing.comments.findIndex(function (element) {
-      return (element.commentId == com.commentId)
-    });
-    state.playing.comments.splice(index, 1, com)
-  },
-  'REMOVE_COMMENT_DISLIKE'(state, com) {
-    var index = state.playing.comments.findIndex(function (element) {
-      return (element.commentId == com.commentId)
-    });
-    state.playing.comments.splice(index, 1, com)
-  },
 
   //add reply
-  'ADD_REPLY'(state, reply) {
-    var vid = state.videos.filter(video => {
-      return video.vidId == reply.id
-    })[0]
-    var comment = vid.comments.filter(comment =>{
-      return comment.idComment == reply.idComment
-    })[0]
-    //today date
-    var today = new Date();
-    var day = today.getDate();
-    var month = today.getMonth() + 1; //January is 0!
-    var year = today.getFullYear();
-    switch (month) {
-      case 1:
-        month = 'January'
-        break;
-      case 2:
-        month = 'February'
-        break;
-      case 3:
-        month = 'March'
-        break;
-      case 4:
-        month = 'April'
-        break;
-      case 5:
-        month = 'May'
-        break;
-      case 6:
-        month = 'June'
-        break;
-      case 7:
-        month = 'Jully'
-        break;
-      case 8:
-        month = 'August'
-        break;
-      case 9:
-        month = 'September'
-        break;
-      case 10:
-        month = 'October'
-        break;
-      case 11:
-        month = 'November'
-        break;
-      case 12:
-        month = 'December'
-        break;
-    }
-    //today date end
-    var replyDetails = {
-      idReply: comment.replies.length,
-      idUser: reply.user.id,
-      nameUser: reply.user.name,
-      profilePic: reply.user.profilePic,
-      text: reply.text,
-      date: {
-        day: day,
-        month: month,
-        year: year
-      },
-      likes: 0,
-      dislikes: 0,
-    }
-    comment.replies.splice(0, 0, replyDetails)
-    vid.comments.splice((vid.comments.length - 1) - comment.idComment,1,comment)
-    videos.splice(vid.vidId, 1, vid)
+  'ADD_REPLY'(state, {reply,id}) {
+  var replyDetails = {
+    idReply:id,
+    idUser: reply.idUser,
+    commentId: reply.commentId,
+    nameUser: reply.nameUser,
+    profilePic: reply.profilePic,
+    text: reply.text,
+    date: {
+      day: reply.day,
+      month: reply.month,
+      year: reply.year
+    },
+    likes: 0,
+    dislikes: 0,
+  }
+  var comment = state.playing.comments.filter(comment => {
+    return comment.idComment == reply.commentId
+  })[0]
+  comment.replies.splice(0, 0, replyDetails)
   },
 
   //add/remove like to a reply
@@ -416,7 +341,6 @@ const actions = {
         id: id.commentId
       }
       videoService.updateComment(request).then((data) => {
-        commit('ADD_COMMENT_LIKE', com)
         resolve()
       })
     })
@@ -434,7 +358,6 @@ const actions = {
         id: id.commentId
       }
       videoService.updateComment(request).then((data) => {
-        commit('REMOVE_COMMENT_LIKE', com)
         resolve()
       })
     })
@@ -452,7 +375,6 @@ const actions = {
         id: id.commentId
       }
       videoService.updateComment(request).then((data) => {
-        commit('ADD_COMMENT_DISLIKE', com)
         resolve()
       })
     })
@@ -470,14 +392,77 @@ const actions = {
         id: id.commentId
       }
       videoService.updateComment(request).then((data) => {
-        commit('REMOVE_COMMENT_DISLIKE', com)
         resolve()
       })
     })
   },
   //add reply
   addReply: ({commit},reply)=>{
-    commit('ADD_REPLY', reply)
+    //today date
+    var today = new Date();
+    var day = today.getDate();
+    var month = today.getMonth() + 1; //January is 0!
+    var year = today.getFullYear();
+    switch (month) {
+      case 1:
+        month = 'January'
+        break;
+      case 2:
+        month = 'February'
+        break;
+      case 3:
+        month = 'March'
+        break;
+      case 4:
+        month = 'April'
+        break;
+      case 5:
+        month = 'May'
+        break;
+      case 6:
+        month = 'June'
+        break;
+      case 7:
+        month = 'Jully'
+        break;
+      case 8:
+        month = 'August'
+        break;
+      case 9:
+        month = 'September'
+        break;
+      case 10:
+        month = 'October'
+        break;
+      case 11:
+        month = 'November'
+        break;
+      case 12:
+        month = 'December'
+        break;
+    }
+    //today date end
+    var reply = {
+      idUser: reply.user.id,
+      commentId: reply.idComment,
+      nameUser: reply.user.name,
+      profilePic: reply.user.profilePic,
+      text: reply.text,
+      day: day,
+      month: month,
+      year: year,
+      likes: 0,
+      dislikes: 0,
+    }
+    return new Promise((resolve, reject) => {
+      videoService.addReply(reply).then((data) => {
+        commit('ADD_REPLY', {
+          reply: reply,
+          id: data.data.data
+        })
+        resolve()
+      })
+    })
   },
   //reply like dislike
   addReplyLike: ({commit}, id)=>{

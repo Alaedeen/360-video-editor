@@ -28,9 +28,9 @@ Vue.use(Vuelidate)
 Vue.use(VueCookies)
 Vue.use(require('vue-shortkey'))
 VeeValidate.Validator.extend('verify_password', {
-  getMessage: field => `The password must contain at least: 1 uppercase letter, 1 lowercase letter, 1 number, and one special character (E.g. , .  & ? etc)`,
+  getMessage: field => `The password must contain at least: 1 uppercase letter, 1 lowercase letter and 1 number`,
   validate: value => {
-    var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
     return strongRegex.test(value);
   }
 });

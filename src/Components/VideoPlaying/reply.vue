@@ -109,14 +109,17 @@ props : {
 
           if (!this.liked) {
             if (this.disliked) {
-              this.$store.dispatch('user/removeReplyDislike',ids)
+              this.$store.dispatch('user/removeReplyDislike',ids).then(()=>{
               this.$store.dispatch('video/removeReplyDislike',ids)
+              })
             }
-            this.$store.dispatch('user/addReplyLike',ids)
+            this.$store.dispatch('user/addReplyLike',ids).then(()=>{
             this.$store.dispatch('video/addReplyLike',ids)
+            })
           }else{
-            this.$store.dispatch('user/removeReplyLike',ids)
+            this.$store.dispatch('user/removeReplyLike',ids).then(()=>{
             this.$store.dispatch('video/removeReplyLike',ids)
+            })
           }
         }
 
@@ -134,14 +137,17 @@ props : {
 
           if (!this.disliked) {
             if (this.liked) {
-              this.$store.dispatch('user/removeReplyLike',ids)
+              this.$store.dispatch('user/removeReplyLike',ids).then(()=>{
               this.$store.dispatch('video/removeReplyLike',ids)
+              })
             }
-            this.$store.dispatch('user/addReplyDislike',ids)
+            this.$store.dispatch('user/addReplyDislike',ids).then(()=>{
             this.$store.dispatch('video/addReplyDislike',ids)
+            })
           }else{
-            this.$store.dispatch('user/removeReplyDislike',ids)
+            this.$store.dispatch('user/removeReplyDislike',ids).then(()=>{
             this.$store.dispatch('video/removeReplyDislike',ids)
+            })
           }
         }
     }

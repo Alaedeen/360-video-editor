@@ -368,4 +368,80 @@ export const userService = {
         .catch(error => console.log(error))
     })
   },
+  addreplyLike(request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.post('http://localhost:8000/api/v1/repliesLikes', request, config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
+  removereplyLike(queries) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          idVideo: queries.idVideo,
+          idUser: queries.idUser,
+          idComment: queries.idComment,
+          idReply: queries.idReply
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.delete('http://localhost:8000/api/v1/repliesLikes', config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
+  addreplyDislike(request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.post('http://localhost:8000/api/v1/repliesDislikes', request, config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
+  removereplyDislike(queries) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          idVideo: queries.idVideo,
+          idUser: queries.idUser,
+          idComment: queries.idComment,
+          idReply: queries.idReply
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.delete('http://localhost:8000/api/v1/repliesDislikes', config)
+        .then(
+          res => {
+            resolve(res)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  },
 }

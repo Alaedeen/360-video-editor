@@ -466,16 +466,89 @@ const actions = {
   },
   //reply like dislike
   addReplyLike: ({commit}, id)=>{
-    commit('ADD_REPLY_LIKE',id)
+    return new Promise((resolve, reject) => {
+      var com = state.playing.comments.filter(comment => {
+        return comment.idComment == id.commentId
+      })[0]
+      var reply = com.replies.filter(rep => {
+        return rep.idReply == id.replyId
+      })[0]
+      var reply = {
+        likes: ++reply.likes
+      }
+      var request = {
+        reply: reply,
+        id: id.replyId
+      }
+      videoService.updateReply(request).then((data) => {
+        resolve()
+      })
+    })
+
+    // commit('ADD_REPLY_LIKE',id)
   },
   removeReplyLike: ({commit}, id)=>{
-    commit('REMOVE_REPLY_LIKE', id)
+    return new Promise((resolve, reject) => {
+      var com = state.playing.comments.filter(comment => {
+        return comment.idComment == id.commentId
+      })[0]
+      var reply = com.replies.filter(rep => {
+        return rep.idReply == id.replyId
+      })[0]
+      var reply = {
+        likes: --reply.likes
+      }
+      var request = {
+        reply: reply,
+        id: id.replyId
+      }
+      videoService.updateReply(request).then((data) => {
+        resolve()
+      })
+    })
+    // commit('REMOVE_REPLY_LIKE', id)
   },
   addReplyDislike: ({commit}, id)=>{
-    commit('ADD_REPLY_DISLIKE',id)
+    return new Promise((resolve, reject) => {
+      var com = state.playing.comments.filter(comment => {
+        return comment.idComment == id.commentId
+      })[0]
+      var reply = com.replies.filter(rep => {
+        return rep.idReply == id.replyId
+      })[0]
+      var reply = {
+        dislikes: ++reply.dislikes
+      }
+      var request = {
+        reply: reply,
+        id: id.replyId
+      }
+      videoService.updateReply(request).then((data) => {
+        resolve()
+      })
+    })
+    // commit('ADD_REPLY_DISLIKE',id)
   },
   removeReplyDislike: ({commit}, id)=>{
-    commit('REMOVE_REPLY_DISLIKE', id)
+    return new Promise((resolve, reject) => {
+      var com = state.playing.comments.filter(comment => {
+        return comment.idComment == id.commentId
+      })[0]
+      var reply = com.replies.filter(rep => {
+        return rep.idReply == id.replyId
+      })[0]
+      var reply = {
+        dislikes: --reply.dislikes
+      }
+      var request = {
+        reply: reply,
+        id: id.replyId
+      }
+      videoService.updateReply(request).then((data) => {
+        resolve()
+      })
+    })
+    // commit('REMOVE_REPLY_DISLIKE', id)
   },
 }
 

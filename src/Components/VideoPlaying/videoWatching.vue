@@ -52,7 +52,13 @@ export default {
     this.$store.dispatch('video/loadVideo', parseInt(this.$route.params.id, 10)).then(()=>{
       this.getAccount(this.video.userId)
     })
-
+  },
+  beforeCreate() {
+    var request = {
+      offset: 0,
+      limit: 18
+    }
+    this.$store.dispatch('video/setVideos', request)
   },
   components: {
     appPlayer: player,

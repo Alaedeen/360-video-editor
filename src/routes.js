@@ -10,6 +10,7 @@ import UploadRequests from './Components/administration/UploadRequests.vue'
 import ComplainsManagement from './Components/administration/Complains.vue'
 import Editor from './Components/projects/Editor.vue'
 import Library from './Components/projects/Library.vue'
+import Password from './Components/accounts/ForgotPassword.vue'
 
 // import store from './store/store'
 
@@ -30,6 +31,18 @@ export const routes = [
         next(true)
       }
     }
+},
+{
+  path: '/reset_password',
+  component: Password,
+  name: 'reset_password',
+  beforeEnter: (to, from, next) => {
+    if ($cookies.get('user') != null) {
+      next('/')
+    } else {
+      next(true)
+    }
+  }
 },
  {
   path: '/sign_up',

@@ -54,7 +54,7 @@
                   <br>
               <b style="color: red" v-if="form!=''"> {{form}} </b>
             <button class="btn btn-success btn-block" @click.prevent="checkLogin()"><i class="fas fa-sign-in-alt"></i> Sign in</button>
-            <a href="#" id="forgot_pswd">Forgot password?</a>
+            <a @click="reset" id="forgot_pswd" style="cursor: pointer">Forgot password?</a>
             <hr>
             <!-- <p>Don't have an account!</p>  -->
             <router-link to="/sign_up" class="btn btn-primary " style="color: white;" type="button" id="btn-signup"> Sign up New Account</router-link>
@@ -119,6 +119,9 @@ export default {
       }else if (!this.error) {
          this.$store.dispatch('user/signIn', this.user);
       }
+    },
+    reset(){
+      this.$router.push({path:'/reset_password'})
     }
   },
 

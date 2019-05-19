@@ -3,9 +3,7 @@ node_modules/
 dist/
 npm-debug.log
 yarn-error.log
-src/assets/Beach Headland.mp4
-src/assets/Pods-360.mp4
-src/assets/adamHead
+src/assets/
 
 # Editor directories and files
 .idea

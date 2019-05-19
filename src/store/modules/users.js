@@ -472,6 +472,15 @@ const actions = {
         resolve()
       })
     })
+  },
+  resetPassword: ({commit},email)=>{
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      userService.resetPassword(email).then((data) => {
+        commit('SET_LOADING', false)
+        resolve(data.data.code)
+      })
+    })
   }
 }
 

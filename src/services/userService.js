@@ -444,4 +444,23 @@ export const userService = {
         .catch(error => console.log(error))
     })
   },
+  resetPassword(email){
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          email: email
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.put('http://localhost:8000/api/v1/user/reset_password', '',config)
+        .then(
+          (data) => {
+            resolve(data)
+          }
+        )
+        .catch(error => console.log(error))
+    })
+  }
 }

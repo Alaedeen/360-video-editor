@@ -1,3 +1,4 @@
+import {projectService} from '../../services/projectService'
 import projects from '../../data/projects'
 import shapes from '../../data/shapes'
 import pictures from '../../data/pictures'
@@ -10,7 +11,9 @@ const state = {
   pictures: [],
   videos: [],
   fonts: [],
-  editing: {}
+  editing: {},
+  projectCount:0,
+  projectLoading: false
 }
 
 const getters = {
@@ -18,8 +21,12 @@ const getters = {
 }
 
 const mutations = {
-  'SET_PROJECTS'(state, projects) {
-    state.projects = projects;
+  SET_LOADING(state, loading) {
+    state.projectLoading = loading
+  },
+  'SET_PROJECTS'(state, {data,count}) {
+    state.projects = data;
+    state.projectCount=count
   },
   'SET_SHAPES'(state, shapes) {
     state.shapes = shapes;
@@ -205,8 +212,16 @@ const mutations = {
 }
 
 const actions = {
-  initProjects: ({commit}) => {
-    commit('SET_PROJECTS', projects)
+  setProjects: ({commit}, request) => {
+    commit('SET_LOADING', true)
+    projectService.fetchProjects(request).then((data) => {
+
+      commit('SET_LOADING', false)
+      commit('SET_PROJECTS', {
+        count: data.data.count,
+        data: data.data.response.data
+      })
+    })
   },
   initShapes: ({commit}) => {
     commit('SET_SHAPES', shapes)

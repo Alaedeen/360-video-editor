@@ -3,7 +3,7 @@
 
         <v-card dark >
           <v-img
-            :src="project.thumbnail"
+            :src="'http://localhost:8000/assets/project/videos/thumbnails/'+project.thumbnail"
             height= "7em"
             @click="edit(project.projectId)"
             style="cursor: pointer"

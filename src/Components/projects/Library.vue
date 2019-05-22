@@ -8,6 +8,33 @@
         </v-flex>
       </v-layout>
     </v-container>
+
+    <div class="text-xs-center pt-2" v-if="pages!=0">
+      <v-pagination v-model="page" :length="pages" dark color="black" ></v-pagination>
+    </div>
+
+    <!-- Loader -->
+    <v-dialog
+      v-model="dialog1"
+      hide-overlay
+      persistent
+      width="300"
+    >
+      <v-card
+        color="blue"
+        dark
+      >
+        <v-card-text>
+          Loading...
+          <v-progress-linear
+            indeterminate
+            color="black"
+            class="mb-0"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
     <v-dialog
         v-model="dialog"
         max-width="400"
@@ -55,7 +82,8 @@ export default {
       videoName :'',
       videoFile : null,
       src: '',
-      name: 'My new project'
+      name: 'My new project',
+      page : 1
     }
   },
 components: {
@@ -68,6 +96,12 @@ components: {
     current() {
       return this.$store.state.user.current
     },
+    dialog1(){
+      return this.$store.state.project.projectLoading
+    },
+    pages() {
+      return Math.ceil(this.$store.state.project.projectCount/18)
+    }
   },
   methods: {
     onVideoSelected(event){
@@ -119,6 +153,14 @@ components: {
         this.$store.dispatch('project/addProject',newProject)
       }
     }
+  },
+  mounted() {
+    var request = {
+      id: this.current.id,
+      offset: 0,
+      limit: 18
+    }
+    this.$store.dispatch('project/setProjects', request)
   },
 }
 </script>

@@ -487,6 +487,12 @@ mounted() {
       }
       this.$store.dispatch('project/initVideos', request2);
 
+      var request3 = {
+        offset : 0,
+        limit : 20
+      }
+      this.$store.dispatch('project/initFonts', request3)
+
 
       var vid = document.getElementById("video");
       setInterval(() => this.valueDeterminate = (vid.currentTime/vid.duration)*100, 1000);

@@ -265,8 +265,13 @@ const actions = {
       })
     })
   },
-  initFonts: ({commit}) => {
-    commit('SET_FONTS', fonts)
+  initFonts: ({commit},request) => {
+    return new Promise((resolve, reject) => {
+      projectService.initFonts(request).then((data) => {
+        commit('SET_FONTS', data.data.data)
+        resolve()
+      })
+    })
   },
   loadProject: ({commit},projectId)=>{
     return new Promise((resolve, reject) => {

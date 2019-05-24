@@ -107,4 +107,21 @@ export const projectService = {
         .catch(error => console.log(error))
     })
   },
+  initFonts(request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          offset: request.offset,
+          limit: request.limit,
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.get('http://localhost:8000/api/v1/fonts', config).then((data) => {
+          resolve(data)
+        })
+        .catch(error => console.log(error))
+    })
+  },
 }

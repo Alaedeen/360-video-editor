@@ -35,6 +35,11 @@
       </v-card>
     </v-dialog>
 
+    <video id="main-video" style="visibility: hidden;" controls>
+      <source type="video/mp4">
+    </video>
+    <canvas id="video-canvas" style="visibility: hidden;"></canvas>
+
     <v-dialog
         v-model="dialog"
         max-width="400"
@@ -75,6 +80,8 @@
 
 <script>
 import projectTile from './projectTile.vue'
+import Vue from 'vue'
+var EventBus = new Vue()
 export default {
   data() {
     return {
@@ -83,7 +90,8 @@ export default {
       videoFile : null,
       src: '',
       name: 'My new project',
-      page : 1
+      page : 1,
+      thumbnail:null
     }
   },
 components: {
@@ -105,6 +113,16 @@ components: {
   },
   methods: {
     onVideoSelected(event){
+        function dataURLtoFile(dataurl, filename) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, {type:mime});
+        }
+
+
         const files = event.target.files
         if(files[0] !== undefined) {
           this.videoName = files[0].name
@@ -117,7 +135,26 @@ components: {
           fr.addEventListener('load', () => {
             this.src = fr.result
             this.videoFile = files[0] // this is an video file that can be sent to server...
+            var video = document.querySelector("#main-video");
+            document.querySelector("#main-video source").setAttribute('src', URL.createObjectURL(files[0]));
+            var canvas = document.querySelector("#video-canvas")
+            video.load()
+            video.addEventListener('loadedmetadata', function () {
+              canvas.width=video.videoWidth
+              canvas.height=video.videoHeight
+              video.currentTime = Math.floor( Math.random()*video.duration)
+              console.log(video.currentTime);
+
+              var ctx = canvas.getContext("2d")
+              ctx.drawImage(video,0,0,video.videoWidth,video.videoHeight)
+              var thumbnail= dataURLtoFile(canvas.toDataURL(), "thumbnail.png");
+              EventBus.$emit('image-loaded',{thumb: thumbnail})
+
+            })
+
           })
+
+
         } else {
           this.videoName = ''
           this.videoFile = ''
@@ -128,29 +165,19 @@ components: {
       if (this.videoFile!=null) {
         this.dialog = false
         var newProject= {
-        projectId: this.projects.length,
         userId: this.current.id,
-        thumbnail: '/src/assets/video1.jpg',
-        video: this.src,
-        title: this.name,
-        shapes: new Map([
-          ['box', 0],
-          ['sphere', 0],
-          ['cone', 0],
-          ['cylinder', 0],
-          ['torus', 0],
-          ['torus-knot', 0],
-          ['dodecahedron', 0],
-          ['tetrahedron', 0],
-          ['image', 0],
-          ['video', 0],
-          ['text', 0],
-        ]),
-          tag: 0,
-          shapesList: [],
-          tagsList: []
+        thumbnail: this.thumbnail,
+        video: this.videoFile,
+        title: this.name
         }
-        this.$store.dispatch('project/addProject',newProject)
+        this.$store.dispatch('project/addProject',newProject).then(()=>{
+          var request = {
+            id: this.current.id,
+            offset: 0,
+            limit: 18
+          }
+          this.$store.dispatch('project/setProjects', request)
+        })
       }
     }
   },
@@ -161,6 +188,12 @@ components: {
       limit: 18
     }
     this.$store.dispatch('project/setProjects', request)
+  },
+  created() {
+    EventBus.$on('image-loaded',(data)=>{
+      this.thumbnail=data.thumb
+
+    })
   },
 }
 </script>

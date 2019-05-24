@@ -1,5 +1,4 @@
 import {projectService} from '../../services/projectService'
-import projects from '../../data/projects'
 import shapes from '../../data/shapes'
 import pictures from '../../data/pictures'
 import videos from '../../data/2dVideos'
@@ -206,9 +205,6 @@ const mutations = {
   'ADD_VIDEO'(state, video) {
     state.videos.splice(0, 0, video)
   },
-  'ADD_PROJECT'(state, projects) {
-    state.projects.splice(0, 0, projects)
-  },
 }
 
 const actions = {
@@ -254,7 +250,15 @@ const actions = {
     commit('ADD_VIDEO',video)
   },
   addProject: ({commit},project)=>{
-    commit('ADD_PROJECT',project)
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      projectService.createProject(project).then((res) => {
+        console.log(res);
+
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
   },
 }
 

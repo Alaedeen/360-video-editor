@@ -19,4 +19,23 @@ export const projectService = {
         .catch(error => console.log(error))
     })
   },
+  createProject(project) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      var f = new FormData()
+      f.append('videoProject', project.video)
+      f.append('thumbnail', project.thumbnail)
+      f.append('userId', project.userId)
+      f.append('title', project.title)
+      Axios.post('http://localhost:8000/api/v1/project', f, config).then(
+          (res) => {
+            resolve(res)
+          })
+        .catch(error => console.log(error))
+    })
+  },
 }

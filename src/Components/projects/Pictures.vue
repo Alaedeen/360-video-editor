@@ -12,7 +12,7 @@
                 <v-card flat tile>
                   <v-img
                     style="cursor:pointer"
-                    :src="'http://localhost:8000/assets/project/projectPictures/'+picture.src"
+                    :src="picture.src"
                     class="white lighten-2"
                     @click="addPicture(picture)"
                   ></v-img>

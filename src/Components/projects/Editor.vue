@@ -65,7 +65,7 @@
                 @click="editShape(shape.id)"
               >
                 <v-list-tile-avatar>
-                  <v-img :src="'http://localhost:8000/assets/project/projectPictures/'+shape.image" ></v-img>
+                  <v-img :src="shape.image" ></v-img>
                 </v-list-tile-avatar>
 
                 <v-list-tile-content>
@@ -206,6 +206,7 @@ export default {
     }
   },
   computed: {
+
     scroll(){
       if (this.project.tagsList.length>0) {
           return {

@@ -12,7 +12,7 @@
 
               >
                 <v-card dark flat tile style="cursor: pointer" @click="addVideo(video)" >
-                    <v-img :src="'http://localhost:8000/assets/project/projectVideos/thumbnails/'+video.thumbnail" ></v-img>
+                    <v-img :src="video.thumbnail" ></v-img>
 
                 </v-card>
               </v-flex>

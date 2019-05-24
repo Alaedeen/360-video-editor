@@ -38,8 +38,6 @@ export default {
   created() {
           this.$store.dispatch('user/initCurrent');
           this.$store.dispatch('video/initAll');
-          this.$store.dispatch('project/initVideos');
-          this.$store.dispatch('project/initFonts');
         },
 }
 </script>

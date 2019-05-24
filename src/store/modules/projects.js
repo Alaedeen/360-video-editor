@@ -140,7 +140,7 @@ const mutations = {
          element.setAttribute("startTime", "0")
          element.setAttribute("endTime", newElement.duration)
          if (newElement.element.type=='image') {
-          element.setAttribute("src", 'http://localhost:8000/assets/project/projectPictures/' + newElement.element.src)
+          element.setAttribute("src",  newElement.element.src)
           element.setAttribute("width",   3)
           element.setAttribute("height", 3 / newElement.element.ratio)
          }

@@ -6,7 +6,7 @@
             <v-layout row wrap>
               <v-flex xs12 v-for="(font, index) in textAdding.fonts " :key="index"  >
                 <v-card dark flat tile style="cursor: pointer" @click="addText(font)" >
-                    <v-img :src="'http://localhost:8000/assets/project/fonts/'+font.src" ></v-img>
+                    <v-img :src="font.src" ></v-img>
                 </v-card>
               </v-flex>
             </v-layout>

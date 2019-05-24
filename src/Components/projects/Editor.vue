@@ -65,7 +65,7 @@
                 @click="editShape(shape.id)"
               >
                 <v-list-tile-avatar>
-                  <v-img :src="shape.image" ></v-img>
+                  <v-img :src="'http://localhost:8000/assets/project/projectPictures/'+shape.image" ></v-img>
                 </v-list-tile-avatar>
 
                 <v-list-tile-content>
@@ -465,7 +465,8 @@ beforeCreate() {
 
 },
 mounted() {
-    this.$store.dispatch('project/loadProject',1).then(()=>{
+    this.$store.dispatch('project/loadProject',parseInt(this.$route.params.id, 10)).then(()=>{
+
       var request = {
         offset : 0,
         limit : 20
@@ -478,6 +479,13 @@ mounted() {
         limit : 20
       }
       this.$store.dispatch('project/initPictures', request1);
+
+      var request2 = {
+        id: this.project.userId,
+        offset : 0,
+        limit : 20
+      }
+      this.$store.dispatch('project/initVideos', request2);
 
 
       var vid = document.getElementById("video");

@@ -140,7 +140,7 @@ const mutations = {
          element.setAttribute("startTime", "0")
          element.setAttribute("endTime", newElement.duration)
          if (newElement.element.type=='image') {
-          element.setAttribute("src", newElement.element.src)
+          element.setAttribute("src", 'http://localhost:8000/assets/project/projectPictures/' + newElement.element.src)
           element.setAttribute("width",   3)
           element.setAttribute("height", 3 / newElement.element.ratio)
          }
@@ -257,8 +257,13 @@ const actions = {
       })
     })
   },
-  initVideos: ({commit}) => {
-    commit('SET_VIDEOS', videos)
+  initVideos: ({commit},request) => {
+    return new Promise((resolve, reject) => {
+      projectService.initVideos(request).then((data) => {
+        commit('SET_VIDEOS', data.data.data)
+        resolve()
+      })
+    })
   },
   initFonts: ({commit}) => {
     commit('SET_FONTS', fonts)

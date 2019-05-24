@@ -89,4 +89,22 @@ export const projectService = {
         .catch(error => console.log(error))
     })
   },
+  initVideos(request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          id: request.id,
+          offset: request.offset,
+          limit: request.limit,
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.get('http://localhost:8000/api/v1/user/projectVideos', config).then((data) => {
+          resolve(data)
+        })
+        .catch(error => console.log(error))
+    })
+  },
 }

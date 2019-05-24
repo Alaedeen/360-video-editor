@@ -1,6 +1,4 @@
 import {projectService} from '../../services/projectService'
-import shapes from '../../data/shapes'
-import pictures from '../../data/pictures'
 import videos from '../../data/2dVideos'
 import fonts from '../../data/fonts'
 
@@ -220,12 +218,21 @@ const actions = {
     })
   },
   initShapes: ({commit},request) => {
-    projectService.initShapes(request).then((data) => {
-      commit('SET_SHAPES', data.data.data)
+    return new Promise((resolve, reject) => {
+      projectService.initShapes(request).then((data) => {
+        commit('SET_SHAPES', data.data.data)
+        resolve()
+      })
     })
+
   },
-  initPictures: ({commit}) => {
-    commit('SET_PICTURES', pictures)
+  initPictures: ({commit}, request) => {
+    return new Promise((resolve, reject) => {
+      projectService.initPictures(request).then((data) => {
+        commit('SET_PICTURES', data.data.data)
+        resolve()
+      })
+    })
   },
   initVideos: ({commit}) => {
     commit('SET_VIDEOS', videos)

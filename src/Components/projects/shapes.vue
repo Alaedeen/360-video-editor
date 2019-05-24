@@ -10,7 +10,7 @@
                 <v-card flat tile>
                   <v-img
                     style="cursor:pointer"
-                    :src="shape.src"
+                    :src="'http://localhost:8000/assets/project/shapes/'+shape.src"
                     aspect-ratio="1"
                     class="white lighten-2"
                     @click="addShape(shape)"

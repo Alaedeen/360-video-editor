@@ -504,7 +504,14 @@ mounted() {
       offset : 0,
       limit : 20
     }
-    this.$store.dispatch('project/initShapes', request);
+    this.$store.dispatch('project/initShapes', request)
+
+    request = {
+      id: this.project.userId,
+      offset : 0,
+      limit : 20
+    }
+    this.$store.dispatch('project/initPictures', request);
 },
 }
 </script>

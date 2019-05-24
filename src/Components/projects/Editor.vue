@@ -465,53 +465,59 @@ beforeCreate() {
 
 },
 mounted() {
-    var vid = document.getElementById("video");
-    setInterval(() => this.valueDeterminate = (vid.currentTime/vid.duration)*100, 1000);
-    setInterval(() => this.time = vid.currentTime, 1000);
-    setInterval(() => this.duration = vid.duration, 1);
-    setInterval(() => {
-      var video = document.querySelector('#editor')
-      var entities = Array.from(video.querySelectorAll('.element'))
-      entities.forEach((entity)=> {
-        var start = entity.getAttribute('startTime')
-
-        var end = entity.getAttribute('endTime')
-        if ((this.time>=start)&&(this.time<=end)) {
-            entity.object3D.visible = true;
-        }else{
-          entity.object3D.visible = false;
-        }
-      });
-    }, 1);
-
-    setInterval(() => {
-      var video = document.querySelector('#editor')
-      for (let index = 0; index < this.project.tag; index++) {
-          var entities = Array.from(video.querySelectorAll('.tag'+index))
-
-          entities.forEach((entity)=> {
-            var start = entity.getAttribute('startTime')
-            var end = entity.getAttribute('endTime')
-            if ((this.time<start)||(this.time>end)) {
-              console.log(start);
-                entity.object3D.visible = false;
-            }
-          });
+    this.$store.dispatch('project/loadProject',1).then(()=>{
+      var request = {
+        offset : 0,
+        limit : 20
       }
-    }, 1);
+      this.$store.dispatch('project/initShapes', request)
 
-    var request = {
-      offset : 0,
-      limit : 20
-    }
-    this.$store.dispatch('project/initShapes', request)
+      var request1 = {
+        id: this.project.userId,
+        offset : 0,
+        limit : 20
+      }
+      this.$store.dispatch('project/initPictures', request1);
 
-    request = {
-      id: this.project.userId,
-      offset : 0,
-      limit : 20
-    }
-    this.$store.dispatch('project/initPictures', request);
+
+      var vid = document.getElementById("video");
+      setInterval(() => this.valueDeterminate = (vid.currentTime/vid.duration)*100, 1000);
+      setInterval(() => this.time = vid.currentTime, 1000);
+      setInterval(() => this.duration = vid.duration, 1);
+      setInterval(() => {
+        var video = document.querySelector('#editor')
+        var entities = Array.from(video.querySelectorAll('.element'))
+        entities.forEach((entity)=> {
+          var start = entity.getAttribute('startTime')
+
+          var end = entity.getAttribute('endTime')
+          if ((this.time>=start)&&(this.time<=end)) {
+              entity.object3D.visible = true;
+          }else{
+            entity.object3D.visible = false;
+          }
+        });
+      }, 1);
+
+      setInterval(() => {
+        var video = document.querySelector('#editor')
+        for (let index = 0; index < this.project.tag; index++) {
+            var entities = Array.from(video.querySelectorAll('.tag'+index))
+
+            entities.forEach((entity)=> {
+              var start = entity.getAttribute('startTime')
+              var end = entity.getAttribute('endTime')
+              if ((this.time<start)||(this.time>end)) {
+                console.log(start);
+                  entity.object3D.visible = false;
+              }
+            });
+        }
+      }, 1);
+    })
+
+
+
 },
 }
 </script>

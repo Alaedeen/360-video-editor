@@ -37,10 +37,33 @@ const mutations = {
   'SET_FONTS'(state, fonts) {
     state.fonts = fonts;
   },
-  'LOAD_PROJECT'(state, projectId) {
-    state.editing = state.projects.filter(project => {
-      return project.ID == projectId
-    })[0]
+  'LOAD_PROJECT'(state, project) {
+
+    var editingProject = {
+        projectId: project.projectId,
+        aFrame: project.aFrame,
+        userId: project.userId,
+        thumbnail: project.thumbnail,
+        video: project.video,
+        title: project.title,
+        shapes: new Map([
+          ['box', project.shapes.box],
+          ['sphere', project.shapes.sphere],
+          ['cone', project.shapes.cone],
+          ['cylinder', project.shapes.cylinder],
+          ['torus', project.shapes.torus],
+          ['torus-knot', project.shapes["torus-knot"]],
+          ['dodecahedron', project.shapes.dodecahedron],
+          ['tetrahedron', project.shapes.tetrahedron],
+          ['image', project.shapes.image],
+          ['video', project.shapes.video],
+          ['text', project.shapes.text],
+        ]),
+        tag: project.tag,
+        shapesList: project.shapesList,
+        tagsList: project.tagsList
+    }
+    state.editing = editingProject
   },
   'DELETE_ELEMENT'(state, id) {
     var scene = null
@@ -241,7 +264,12 @@ const actions = {
     commit('SET_FONTS', fonts)
   },
   loadProject: ({commit},projectId)=>{
-    commit('LOAD_PROJECT',projectId)
+    return new Promise((resolve, reject) => {
+      projectService.loadProject(projectId).then((data) => {
+        commit('LOAD_PROJECT', data.data.data)
+        resolve()
+      })
+    })
   },
   deleteElement: ({commit},id)=>{
     commit('DELETE_ELEMENT', id)

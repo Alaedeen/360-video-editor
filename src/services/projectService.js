@@ -73,4 +73,20 @@ export const projectService = {
         .catch(error => console.log(error))
     })
   },
+  loadProject(id) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          id: id
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.get('http://localhost:8000/api/v1/project', config).then((data) => {
+          resolve(data)
+        })
+        .catch(error => console.log(error))
+    })
+  },
 }

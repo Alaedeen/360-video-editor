@@ -34,7 +34,7 @@
             <!-- Single source video. -->
             <video id="video" style="display:none" crossorigin="anonymous" playsinline webkit-playsinline>
                 <!-- MP4 video source. -->
-                <source type="video/mp4" :src="project.video" />
+                <source type="video/mp4" :src="'http://localhost:8000/assets/project/videos/'+project.video" />
             </video>
         </a-assets>
     </a-scene>
@@ -462,7 +462,7 @@ beforeCreate() {
       },
     });
 
-   
+
 },
 mounted() {
     var vid = document.getElementById("video");
@@ -499,6 +499,12 @@ mounted() {
           });
       }
     }, 1);
+
+    var request = {
+      offset : 0,
+      limit : 20
+    }
+    this.$store.dispatch('project/initShapes', request);
 },
 }
 </script>

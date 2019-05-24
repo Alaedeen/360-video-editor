@@ -41,7 +41,7 @@ const mutations = {
   },
   'LOAD_PROJECT'(state, projectId) {
     state.editing = state.projects.filter(project => {
-      return project.projectId == projectId
+      return project.ID == projectId
     })[0]
   },
   'DELETE_ELEMENT'(state, id) {
@@ -219,8 +219,10 @@ const actions = {
       })
     })
   },
-  initShapes: ({commit}) => {
-    commit('SET_SHAPES', shapes)
+  initShapes: ({commit},request) => {
+    projectService.initShapes(request).then((data) => {
+      commit('SET_SHAPES', data.data.data)
+    })
   },
   initPictures: ({commit}) => {
     commit('SET_PICTURES', pictures)

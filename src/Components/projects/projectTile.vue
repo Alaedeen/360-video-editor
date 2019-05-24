@@ -5,7 +5,7 @@
           <v-img
             :src="'http://localhost:8000/assets/project/videos/thumbnails/'+project.thumbnail"
             height= "7em"
-            @click="edit(project.projectId)"
+            @click="edit(project.ID)"
             style="cursor: pointer"
           >
           </v-img>

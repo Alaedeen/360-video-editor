@@ -124,4 +124,20 @@ export const projectService = {
         .catch(error => console.log(error))
     })
   },
+  saveProject(request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          name: request.name,
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.put('http://localhost:8000/api/v1/project/save', request.script, config).then((data) => {
+          resolve(data)
+        })
+        .catch(error => console.log(error))
+    })
+  },
 }

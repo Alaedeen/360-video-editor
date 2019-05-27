@@ -1,6 +1,4 @@
 import {projectService} from '../../services/projectService'
-import videos from '../../data/2dVideos'
-import fonts from '../../data/fonts'
 
 const state = {
   projects: [],
@@ -299,9 +297,16 @@ const actions = {
   addProject: ({commit},project)=>{
     return new Promise((resolve, reject) => {
       commit('SET_LOADING', true)
-      projectService.createProject(project).then((res) => {
-        console.log(res);
-
+      projectService.createProject(project).then(() => {
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
+  },
+  saveProject: ({commit},project)=>{
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      projectService.saveProject(project).then(() => {
         commit('SET_LOADING', false)
         resolve()
       })

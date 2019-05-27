@@ -4,7 +4,7 @@
     <!-- left menu -->
     <v-flex xs3 style=" margin-top:2em;">
         <div>
-          <b style="color: white; font-size : 1.5em; margin-left:0.5em; cursor: pointer" @click="copyElement">Editing : {{currentShape}} </b>
+          <b style="color: white; font-size : 1.5em; margin-left:0.5em; " >Editing : {{currentShape}} </b>
           <shape-details style="margin-left:1em;" :shapeDetails="shapesDetails"></shape-details>
         </div>
     </v-flex>
@@ -48,6 +48,7 @@
     <v-flex xs12>
     <v-btn fab flat style="display: inline;" ><v-icon  color="white" style="cursor : pointer;"  @click="playIcon" large> {{toggle}} </v-icon></v-btn>
     <p style="display: inline;color:white;"> <b>{{Math.floor(time) | time}} / {{Math.floor(duration) | time}}</b>  </p>
+    <v-btn fab flat style="display: inline;" ><v-icon  color="white" style="cursor : pointer;"  @click="saveProject" large> save </v-icon></v-btn>
     </v-flex>
     <v-layout>
       <!-- list of added items -->
@@ -57,7 +58,7 @@
               Added items
               <v-icon color="green" v-if="mode.mode==='free'">check</v-icon>
               </v-subheader>
-            <div style="overflow-y: scroll;overflow-x: hidden; height: 5em">
+            <div style="overflow-y: scroll;overflow-x: hidden; height: 10em">
               <v-list-tile
                 v-for="shape in project.shapesList"
                 :key="shape.id"
@@ -212,7 +213,7 @@ export default {
           return {
             overflowY : 'scroll',
             overflowX : 'hidden',
-             height : '5em'
+             height : '10em'
           }
       }else{
         return {}
@@ -327,33 +328,76 @@ export default {
       },
   },
   methods: {
-    copyElement(){ // finish this
+    saveProject(){ // finish this
       const elements = Array.from(document.getElementById("editor").children)
-      var project = {}
+      var editor = {}
       var elCount = 0
       elements.forEach(element => {
-        project['element'+elCount]= {}
-        project['element'+elCount].tagName=element.tagName
-        project['element'+elCount].position={}
-        project['element'+elCount].position.x=element.getAttribute("position").x
-        project['element'+elCount].position.y=element.getAttribute("position").y
-        project['element'+elCount].position.z=element.getAttribute("position").z
-        project['element'+elCount].rotation=element.getAttribute("rotation")
-        project['element'+elCount].color=element.getAttribute("color")
-        project['element'+elCount].startTime=element.getAttribute("startTime")
-        project['element'+elCount].endTime=element.getAttribute("endTime")
-        project['element'+elCount].value= element.getAttribute("value")
-        project['element'+elCount].scale={}
-        project['element'+elCount].scale.x=element.getAttribute("scale").x
-        project['element'+elCount].scale.y=element.getAttribute("scale").y
-        project['element'+elCount].scale.z=element.getAttribute("scale").z
+        editor['element'+elCount]= {}
+        editor['element'+elCount].tagName=element.tagName
+        editor['element'+elCount].position={}
+        editor['element'+elCount].position.x=element.getAttribute("position").x
+        editor['element'+elCount].position.y=element.getAttribute("position").y
+        editor['element'+elCount].position.z=element.getAttribute("position").z
+        editor['element'+elCount].rotation=element.getAttribute("rotation")
+        editor['element'+elCount].color=element.getAttribute("color")
+        editor['element'+elCount].startTime=element.getAttribute("startTime")
+        editor['element'+elCount].endTime=element.getAttribute("endTime")
+        editor['element'+elCount].value= element.getAttribute("value")
+        editor['element'+elCount].scale={}
+        editor['element'+elCount].scale.x=element.getAttribute("scale").x
+        editor['element'+elCount].scale.y=element.getAttribute("scale").y
+        editor['element'+elCount].scale.z=element.getAttribute("scale").z
+        editor['element'+elCount].id= element.getAttribute("id")
+        editor['element'+elCount].class= element.getAttribute("class")
+        editor['element'+elCount].src= element.getAttribute("src")
         elCount++
       });
-      for (const key in project.element0) {
-          console.log(key);//get all the keys
+      // var element
+      // for (const key in project.element0) {
+      //     if (key=='tagName') {
+      //       element = document.createElement(project.element0[key]);
+      //     }else{
+      //       element.setAttribute(key, project.element0[key])
+      //     }
+      // }
+
+      const texts = Array.from(document.getElementById("text").children)
+      var text = {}
+      elCount=0
+      texts.forEach(element => {
+        text['text'+elCount]= {}
+        text['text'+elCount].tagName=element.tagName
+        text['text'+elCount].position={}
+        text['text'+elCount].position.x=element.getAttribute("position").x
+        text['text'+elCount].position.y=element.getAttribute("position").y
+        text['text'+elCount].position.z=element.getAttribute("position").z
+        text['text'+elCount].rotation=element.getAttribute("rotation")
+        text['text'+elCount].color=element.getAttribute("color")
+        text['text'+elCount].startTime=element.getAttribute("startTime")
+        text['text'+elCount].endTime=element.getAttribute("endTime")
+        text['text'+elCount].value= element.getAttribute("value")
+        text['text'+elCount].scale={}
+        text['text'+elCount].scale.x=element.getAttribute("scale").x
+        text['text'+elCount].scale.y=element.getAttribute("scale").y
+        text['text'+elCount].scale.z=element.getAttribute("scale").z
+        text['text'+elCount].id= element.getAttribute("id")
+        text['text'+elCount].class= element.getAttribute("class")
+        text['text'+elCount].src= element.getAttribute("src")
+        text['text'+elCount].color= element.getAttribute("color")
+        text['text'+elCount].text= element.getAttribute("text")
+        text['text'+elCount].font= element.getAttribute("font")
+        elCount++
+      });
+      var script = {
+        elements : editor,
+        texts : text
       }
-
-
+      var request = {
+        script : script,
+        name : this.project.aFrame
+      }
+      this.$store.dispatch('project/saveProject',request)
     },
     switchTabs(tab){
       this.tab=tab

@@ -312,6 +312,13 @@ const actions = {
       })
     })
   },
+  loadProjectScript: ({commit},fileName)=>{
+    return new Promise((resolve, reject) => {
+      projectService.loadProjectScript(fileName).then((data) => {
+        resolve(data.data.data)
+      })
+    })
+  },
 }
 
 export const project = {

@@ -330,63 +330,65 @@ export default {
   methods: {
     saveProject(){ // finish this
       const elements = Array.from(document.getElementById("editor").children)
-      var editor = {}
+      var editor = []
       var elCount = 0
       elements.forEach(element => {
-        editor['element'+elCount]= {}
-        editor['element'+elCount].tagName=element.tagName
-        editor['element'+elCount].position={}
-        editor['element'+elCount].position.x=element.getAttribute("position").x
-        editor['element'+elCount].position.y=element.getAttribute("position").y
-        editor['element'+elCount].position.z=element.getAttribute("position").z
-        editor['element'+elCount].rotation=element.getAttribute("rotation")
-        editor['element'+elCount].color=element.getAttribute("color")
-        editor['element'+elCount].startTime=element.getAttribute("startTime")
-        editor['element'+elCount].endTime=element.getAttribute("endTime")
-        editor['element'+elCount].value= element.getAttribute("value")
-        editor['element'+elCount].scale={}
-        editor['element'+elCount].scale.x=element.getAttribute("scale").x
-        editor['element'+elCount].scale.y=element.getAttribute("scale").y
-        editor['element'+elCount].scale.z=element.getAttribute("scale").z
-        editor['element'+elCount].id= element.getAttribute("id")
-        editor['element'+elCount].class= element.getAttribute("class")
-        editor['element'+elCount].src= element.getAttribute("src")
+        editor[elCount]= {}
+        editor[elCount].tagName=element.tagName
+        editor[elCount].position={}
+        editor[elCount].position.x=element.getAttribute("position").x
+        editor[elCount].position.y=element.getAttribute("position").y
+        editor[elCount].position.z=element.getAttribute("position").z
+        editor[elCount].rotation=element.getAttribute("rotation")
+        editor[elCount].color=element.getAttribute("color")
+        editor[elCount].startTime=element.getAttribute("startTime")
+        editor[elCount].endTime=element.getAttribute("endTime")
+        editor[elCount].value= element.getAttribute("value")
+        editor[elCount].scale={}
+        editor[elCount].scale.x=element.getAttribute("scale").x
+        editor[elCount].scale.y=element.getAttribute("scale").y
+        editor[elCount].scale.z=element.getAttribute("scale").z
+        editor[elCount].id= element.getAttribute("id")
+        editor[elCount].class= element.getAttribute("class")
+        editor[elCount].src= element.getAttribute("src")
+        editor[elCount]['toggle-visibility']= element.getAttribute("toggle-visibility")
+        editor[elCount].animation= element.getAttribute("animation")
+        if (editor[elCount].id.includes("tag")) {
+          editor[elCount].rotate= ""
+        }
+        if (editor[elCount].id.includes("image") || editor[elCount].id.includes("video")) {
+          editor[elCount].width=element.getAttribute("width")
+          editor[elCount].height=element.getAttribute("height")
+        }
         elCount++
       });
-      // var element
-      // for (const key in project.element0) {
-      //     if (key=='tagName') {
-      //       element = document.createElement(project.element0[key]);
-      //     }else{
-      //       element.setAttribute(key, project.element0[key])
-      //     }
-      // }
+
 
       const texts = Array.from(document.getElementById("text").children)
-      var text = {}
+      var text = []
       elCount=0
       texts.forEach(element => {
-        text['text'+elCount]= {}
-        text['text'+elCount].tagName=element.tagName
-        text['text'+elCount].position={}
-        text['text'+elCount].position.x=element.getAttribute("position").x
-        text['text'+elCount].position.y=element.getAttribute("position").y
-        text['text'+elCount].position.z=element.getAttribute("position").z
-        text['text'+elCount].rotation=element.getAttribute("rotation")
-        text['text'+elCount].color=element.getAttribute("color")
-        text['text'+elCount].startTime=element.getAttribute("startTime")
-        text['text'+elCount].endTime=element.getAttribute("endTime")
-        text['text'+elCount].value= element.getAttribute("value")
-        text['text'+elCount].scale={}
-        text['text'+elCount].scale.x=element.getAttribute("scale").x
-        text['text'+elCount].scale.y=element.getAttribute("scale").y
-        text['text'+elCount].scale.z=element.getAttribute("scale").z
-        text['text'+elCount].id= element.getAttribute("id")
-        text['text'+elCount].class= element.getAttribute("class")
-        text['text'+elCount].src= element.getAttribute("src")
-        text['text'+elCount].color= element.getAttribute("color")
-        text['text'+elCount].text= element.getAttribute("text")
-        text['text'+elCount].font= element.getAttribute("font")
+        text[elCount]= {}
+        text[elCount].tagName=element.tagName
+        text[elCount].position={}
+        text[elCount].position.x=element.getAttribute("position").x
+        text[elCount].position.y=element.getAttribute("position").y
+        text[elCount].position.z=element.getAttribute("position").z
+        text[elCount].rotation=element.getAttribute("rotation")
+        text[elCount].color=element.getAttribute("color")
+        text[elCount].startTime=element.getAttribute("startTime")
+        text[elCount].endTime=element.getAttribute("endTime")
+        text[elCount].value= element.getAttribute("value")
+        text[elCount].scale={}
+        text[elCount].scale.x=element.getAttribute("scale").x
+        text[elCount].scale.y=element.getAttribute("scale").y
+        text[elCount].scale.z=element.getAttribute("scale").z
+        text[elCount].id= element.getAttribute("id")
+        text[elCount].class= element.getAttribute("class")
+        text[elCount].src= element.getAttribute("src")
+        text[elCount].color= element.getAttribute("color")
+        text[elCount].text= element.getAttribute("text")
+        text[elCount].font= element.getAttribute("font")
         elCount++
       });
       var script = {
@@ -511,6 +513,30 @@ beforeCreate() {
 },
 mounted() {
     this.$store.dispatch('project/loadProject',parseInt(this.$route.params.id, 10)).then(()=>{
+      this.$store.dispatch('project/loadProjectScript', this.project.aFrame).then((response)=>{
+        var element
+        var editor = document.getElementById("editor")
+        var text = document.getElementById("text")
+        response.elements.forEach((value)=>{
+          element = document.createElement(value['tagName']);
+          for (const key in value) {
+              if (key!='tagName') {
+                element.setAttribute(key, value[key])
+              }
+          }
+          editor.appendChild(element)
+        })
+        response.texts.forEach((value)=>{
+          element = document.createElement(value['tagName']);
+          for (const key in value) {
+              if (key!='tagName') {
+                element.setAttribute(key, value[key])
+              }
+          }
+          text.appendChild(element)
+        })
+
+      })
 
       var request = {
         offset : 0,

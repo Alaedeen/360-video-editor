@@ -312,6 +312,15 @@ const actions = {
       })
     })
   },
+  saveElement: ({commit},element)=>{
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      projectService.saveElement(element).then(() => {
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
+  },
   loadProjectScript: ({commit},fileName)=>{
     return new Promise((resolve, reject) => {
       projectService.loadProjectScript(fileName).then((data) => {

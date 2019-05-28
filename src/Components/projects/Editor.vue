@@ -4,7 +4,7 @@
     <!-- left menu -->
     <v-flex xs3 style=" margin-top:2em;">
         <div>
-          <b style="color: white; font-size : 1.5em; margin-left:0.5em; " >Editing : {{currentShape}} </b>
+          <b style="color: white; font-size : 1.5em; margin-left:0.5em; " @click="doSomething">Editing : {{currentShape}} </b>
           <shape-details style="margin-left:1em;" :shapeDetails="shapesDetails"></shape-details>
         </div>
     </v-flex>
@@ -48,7 +48,7 @@
     <v-flex xs12>
     <v-btn fab flat style="display: inline;" ><v-icon  color="white" style="cursor : pointer;"  @click="playIcon" large> {{toggle}} </v-icon></v-btn>
     <p style="display: inline;color:white;"> <b>{{Math.floor(time) | time}} / {{Math.floor(duration) | time}}</b>  </p>
-    <v-btn fab flat style="display: inline;" ><v-icon  color="white" style="cursor : pointer;"  @click="saveProject" large> save </v-icon></v-btn>
+    <v-btn fab flat style="display: inline; margin-left: 30em" ><v-icon  color="white" style="cursor : pointer;"  @click="saveProject" large> save </v-icon></v-btn>
     </v-flex>
     <v-layout>
       <!-- list of added items -->
@@ -328,6 +328,10 @@ export default {
       },
   },
   methods: {
+    doSomething(){
+      console.log(this.project.shapesList[0].ID);
+
+    },
     saveProject(){ // finish this
       const elements = Array.from(document.getElementById("editor").children)
       var editor = []
@@ -352,9 +356,9 @@ export default {
         editor[elCount].class= element.getAttribute("class")
         editor[elCount].src= element.getAttribute("src")
         editor[elCount]['toggle-visibility']= element.getAttribute("toggle-visibility")
-        editor[elCount].animation= element.getAttribute("animation")
         if (editor[elCount].id.includes("tag")) {
           editor[elCount].rotate= ""
+        editor[elCount].animation= element.getAttribute("animation")
         }
         if (editor[elCount].id.includes("image") || editor[elCount].id.includes("video")) {
           editor[elCount].width=element.getAttribute("width")
@@ -399,7 +403,22 @@ export default {
         script : script,
         name : this.project.aFrame
       }
-      this.$store.dispatch('project/saveProject',request)
+      this.$store.dispatch('project/saveProject',request).then(()=>{
+        var element
+        this.project.shapesList.forEach((shape)=>{
+          if (!shape.ID) {
+            element = {
+              projectId: this.project.projectId,
+              image: shape.image,
+              type: shape.type,
+              id: shape.id
+            }
+            this.$store.dispatch('project/saveElement',element)
+          }
+        })
+
+        
+      })
     },
     switchTabs(tab){
       this.tab=tab

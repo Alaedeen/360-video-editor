@@ -7,7 +7,7 @@
                height='70em'
                style="padding-left : 0px;     ">
       <v-toolbar-side-icon @click="toggleside()"></v-toolbar-side-icon>
-      <v-toolbar-title  style="cursor: pointer; font-size: 1em" @click="gohome()">360° video editor</v-toolbar-title>
+      <v-toolbar-title  style="cursor: pointer; font-size: 1em" @click="gohome()"><img src="/logo.png" alt="360 Video Editor"></v-toolbar-title>
       <v-spacer></v-spacer>
     <v-text-field
           hide-details

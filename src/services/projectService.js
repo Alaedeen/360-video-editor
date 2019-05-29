@@ -169,4 +169,20 @@ export const projectService = {
         .catch(error => console.log(error))
     })
   },
+  updateProject(request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          id: request.id,
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.put('http://localhost:8000/api/v1/project', request.elements, config).then((data) => {
+        resolve(data)
+      })
+        .catch(error => console.log(error))
+    })
+  },
 }

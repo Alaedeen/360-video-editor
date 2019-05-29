@@ -416,8 +416,27 @@ export default {
             this.$store.dispatch('project/saveElement',element)
           }
         })
+        var project ={
+          id : this.project.projectId,
+          elements : {
+            box : this.project.shapes.get('box'),
+            sphere : this.project.shapes.get('sphere'),
+            cone : this.project.shapes.get('cone'),
+            cylinder : this.project.shapes.get('cylinder'),
+            torus : this.project.shapes.get('torus'),
+            'torus-knot' : this.project.shapes.get('torus-knot'),
+            dodecahedron : this.project.shapes.get('dodecahedron'),
+            tetrahedron : this.project.shapes.get('tetrahedron'),
+            image : this.project.shapes.get('image'),
+            '2dVideo' : this.project.shapes.get('video'),
+            text : this.project.shapes.get('text'),
+            tag : this.project.tag
+          }
+        }
+        this.$store.dispatch('project/updateProject',project).then(()=>{
+          this.$store.dispatch('project/loadProject',parseInt(this.$route.params.id, 10))
+        })
 
-        
       })
     },
     switchTabs(tab){

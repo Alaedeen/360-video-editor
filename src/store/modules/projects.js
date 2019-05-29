@@ -328,6 +328,13 @@ const actions = {
       })
     })
   },
+  updateProject: ({ commit }, request) => {
+    return new Promise((resolve, reject) => {
+      projectService.updateProject(request).then(() => {
+        resolve()
+      })
+    })
+  },
 }
 
 export const project = {

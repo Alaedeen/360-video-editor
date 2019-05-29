@@ -321,6 +321,15 @@ const actions = {
       })
     })
   },
+  saveTag: ({commit},tag)=>{
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      projectService.saveTag(tag).then(() => {
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
+  },
   loadProjectScript: ({commit},fileName)=>{
     return new Promise((resolve, reject) => {
       projectService.loadProjectScript(fileName).then((data) => {

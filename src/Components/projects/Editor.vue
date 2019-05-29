@@ -416,6 +416,16 @@ export default {
             this.$store.dispatch('project/saveElement',element)
           }
         })
+        var tag
+        this.project.tagsList.forEach((tag)=>{
+          if (!tag.ID) {
+            tag = {
+              projectId: this.project.projectId,
+              id: tag.id
+            }
+            this.$store.dispatch('project/saveTag',tag)
+          }
+        })
         var project ={
           id : this.project.projectId,
           elements : {

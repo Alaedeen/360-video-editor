@@ -315,18 +315,27 @@ const actions = {
   saveElement: ({commit},element)=>{
     return new Promise((resolve, reject) => {
       commit('SET_LOADING', true)
-      projectService.saveElement(element).then(() => {
+      projectService.saveElement(element).then((data) => {
         commit('SET_LOADING', false)
-        resolve()
+        resolve(data.data.data)
       })
     })
   },
   saveTag: ({commit},tag)=>{
     return new Promise((resolve, reject) => {
       commit('SET_LOADING', true)
-      projectService.saveTag(tag).then(() => {
+      projectService.saveTag(tag).then((data) => {
         commit('SET_LOADING', false)
-        resolve()
+        resolve(data.data.data)
+      })
+    })
+  },
+  saveTagElement: ({commit},tagElement)=>{
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      projectService.saveTagElement(tagElement).then((data) => {
+        commit('SET_LOADING', false)
+        resolve(data.data.data)
       })
     })
   },

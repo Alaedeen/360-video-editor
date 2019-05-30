@@ -332,7 +332,7 @@ export default {
       console.log(this.project.shapesList[0].ID);
 
     },
-    saveProject(){ // finish this
+    saveProject(){ 
       const elements = Array.from(document.getElementById("editor").children)
       var editor = []
       var elCount = 0
@@ -405,7 +405,7 @@ export default {
       }
       this.$store.dispatch('project/saveProject',request).then(()=>{
         var element
-        this.project.shapesList.forEach((shape)=>{
+        this.project.shapesList.forEach((shape,i)=>{
           if (!shape.ID) {
             element = {
               projectId: this.project.projectId,
@@ -413,17 +413,52 @@ export default {
               type: shape.type,
               id: shape.id
             }
-            this.$store.dispatch('project/saveElement',element)
+            this.$store.dispatch('project/saveElement',element).then((data)=>{
+              this.project.shapesList[i].ID=data
+            })
           }
         })
         var tag
-        this.project.tagsList.forEach((tag)=>{
+        var tagElement
+        this.project.tagsList.forEach((tag,i)=>{
           if (!tag.ID) {
             tag = {
               projectId: this.project.projectId,
               id: tag.id
             }
-            this.$store.dispatch('project/saveTag',tag)
+            this.$store.dispatch('project/saveTag',tag).then((data)=>{
+              this.project.tagsList[i].ID=data
+              this.project.tagsList[i].shapes.forEach((tagEl,j)=>{
+                if (!tagEl.ID) {
+
+                  tagElement = {
+                    tagId : data,
+                    image: tagEl.image,
+                    type: tagEl.type,
+                    id:tagEl.id
+                  }
+                  this.$store.dispatch('project/saveTagElement',tagElement).then((data)=>{
+                    this.project.tagsList[i].shapes[j].ID=data
+                  })
+                }
+              })
+            })
+          }else{
+            tag.shapes.forEach((tagEl,j)=>{
+              if (!tagEl.ID) {
+
+                tagElement = {
+                  tagId : tag.ID,
+                  image: tagEl.image,
+                  type: tagEl.type,
+                  id:tagEl.id
+                }
+                this.$store.dispatch('project/saveTagElement',tagElement).then((data)=>{
+                    this.project.tagsList[i].shapes[j].ID=data
+
+                  })
+              }
+            })
           }
         })
         var project ={
@@ -443,9 +478,7 @@ export default {
             tag : this.project.tag
           }
         }
-        this.$store.dispatch('project/updateProject',project).then(()=>{
-          this.$store.dispatch('project/loadProject',parseInt(this.$route.params.id, 10))
-        })
+        this.$store.dispatch('project/updateProject',project)
 
       })
     },

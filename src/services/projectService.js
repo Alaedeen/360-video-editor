@@ -182,6 +182,19 @@ export const projectService = {
         .catch(error => console.log(error))
     })
   },
+  saveTagElement(tagElement) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.post('http://localhost:8000/api/v1/project/tagElement', tagElement, config).then((data) => {
+          resolve(data)
+        })
+        .catch(error => console.log(error))
+    })
+  },
   updateProject(request) {
     return new Promise((resolve, reject) => {
       var config = {

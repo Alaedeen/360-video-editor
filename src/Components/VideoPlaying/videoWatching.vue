@@ -5,7 +5,7 @@
     <v-layout row wrap>
     <v-flex xs12 sm12 md12 lg12 xl12 style="paddingBottom: 2em;">
       <!-- video player -->
-        <app-player  ></app-player>
+        <app-player v-if="video.src" :video="video"></app-player>
         <!-- video player end-->
     </v-flex>
     <v-flex xs12  md8  style="paddingLeft: 3em; paddingTop: 1em">
@@ -48,17 +48,17 @@ export default {
       return this.$store.state.video.videos
     },
   },
-  mounted() {
+  beforeCreate() {
+
+
     this.$store.dispatch('video/loadVideo', parseInt(this.$route.params.id, 10)).then(()=>{
       this.getAccount(this.video.userId)
+        var request = {
+        offset: 0,
+        limit: 18
+      }
+      this.$store.dispatch('video/setVideos', request)
     })
-  },
-  beforeCreate() {
-    var request = {
-      offset: 0,
-      limit: 18
-    }
-    this.$store.dispatch('video/setVideos', request)
   },
   components: {
     appPlayer: player,

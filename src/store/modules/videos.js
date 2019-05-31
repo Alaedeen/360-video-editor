@@ -550,6 +550,13 @@ const actions = {
     })
     // commit('REMOVE_REPLY_DISLIKE', id)
   },
+  loadVideoScript: ({commit},fileName)=>{
+    return new Promise((resolve, reject) => {
+      videoService.loadVideoScript(fileName).then((data) => {
+        resolve(data.data.data)
+      })
+    })
+  },
 }
 
 export const video = {

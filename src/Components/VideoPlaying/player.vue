@@ -20,7 +20,7 @@
             <!-- Single source video. -->
             <video id="video" style="display:none" autoplay loop crossorigin="anonymous" playsinline webkit-playsinline>
                 <!-- MP4 video source. -->
-                <source type="video/mp4" src="/src/playerAssets/London Park.mp4" />
+                <source type="video/mp4" :src="'http://localhost:8000/assets/project/videos/'+video.src" />
             </video>
         </a-assets>
 
@@ -41,6 +41,12 @@ export default {
       valueDeterminate: 0,
       time: 0,
       duration:0
+    }
+  },
+  props: ['video'],
+  computed: {
+    src(){
+      return this.video.src
     }
   },
   methods: {
@@ -131,11 +137,65 @@ export default {
 
   },
   mounted() {
+    this.$store.dispatch('video/loadVideoScript', this.video.aFrame).then((response)=>{
+        var element
+        var editor = document.getElementById("editor")
+        var text = document.getElementById("text")
+        response.elements.forEach((value)=>{
+          element = document.createElement(value['tagName']);
+          for (const key in value) {
+              if (key!='tagName') {
+                element.setAttribute(key, value[key])
+              }
+          }
+          editor.appendChild(element)
+        })
+        response.texts.forEach((value)=>{
+          element = document.createElement(value['tagName']);
+          for (const key in value) {
+              if (key!='tagName') {
+                element.setAttribute(key, value[key])
+              }
+          }
+          text.appendChild(element)
+        })
+
+      })
     var vid = document.getElementById("video");
     setInterval(() => this.valueDeterminate = (vid.currentTime/vid.duration)*100, 1000);
     setInterval(() => this.time = vid.currentTime, 1000);
     setInterval(() => this.duration = vid.duration, 1);
     vid.play()
+    setInterval(() => {
+        var video = document.querySelector('#editor')
+        var entities = Array.from(video.querySelectorAll('.element'))
+        entities.forEach((entity)=> {
+          var start = entity.getAttribute('startTime')
+
+          var end = entity.getAttribute('endTime')
+          if ((this.time>=start)&&(this.time<=end)) {
+              entity.object3D.visible = true;
+          }else{
+            entity.object3D.visible = false;
+          }
+        });
+      }, 1);
+
+      setInterval(() => {
+        var video = document.querySelector('#editor')
+        for (let index = 0; index < this.project.tag; index++) {
+            var entities = Array.from(video.querySelectorAll('.tag'+index))
+
+            entities.forEach((entity)=> {
+              var start = entity.getAttribute('startTime')
+              var end = entity.getAttribute('endTime')
+              if ((this.time<start)||(this.time>end)) {
+                console.log(start);
+                  entity.object3D.visible = false;
+              }
+            });
+        }
+      }, 1);
   }
 }
 </script>

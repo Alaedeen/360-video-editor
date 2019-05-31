@@ -168,4 +168,20 @@ export const videoService = {
         .catch(error => console.log(error))
     })
   },
+  loadVideoScript(fileName) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          file: fileName
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.get('http://localhost:8000/api/v1/project/script', config).then((data) => {
+          resolve(data)
+        })
+        .catch(error => console.log(error))
+    })
+  },
 }

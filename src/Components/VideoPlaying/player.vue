@@ -3,15 +3,16 @@
   <!-- Specify our scene. -->
     <a-scene embedded style=" padding-top: 36.25%;">
 
-
+        <a-entity id="text" >
+        </a-entity>
 
         <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
-        <a-videosphere rotation="0 180 0" src="#video"  play-on-vrdisplayactivate-or-enter-vr  arrow-key-rotation artoolkit>
+        <a-videosphere id="editor" class="container" rotation="0 180 0" src="#video"  play-on-vrdisplayactivate-or-enter-vr  arrow-key-rotation artoolkit>
         </a-videosphere>
 
         <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
-        <a-camera user-height="0" wasd-controls-enabled="false" arrow-key-rotation>
-
+        <a-camera camera-logger position="0 0 0" user-height="0" wasd-controls-enabled="false" arrow-key-rotation>
+          <a-cursor id="cursor"  color="white" fuse="true" raycaster="objects: .clickable"></a-cursor>
         </a-camera>
 
         <!-- Wait for the video to load. -->
@@ -44,10 +45,13 @@ export default {
   },
   methods: {
     playIcon(){
+      var vid = document.getElementById("video");
       if (this.toggle=='play_arrow') {
           this.toggle='pause'
+          vid.play()
       }else{
           this.toggle='play_arrow'
+          vid.pause()
       }
     },
     changeTime(){
@@ -86,6 +90,43 @@ export default {
     playerScript3.setAttribute('src',"/src/playerAssets/toggle-play.js");
     document.body.appendChild(playerScript3);
 
+    // toggle func
+    AFRAME.registerComponent('toggle-visibility', {
+      schema: {type: 'string'},
+      init: function() {
+          var entities
+          setInterval(() => entities = Array.from(document.querySelectorAll(this.data)), 1);
+        this.el.addEventListener('click', function (evt) {
+
+            for (var i = 0; i < entities.length; i++) {
+
+              if ( entities[i].object3D.visible === true ) {
+
+                entities[i].object3D.visible = false;
+              } else {
+
+                entities[i].object3D.visible = true;
+              }
+            }
+        });
+      },
+    });
+
+    // rotate func
+    AFRAME.registerComponent('rotate', {
+      schema: {},
+      init: function() {
+          var rotation=0
+          setInterval(() => {
+              if (rotation==-360) {
+                rotation=0
+              }
+              rotation--
+              this.el.setAttribute('rotation','0 0 ' + rotation)
+          },1);
+
+      },
+    });
 
 
   },

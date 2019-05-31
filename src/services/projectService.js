@@ -211,4 +211,52 @@ export const projectService = {
         .catch(error => console.log(error))
     })
   },
+  deleteElement(id) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          id: id
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.delete('http://localhost:8000/api/v1/project/element', config).then(() => {
+          resolve()
+        })
+        .catch(error => console.log(error))
+    })
+  },
+  deleteTag(id) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          id: id
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.delete('http://localhost:8000/api/v1/project/tag', config).then(() => {
+          resolve()
+        })
+        .catch(error => console.log(error))
+    })
+  },
+  deleteTagElement(id) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        params: {
+          id: id
+        },
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.delete('http://localhost:8000/api/v1/project/tagElement', config).then(() => {
+          resolve()
+        })
+        .catch(error => console.log(error))
+    })
+  },
 }

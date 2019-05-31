@@ -73,7 +73,7 @@
                   <v-list-tile-title>{{ shape.type }}</v-list-tile-title>
                 </v-list-tile-content>
                 <v-spacer></v-spacer>
-                <v-btn fab flat @click="deleteElement(shape.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
+                <v-btn fab flat @click="deleteElement(shape.id,shape.ID)"><v-icon color="red"> delete_forever</v-icon></v-btn>
               </v-list-tile>
             </div>
           </v-list>
@@ -97,7 +97,7 @@
                   <div>{{ tag.id }}</div>
                   <v-btn  fab flat small  @click="tagMode(tag.id)"><v-icon color="green"> fiber_new</v-icon></v-btn>
                   <v-btn  fab flat small  @click="editShape(tag.id)"><v-icon color="orange"> edit</v-icon></v-btn>
-                  <v-btn  fab flat small @click="deleteElement(tag.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
+                  <v-btn  fab flat small @click="deleteElement(tag.id,tag.ID)"><v-icon color="red"> delete_forever</v-icon></v-btn>
                 </template>
                         <v-list dark two-line subheader>
                           <v-list-tile
@@ -114,7 +114,7 @@
                               <v-list-tile-title>{{ shape.type }}</v-list-tile-title>
                             </v-list-tile-content>
                             <v-spacer></v-spacer>
-                            <v-btn fab flat @click="deleteElement(shape.id)"><v-icon color="red"> delete_forever</v-icon></v-btn>
+                            <v-btn fab flat @click="deleteElement(shape.id,shape.ID)"><v-icon color="red"> delete_forever</v-icon></v-btn>
                           </v-list-tile>
                         </v-list>
                 </v-expansion-panel-content>
@@ -531,8 +531,13 @@ export default {
       this.scale.size=shape.getAttribute("scale").substring(0, 1)
 
     },
-    deleteElement(id){
-      this.$store.dispatch('project/deleteElement',id)
+    deleteElement(id, ID){
+      var ids ={
+        id:id,
+        ID:ID
+      }
+      this.$store.dispatch('project/deleteElement',ids)
+      this.saveProject()
     },
     playIcon(){
       var vid = document.getElementById("video");

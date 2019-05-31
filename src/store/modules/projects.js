@@ -286,8 +286,34 @@ const actions = {
       })
     })
   },
-  deleteElement: ({commit},id)=>{
-    commit('DELETE_ELEMENT', id)
+  deleteElement: ({commit},ids)=>{
+
+    if (ids.ID) {
+      console.log(ids.ID);
+      if (ids.id.includes("tag")) {
+        projectService.deleteTag(ids.ID)
+        var index = state.editing.tagsList.findIndex(function (element) {
+          return (element.ID == ids.ID)
+        });
+        state.editing.tagsList[index].shapes.forEach((sahpe)=>{
+          if (sahpe.ID) {
+            projectService.deleteTagElement(sahpe.ID)
+          }
+        })
+      }else {
+        var find = state.editing.shapesList.findIndex(function (element) {
+          return (element.ID == ids.ID)
+        })
+        console.log(find);
+
+        if (find != -1) {
+          projectService.deleteElement(ids.ID)
+        }else{
+          projectService.deleteTagElement(ids.ID)
+        }
+      }
+    }
+    commit('DELETE_ELEMENT', ids.id)
   },
   addTag: ({commit},duration)=>{
     commit('ADD_TAG',duration)

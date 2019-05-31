@@ -38,6 +38,7 @@ export default {
         mode: this.textAdding.mode.mode
       })
       this.textAdding.mode.mode='free'
+      this.$store.dispatch('project/setSaving',false)
     }
   },
 

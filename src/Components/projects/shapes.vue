@@ -44,6 +44,7 @@ data () {
         mode: this.shapeAdding.mode.mode
       })
       this.shapeAdding.mode.mode='free'
+      this.$store.dispatch('project/setSaving',false)
       }
     },
 

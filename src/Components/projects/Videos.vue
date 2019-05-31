@@ -97,6 +97,7 @@ export default {
         mode: this.videoAdding.mode.mode
       })
       this.videoAdding.mode.mode='free'
+      this.$store.dispatch('project/setSaving',false)
     }
   },
   created() {

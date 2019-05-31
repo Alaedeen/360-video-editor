@@ -94,6 +94,7 @@ export default {
         mode: this.pictureAdding.mode.mode
       })
       this.pictureAdding.mode.mode='free'
+      this.$store.dispatch('project/setSaving',false)
     }
   },
 }

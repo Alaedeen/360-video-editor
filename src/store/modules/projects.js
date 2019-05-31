@@ -8,7 +8,8 @@ const state = {
   fonts: [],
   editing: {},
   projectCount:0,
-  projectLoading: false
+  projectLoading: false,
+  saved: true
 }
 
 const getters = {
@@ -18,6 +19,9 @@ const getters = {
 const mutations = {
   SET_LOADING(state, loading) {
     state.projectLoading = loading
+  },
+  SET_SAVING(state, saved) {
+    state.saved = saved
   },
   'SET_PROJECTS'(state, {data,count}) {
     state.projects = data;
@@ -227,6 +231,9 @@ const mutations = {
 }
 
 const actions = {
+  setSaving:({commit}, saved)=>{
+    commit('SET_SAVING', saved)
+  },
   setProjects: ({commit}, request) => {
     commit('SET_LOADING', true)
     projectService.fetchProjects(request).then((data) => {

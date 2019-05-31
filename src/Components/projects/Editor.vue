@@ -48,7 +48,7 @@
     <v-flex xs12>
     <v-btn fab flat style="display: inline;" ><v-icon  color="white" style="cursor : pointer;"  @click="playIcon" large> {{toggle}} </v-icon></v-btn>
     <p style="display: inline;color:white;"> <b>{{Math.floor(time) | time}} / {{Math.floor(duration) | time}}</b>  </p>
-    <v-btn fab flat style="display: inline; margin-left: 30em" ><v-icon  color="white" style="cursor : pointer;"  @click="saveProject" large> save </v-icon></v-btn>
+    <v-btn fab flat style="display: inline; margin-left: 30em" :disabled="saved" ><v-icon  color="white" style="cursor : pointer;"  @click="saveProject" large> save </v-icon></v-btn>
     </v-flex>
     <v-layout>
       <!-- list of added items -->
@@ -161,6 +161,28 @@
     </v-flex>
   </v-layout>
 
+  <!-- Loader -->
+    <v-dialog
+      v-model="dialog1"
+      hide-overlay
+      persistent
+      width="300"
+    >
+      <v-card
+        color="blue"
+        dark
+      >
+        <v-card-text>
+          Loading...
+          <v-progress-linear
+            indeterminate
+            color="black"
+            class="mb-0"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
 </div>
 </template>
 <script>
@@ -257,6 +279,12 @@ export default {
         duration: this.duration
       }
     },
+    dialog1(){
+      return this.$store.state.project.projectLoading
+    },
+    saved(){
+      return this.$store.state.project.saved
+    },
     textAdding(){
       return {
         fonts : this.$store.state.project.fonts,
@@ -271,7 +299,7 @@ export default {
         handler(val){
           const element = document.getElementById(this.currentShape)
           element.setAttribute("rotation", val)
-
+          this.$store.dispatch('project/setSaving',false)
         }
       },
       position: {
@@ -279,6 +307,7 @@ export default {
         handler(val){
           const element = document.getElementById(this.currentShape)
           element.setAttribute("position", val)
+          this.$store.dispatch('project/setSaving',false)
         }
       },
       material: {
@@ -286,6 +315,7 @@ export default {
         handler(val){
           const element = document.getElementById(this.currentShape)
           element.setAttribute("color", val.color.toLowerCase())
+          this.$store.dispatch('project/setSaving',false)
         }
       },
       scale: {
@@ -293,6 +323,7 @@ export default {
         handler(val){
           const element = document.getElementById(this.currentShape)
           element.setAttribute("scale", val.size+" "+val.size+" "+val.size)
+          this.$store.dispatch('project/setSaving',false)
         }
       },
       period: {
@@ -317,6 +348,7 @@ export default {
           // if (val.endTime>this.duration) {
           //   val.endTime=this.duration
           // }
+          this.$store.dispatch('project/setSaving',false)
         }
       },
       text: {
@@ -324,6 +356,7 @@ export default {
         handler(val){
           const element = document.getElementById(this.currentShape)
           element.setAttribute("value", val.value)
+          this.$store.dispatch('project/setSaving',false)
         }
       },
   },
@@ -332,7 +365,7 @@ export default {
       console.log(this.project.shapesList[0].ID);
 
     },
-    saveProject(){ 
+    saveProject(){
       const elements = Array.from(document.getElementById("editor").children)
       var editor = []
       var elCount = 0
@@ -481,6 +514,7 @@ export default {
         this.$store.dispatch('project/updateProject',project)
 
       })
+      this.$store.dispatch('project/setSaving',true)
     },
     switchTabs(tab){
       this.tab=tab
@@ -522,6 +556,7 @@ export default {
     },
     addTag(){
       this.$store.dispatch('project/addTag',this.duration)
+      this.$store.dispatch('project/setSaving',false)
     },
 
   },

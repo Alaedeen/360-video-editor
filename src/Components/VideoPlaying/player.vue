@@ -137,15 +137,24 @@ export default {
 
   },
   mounted() {
+
+
     this.$store.dispatch('video/loadVideoScript', this.video.aFrame).then((response)=>{
         var element
         var editor = document.getElementById("editor")
         var text = document.getElementById("text")
+        // console.log(response.elements.length);
         response.elements.forEach((value)=>{
           element = document.createElement(value['tagName']);
           for (const key in value) {
               if (key!='tagName') {
                 element.setAttribute(key, value[key])
+              }
+              if (key == 'class') {
+                if (value[key].includes("tag")) {
+                  element.setAttribute("visible", "false")
+                }
+
               }
           }
           editor.appendChild(element)
@@ -155,6 +164,12 @@ export default {
           for (const key in value) {
               if (key!='tagName') {
                 element.setAttribute(key, value[key])
+              }
+              if (key == 'class') {
+                if (value[key].includes("tag")) {
+                  element.setAttribute("visible", "false")
+                }
+
               }
           }
           text.appendChild(element)
@@ -183,7 +198,7 @@ export default {
 
       setInterval(() => {
         var video = document.querySelector('#editor')
-        for (let index = 0; index < this.project.tag; index++) {
+        for (let index = 0; index < 100; index++) {//fix this to get the number of tags from the project
             var entities = Array.from(video.querySelectorAll('.tag'+index))
 
             entities.forEach((entity)=> {

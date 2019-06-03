@@ -8,7 +8,9 @@
               outline
               color="grey"
               clearable
-              v-model="search" @input="filter"></v-text-field>
+              v-model="search" 
+              append-icon="search"
+              @click:append="filter"></v-text-field>
       </v-flex>
       <v-data-table
         :headers="headers"

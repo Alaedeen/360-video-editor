@@ -17,7 +17,8 @@
            clearable
         v-model="search"
         v-if="home"
-        @input="filter"></v-text-field>
+              append-icon="search"
+              @click:append="filter"></v-text-field>
       <v-spacer></v-spacer>
 
 

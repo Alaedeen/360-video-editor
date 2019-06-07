@@ -9,7 +9,9 @@ const state = {
   editing: {},
   projectCount:0,
   projectLoading: false,
-  saved: true
+  saved: true,
+  uploadRequests : [],
+  requestsCount : 0
 }
 
 const getters = {
@@ -228,6 +230,10 @@ const mutations = {
   'ADD_VIDEO'(state, video) {
     state.videos.splice(0, 0, video)
   },
+  'SET_UPLOAD_REQUESTS'(state, {data,count}) {
+    state.uploadRequests = data;
+    state.requestsCount=count
+  },
 }
 
 const actions = {
@@ -383,6 +389,17 @@ const actions = {
     return new Promise((resolve, reject) => {
       projectService.updateProject(request).then(() => {
         resolve()
+      })
+    })
+  },
+  fetchUploadRequests: ({commit}, request) => {
+    commit('SET_LOADING', true)
+    projectService.fetchUploadRequests(request).then((data) => {
+
+      commit('SET_LOADING', false)
+      commit('SET_UPLOAD_REQUESTS', {
+        count: data.data.count,
+        data: data.data.response.data
       })
     })
   },

@@ -1,18 +1,9 @@
 <template>
   <div>
-      <v-flex  xs12 style="margin: 2em">
-        <v-text-field
-              hide-details
-              single-line
-              label="Search"
-              outline
-              color="grey"
-              clearable
-              v-model="search" @input="filter"></v-text-field>
-      </v-flex>
+
       <v-data-table
         :headers="headers"
-        :items="pageUsers"
+        :items="pageRequests"
         class="elevation-1"
         dark
         hide-actions
@@ -21,7 +12,7 @@
         <template v-slot:items="props" >
           <tr style="cursor: pointer" >
             <td class="text-xs-center" >{{ props.item.title }}</td>
-            <td class="text-xs-center" >{{ props.item.name }}</td>
+            <td class="text-xs-center" >{{ props.item.userId }}</td>
           <td><v-btn color="#1487F9" @click="true">watch video</v-btn></td>
           <td><v-btn color="#ff4646" @click="true">decline request</v-btn></td>
           <td><v-btn color="#5aad5a" @click="true">approve request</v-btn></td>
@@ -79,7 +70,7 @@ export default {
     return {
       headers: [
         { text: 'Video Title',align: 'center',sortable: false, value: 'edit' },
-        { text: 'User name',align: 'center',sortable: false,value: 'user name' },
+        { text: 'User ID',align: 'center',sortable: false,value: 'user ID' },
         { text: ' ',align: 'center',sortable: false, value: 'email' },
         { text: '',align: 'center', sortable: false,value: 'joined' },
         { text: '',align: 'center',sortable: false, value: '' },
@@ -90,127 +81,61 @@ export default {
       id: 0,
       pagination: {
         descending: false,
-        rowsPerPage: 4,
+        rowsPerPage: 8,
         page:1
       },
-      pageUsers : [
-        {
-          title : 'Sousse Tour',
-          name: 'Alaedeen Eloueryemmi'
-        },
-        {
-          title : 'London Tour',
-          name: 'Jon Snow'
-        },
-        {
-          title : 'Metropolitan Museum of Art',
-          name: 'Patrick Jane'
-        },
-        {
-          title : 'Camp Nou',
-          name: 'Leo Messi'
-        },
-      ]
+      pageRequests : []
     }
   },
 computed: {
   pages(){
-    return Math.ceil(this.$store.state.user.usersCount/4)
+    return Math.ceil(this.$store.state.project.requestsCount/8)
   },
-  users(){
-    return this.$store.state.user.users
+  requests(){
+    return this.$store.state.project.uploadRequests
   }
 },
 watch: {
-    search: function (val) {
-      if (val==null) {
-        this.search=''
-      }
-      if (val=='') {
-        var request = {
-            role : 'admin',
-            offset: 0,
-            limit: 4
-          }
-          this.setUsers(request)
-          this.pagination.page=1
-      }
-    },
+
      pagination: {
       handler(val){
-        if (this.search=='') {
           var request = {
-            role : 'admin',
-            offset: (val.page * 4)-4,
-            limit: 4
+            offset: (val.page * 8)-8,
+            limit: 8
           }
-          this.setUsers(request)
-        }else{
-           var request1 = {
-            role : 'admin',
-            name: this.search,
-            offset: (val.page * 4)-4,
-            limit: 4
-          }
-          this.filterUsers(request1)
-        }
-
+          this.setRequests(request)
       },
       deep:true
     },
-    // users: function (val){
-    //     this.pageUsers=[]
-    //     for (let index = 0; index < (this.pagination.page*4)-4; index++) {
-    //         this.pageUsers.push(null)
-    //     }
-    //     for (let index = (this.pagination.page*4)-4; index < (this.pagination.page*4)-(4-val.length); index++) {
-    //       this.pageUsers.push(val[index-((this.pagination.page*4)-4)])
+    requests: function (val){
+        this.pageRequests=[]
+        for (let index = 0; index < (this.pagination.page*8)-8; index++) {
+            this.pageRequests.push(null)
+        }
+        for (let index = (this.pagination.page*4)-4; index < (this.pagination.page*8)-(8-val.length); index++) {
+          this.pageRequests.push(val[index-((this.pagination.page*8)-8)])
 
-    //   }
+      }
 
-    // }
+    }
   },
   methods: {
     ...mapActions({
-      setUsers:'user/setUsers',
-      filterUsers: 'user/filterUsers',
-      removeAdmin: 'user/removeAdmin'
+      setRequests:'project/fetchUploadRequests',
     }),
     removeBtn(id,name){
       this.id=id
       this.name=name
       this.dialog1 = true
     },
-    removeAdminHandler(id){
-      this.dialog1 = false
-      this.removeAdmin(id).then(()=>{
-        var request = {
-        role : 'admin',
-        offset: 0,
-        limit: 4
-        }
-        this.setUsers(request)
-      })
-    },
-    filter: _.debounce(function()  {
-      var request = {
-        role : 'admin',
-        name: this.search,
-        offset: 0,
-        limit: 4
-      }
-      this.filterUsers(request)
-      this.pagination.page=1
-    }, 500)
 
   },
   beforeCreate() {
     var request = {
-      role : 'admin',
       offset: 0,
-      limit: 4
+      limit: 8
     }
-    this.setUsers(request)
+    this.setRequests(request)
   },
 }
 </script>

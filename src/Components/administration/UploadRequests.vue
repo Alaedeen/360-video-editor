@@ -1,28 +1,30 @@
 <template>
   <div>
+      <div v-if="video==null">
+        <v-data-table
+          :headers="headers"
+          :items="pageRequests"
+          class="elevation-1"
+          dark
+          hide-actions
+          :pagination.sync="pagination"
+        >
+          <template v-slot:items="props" >
+            <tr style="cursor: pointer" >
+              <td class="text-xs-center" >{{ props.item.title }}</td>
+              <td class="text-xs-center" >{{ props.item.userId }}</td>
+            <td><v-btn color="#1487F9" @click="playVideo(props.item)">watch video</v-btn></td>
+            <td><v-btn color="#ff4646" @click="true">decline request</v-btn></td>
+            <td><v-btn color="#5aad5a" @click="true">approve request</v-btn></td>
+            </tr>
+          </template>
+        </v-data-table>
 
-      <v-data-table
-        :headers="headers"
-        :items="pageRequests"
-        class="elevation-1"
-        dark
-        hide-actions
-        :pagination.sync="pagination"
-      >
-        <template v-slot:items="props" >
-          <tr style="cursor: pointer" >
-            <td class="text-xs-center" >{{ props.item.title }}</td>
-            <td class="text-xs-center" >{{ props.item.userId }}</td>
-          <td><v-btn color="#1487F9" @click="true">watch video</v-btn></td>
-          <td><v-btn color="#ff4646" @click="true">decline request</v-btn></td>
-          <td><v-btn color="#5aad5a" @click="true">approve request</v-btn></td>
-          </tr>
-        </template>
-      </v-data-table>
-
-      <div class="text-xs-center pt-2">
-        <v-pagination v-model="pagination.page" :length="pages" dark color="black" ></v-pagination>
+        <div class="text-xs-center pt-2">
+          <v-pagination v-model="pagination.page" :length="pages" dark color="black" ></v-pagination>
+        </div>
       </div>
+
 
       <!-- remove admin dialog -->
             <v-dialog
@@ -59,12 +61,20 @@
                 </v-card>
               </v-dialog>
             <!-- remove admin dialog end -->
+      <div v-if="video!=null">
+
+        <!-- video player -->
+          <app-player  :video="video"></app-player>
+        <!-- video player end-->
+        <v-btn dark color="#ff4646" style="margin-left:15em;margin-top:-6em;" @click="video=null"> close preview</v-btn>
+      </div>
+
   </div>
 </template>
 
 <script>
+import player from '../VideoPlaying/player'
 import {mapActions} from 'vuex'
-import _ from 'lodash'
 export default {
   data() {
     return {
@@ -76,6 +86,7 @@ export default {
         { text: '',align: 'center',sortable: false, value: '' },
       ],
       search: '',
+      dialog: false,
       dialog1: false,
       name:'',
       id: 0,
@@ -84,7 +95,9 @@ export default {
         rowsPerPage: 8,
         page:1
       },
-      pageRequests : []
+      pageRequests : [],
+      title : '',
+      video :null
     }
   },
 computed: {
@@ -128,15 +141,25 @@ watch: {
       this.name=name
       this.dialog1 = true
     },
+    playVideo(request){
+      this.title=request.title
+      this.video = {
+        src : request.src,
+        aFrame: request.aFrame
+      }
+    }
 
   },
-  beforeCreate() {
+  Created() {
     var request = {
       offset: 0,
       limit: 8
     }
     this.setRequests(request)
   },
+  components: {
+    appPlayer: player,
+  }
 }
 </script>
 

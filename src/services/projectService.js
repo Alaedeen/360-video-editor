@@ -292,4 +292,17 @@ export const projectService = {
         .catch(error => console.log(error))
     })
   },
+  addUploadRequest(Request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.post('http://localhost:8000/api/v1/uploadRequests', Request, config).then((data) => {
+        resolve(data)
+      })
+        .catch(error => console.log(error))
+    })
+  },
 }

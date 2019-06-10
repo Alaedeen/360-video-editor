@@ -413,6 +413,15 @@ const actions = {
       })
     })
   },
+  addUploadRequest: ({ commit }, request) => {
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      projectService.addUploadRequest(request).then(() => {
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
+  },
 }
 
 export const project = {

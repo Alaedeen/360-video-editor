@@ -46,7 +46,7 @@
             <v-btn
               color="green darken-1"
               flat="flat"
-              @click="dialog = false"
+              @click="makeRequest"
             >
               YES
             </v-btn>
@@ -61,24 +61,97 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+       <!-- sharing video snackBar -->
+      <v-snackbar
+        v-model="snackbar"
+        :timeout="timeout"
+        :top="true"
+      >
+        Your video sharing request has been sent!
+        <v-btn
+          color="red"
+          flat
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </v-snackbar>
 </div>
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   props: ['project'],
   data() {
     return {
       dialog: false,
+      snackbar: false,
+      timeout: 4000,
+    }
+  },
+  computed: {
+    date(){
+      var today = new Date();
+      var day = today.getDate();
+      var month = today.getMonth()+1; //January is 0!
+      var year = today.getFullYear();
+      switch (month) {
+        case 1: month='January'
+          break;
+        case 2: month='February'
+          break;
+        case 3: month='March'
+          break;
+        case 4: month='April'
+          break;
+        case 5: month='May'
+          break;
+        case 6: month='June'
+          break;
+        case 7: month='Jully'
+          break;
+        case 8: month='August'
+          break;
+        case 9: month='September'
+          break;
+        case 10: month='October'
+          break;
+        case 11: month='November'
+          break;
+        case 12: month='December'
+          break;
+      }
+      return{day,month,year}
     }
   },
   methods: {
+    ...mapActions({
+      addUploadRequest:'project/addUploadRequest',
+    }),
     edit(id){
       var url = '/edit/'+id
       this.$router.push({path:url})
     },
     shareProject(){
       this.dialog=true
+    },
+    makeRequest(){
+      var request = {
+        userId : this.project.userId,
+        title: this.project.title,
+        uploadDay : this.date.day,
+        uploadMonth : this.date.month,
+        uploadYear: this.date.year,
+        thumbnail :this.project.thumbnail,
+        src: this.project.video,
+        aFrame: this.project.aFrame
+      }
+      this.addUploadRequest(request).then(()=>{
+        this.dialog=false
+        this.snackbar=true
+      })
     }
   },
 

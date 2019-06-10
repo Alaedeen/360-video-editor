@@ -14,7 +14,7 @@
               <td class="text-xs-center" >{{ props.item.title }}</td>
               <td class="text-xs-center" >{{ props.item.userId }}</td>
             <td><v-btn color="#1487F9" @click="playVideo(props.item)">watch video</v-btn></td>
-            <td><v-btn color="#ff4646" @click="true">decline request</v-btn></td>
+            <td><v-btn color="#ff4646" @click="OpenDeleteDialog(props.item.ID)">decline request</v-btn></td>
             <td><v-btn color="#5aad5a" @click="true">approve request</v-btn></td>
             </tr>
           </template>
@@ -26,41 +26,6 @@
       </div>
 
 
-      <!-- remove admin dialog -->
-            <v-dialog
-                v-model="dialog1"
-                min-width="350"
-                max-width="400"
-              >
-                <v-card >
-                  <v-card-title class="headline">Remove {{name}} as an admin?</v-card-title>
-
-                  <v-card-text>
-                    Are you sure ?
-                  </v-card-text>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-
-                    <v-btn
-                      color="green darken-1"
-                      flat="flat"
-                      @click="dialog1 = false"
-                    >
-                      no
-                    </v-btn>
-
-                    <v-btn
-                      color="red darken-1"
-                      flat="flat"
-                      @click="removeAdminHandler(id)"
-                    >
-                      yes
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            <!-- remove admin dialog end -->
       <div v-if="video!=null">
 
         <!-- video player -->
@@ -68,6 +33,36 @@
         <!-- video player end-->
         <v-btn dark color="#ff4646" style="margin-left:15em;margin-top:-6em;" @click="video=null"> close preview</v-btn>
       </div>
+
+      <v-dialog
+        v-model="dialog"
+        max-width="350"
+      >
+        <v-card>
+          <v-card-title class="headline">Decline Sharing Request?</v-card-title>
+
+          <v-card-text> Are you sure? </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="green darken-1"
+              flat="flat"
+              @click="dialog = false"
+            >
+              No
+            </v-btn>
+
+            <v-btn
+              color="red darken-1"
+              flat="flat"
+              @click="deleteUploadRequest"
+            >
+              Yes
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
   </div>
 </template>
@@ -97,7 +92,8 @@ export default {
       },
       pageRequests : [],
       title : '',
-      video :null
+      video :null,
+      ID: 0
     }
   },
 computed: {
@@ -135,6 +131,7 @@ watch: {
   methods: {
     ...mapActions({
       setRequests:'project/fetchUploadRequests',
+      deleteRequest: 'project/deleteUploadRequest'
     }),
     removeBtn(id,name){
       this.id=id
@@ -147,6 +144,20 @@ watch: {
         src : request.src,
         aFrame: request.aFrame
       }
+    },
+    deleteUploadRequest(){
+      this.deleteRequest(this.ID).then(()=>{
+        this.dialog=false
+        var request = {
+          offset: 0,
+          limit: 8
+        }
+        this.setRequests(request)
+      })
+    },
+    OpenDeleteDialog(id){
+      this.dialog=true
+      this.ID=id
     }
 
   },

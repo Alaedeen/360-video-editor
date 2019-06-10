@@ -403,6 +403,16 @@ const actions = {
       })
     })
   },
+
+  deleteUploadRequest: ({ commit }, id) => {
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      projectService.deleteUploadRequest(id).then(() => {
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
+  },
 }
 
 export const project = {

@@ -422,6 +422,15 @@ const actions = {
       })
     })
   },
+  approveUploadRequest: ({ commit }, request) => {
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      projectService.approveUploadRequest(request).then(() => {
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
+  },
 }
 
 export const project = {

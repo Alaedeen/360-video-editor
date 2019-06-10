@@ -15,7 +15,7 @@
               <td class="text-xs-center" >{{ props.item.userId }}</td>
             <td><v-btn color="#1487F9" @click="playVideo(props.item)">watch video</v-btn></td>
             <td><v-btn color="#ff4646" @click="OpenDeleteDialog(props.item.ID)">decline request</v-btn></td>
-            <td><v-btn color="#5aad5a" @click="true">approve request</v-btn></td>
+            <td><v-btn color="#5aad5a" @click="OpenApproveDialog(props.item)">approve request</v-btn></td>
             </tr>
           </template>
         </v-data-table>
@@ -34,6 +34,7 @@
         <v-btn dark color="#ff4646" style="margin-left:15em;margin-top:-6em;" @click="video=null"> close preview</v-btn>
       </div>
 
+      <!-- Decline Request Dialog -->
       <v-dialog
         v-model="dialog"
         max-width="350"
@@ -64,6 +65,37 @@
         </v-card>
       </v-dialog>
 
+      <!-- Approve Request Dialog -->
+      <v-dialog
+        v-model="dialog2"
+        max-width="350"
+      >
+        <v-card v-if="videoRequest!=null">
+          <v-card-title class="headline">Approve {{videoRequest.title}} Sharing Request?</v-card-title>
+
+          <v-card-text> Are you sure? </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="yellow darken-1"
+              flat="flat"
+              @click="dialog2 = false"
+            >
+              No
+            </v-btn>
+
+            <v-btn
+              color="green darken-1"
+              flat="flat"
+              @click="approveUploadRequest"
+            >
+              Yes
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
   </div>
 </template>
 
@@ -83,6 +115,7 @@ export default {
       search: '',
       dialog: false,
       dialog1: false,
+      dialog2: false,
       name:'',
       id: 0,
       pagination: {
@@ -93,7 +126,8 @@ export default {
       pageRequests : [],
       title : '',
       video :null,
-      ID: 0
+      ID: 0,
+      videoRequest:null
     }
   },
 computed: {
@@ -131,7 +165,8 @@ watch: {
   methods: {
     ...mapActions({
       setRequests:'project/fetchUploadRequests',
-      deleteRequest: 'project/deleteUploadRequest'
+      deleteRequest: 'project/deleteUploadRequest',
+      approveRequest: 'project/approveUploadRequest'
     }),
     removeBtn(id,name){
       this.id=id
@@ -155,10 +190,40 @@ watch: {
         this.setRequests(request)
       })
     },
+    approveUploadRequest(){
+      var video = {
+        userId : this.videoRequest.userId,
+        title: this.videoRequest.title,
+        uploadDay : this.videoRequest.uploadDay,
+        uploadMonth : this.videoRequest.uploadMonth,
+        uploadYear: this.videoRequest.uploadYear,
+        thumbnail :this.videoRequest.thumbnail,
+        src: this.videoRequest.src,
+        aFrame: this.videoRequest.aFrame,
+        likes: 0,
+        dislikes: 0,
+        views:0
+      }
+      this.approveRequest(video).then(()=>{
+        this.dialog2=false
+        this.deleteRequest(this.videoRequest.ID).then(()=>{
+          this.dialog=false
+          var request = {
+            offset: 0,
+            limit: 8
+          }
+          this.setRequests(request)
+        })
+      })
+    },
     OpenDeleteDialog(id){
       this.dialog=true
       this.ID=id
-    }
+    },
+    OpenApproveDialog(request){
+      this.dialog2=true
+      this.videoRequest=request
+    },
 
   },
   Created() {

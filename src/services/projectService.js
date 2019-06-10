@@ -305,4 +305,17 @@ export const projectService = {
         .catch(error => console.log(error))
     })
   },
+  approveUploadRequest(Request) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      Axios.post('http://localhost:8000/api/v1/video', Request, config).then((data) => {
+          resolve(data)
+        })
+        .catch(error => console.log(error))
+    })
+  },
 }

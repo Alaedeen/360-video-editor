@@ -52,12 +52,12 @@ export default {
   methods: {
     playIcon(){
       var vid = document.getElementById("video");
-      if (this.toggle=='play_arrow') {
-          this.toggle='pause'
-          vid.play()
-      }else{
+      if (this.toggle=='pause') {
           this.toggle='play_arrow'
           vid.pause()
+      }else{
+          this.toggle='pause'
+          vid.play()
       }
     },
     changeTime(){
@@ -180,7 +180,7 @@ export default {
     setInterval(() => this.valueDeterminate = (vid.currentTime/vid.duration)*100, 1000);
     setInterval(() => this.time = vid.currentTime, 1000);
     setInterval(() => this.duration = vid.duration, 1);
-    vid.play()
+    // vid.play()
     setInterval(() => {
         var video = document.querySelector('#editor')
         var entities = Array.from(video.querySelectorAll('.element'))
@@ -213,7 +213,7 @@ export default {
 
       setInterval(() => {
         var video = document.querySelector('#editor')
-        for (let index = 0; index < 200; index++) {
+        for (let index = 0; index < 200; index++) {//tag numbers
             var entities = Array.from(video.querySelectorAll('.tag'+index))
 
             entities.forEach((entity)=> {
@@ -228,7 +228,7 @@ export default {
       }, 1);
       setInterval(() => {
         var video = document.querySelector('#text')
-        for (let index = 0; index < 200; index++) {
+        for (let index = 0; index < 200; index++) {//tag numbers
             var entities = Array.from(video.querySelectorAll('.tag'+index))
 
             entities.forEach((entity)=> {

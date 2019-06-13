@@ -213,7 +213,7 @@ export default {
 
       setInterval(() => {
         var video = document.querySelector('#editor')
-        for (let index = 0; index < this.project.tag; index++) {
+        for (let index = 0; index < 200; index++) {
             var entities = Array.from(video.querySelectorAll('.tag'+index))
 
             entities.forEach((entity)=> {
@@ -228,7 +228,7 @@ export default {
       }, 1);
       setInterval(() => {
         var video = document.querySelector('#text')
-        for (let index = 0; index < this.project.tag; index++) {
+        for (let index = 0; index < 200; index++) {
             var entities = Array.from(video.querySelectorAll('.tag'+index))
 
             entities.forEach((entity)=> {

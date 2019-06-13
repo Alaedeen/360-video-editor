@@ -197,8 +197,38 @@ export default {
       }, 1);
 
       setInterval(() => {
+        var video = document.querySelector('#text')
+        var entities = Array.from(video.querySelectorAll('.element'))
+        entities.forEach((entity)=> {
+          var start = entity.getAttribute('startTime')
+
+          var end = entity.getAttribute('endTime')
+          if ((this.time>=start)&&(this.time<=end)) {
+              entity.object3D.visible = true;
+          }else{
+            entity.object3D.visible = false;
+          }
+        });
+      }, 1);
+
+      setInterval(() => {
         var video = document.querySelector('#editor')
-        for (let index = 0; index < 100; index++) {//fix this to get the number of tags from the project
+        for (let index = 0; index < this.project.tag; index++) {
+            var entities = Array.from(video.querySelectorAll('.tag'+index))
+
+            entities.forEach((entity)=> {
+              var start = entity.getAttribute('startTime')
+              var end = entity.getAttribute('endTime')
+              if ((this.time<start)||(this.time>end)) {
+                console.log(start);
+                  entity.object3D.visible = false;
+              }
+            });
+        }
+      }, 1);
+      setInterval(() => {
+        var video = document.querySelector('#text')
+        for (let index = 0; index < this.project.tag; index++) {
             var entities = Array.from(video.querySelectorAll('.tag'+index))
 
             entities.forEach((entity)=> {

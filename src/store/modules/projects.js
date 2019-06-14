@@ -335,7 +335,13 @@ const actions = {
 
   },
   addVideo: ({commit},video)=>{
-    commit('ADD_VIDEO',video)
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      projectService.addVideo(video).then(() => {
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
   },
   addProject: ({commit},project)=>{
     return new Promise((resolve, reject) => {

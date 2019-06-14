@@ -39,6 +39,11 @@ export default {
       ratio:''
     }
   },
+  computed: {
+    current() {
+      return this.$store.state.user.current
+    },
+  },
   watch: {
 
 
@@ -49,12 +54,19 @@ export default {
 
 
         var newVideo= {
-              src: this.src,
+              projectVideo: this.videoFile,
               type: 'video',
               ratio : val.ratio,
-              thumbnail: '/src/assets/video1.jpg'
+              userId : this.current.id
             }
-            this.$store.dispatch('project/addVideo',newVideo)
+            this.$store.dispatch('project/addVideo',newVideo).then(()=>{
+              var request2 = {
+                id: this.current.id,
+                offset : 0,
+                limit : 20
+              }
+              this.$store.dispatch('project/initVideos', request2);
+            })
       }
     }
   },

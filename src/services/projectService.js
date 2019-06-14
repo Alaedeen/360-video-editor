@@ -337,4 +337,23 @@ export const projectService = {
         .catch(error => console.log(error))
     })
   },
+  addVideo(video) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      var f = new FormData()
+      f.append('projectVideo', video.projectVideo)
+      f.append('type', video.type)
+      f.append('userId', video.userId)
+      f.append('ratio', video.ratio)
+      Axios.post('http://localhost:8000/api/v1/project/video', f, config).then(
+          (res) => {
+            resolve(res)
+          })
+        .catch(error => console.log(error))
+    })
+  },
 }

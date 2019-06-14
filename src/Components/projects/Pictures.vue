@@ -42,16 +42,29 @@ export default {
       ratio:0
     }
   },
+  computed: {
+    current() {
+      return this.$store.state.user.current
+    },
+  },
   watch: {
     ratio : {
       deep: true,
       handler(val){
            var newImage= {
-              src: this.src,
+              picture: this.imageFile,
               type: 'image',
-              ratio: this.ratio.ratio
+              ratio: this.ratio.ratio,
+              userId : this.current.id
             }
-            this.$store.dispatch('project/addPicture',newImage)
+            this.$store.dispatch('project/addPicture',newImage).then(()=>{
+              var request1 = {
+                id: this.current.id,
+                offset : 0,
+                limit : 20
+              }
+              this.$store.dispatch('project/initPictures', request1);
+            })
       }
     }
   },

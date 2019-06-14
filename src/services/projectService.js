@@ -318,4 +318,23 @@ export const projectService = {
         .catch(error => console.log(error))
     })
   },
+  addPicture(picture) {
+    return new Promise((resolve, reject) => {
+      var config = {
+        headers: {
+          Authorization: "Bearer " + $cookies.get('token')
+        }
+      }
+      var f = new FormData()
+      f.append('picture', picture.picture)
+      f.append('type', picture.type)
+      f.append('userId', picture.userId)
+      f.append('ratio', picture.ratio)
+      Axios.post('http://localhost:8000/api/v1/project/picture', f, config).then(
+          (res) => {
+            resolve(res)
+          })
+        .catch(error => console.log(error))
+    })
+  },
 }

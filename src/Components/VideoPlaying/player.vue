@@ -54,10 +54,10 @@ export default {
       var vid = document.getElementById("video");
       if (this.toggle=='pause') {
           this.toggle='play_arrow'
-          vid.pause()
+          vid.play()
       }else{
           this.toggle='pause'
-          vid.play()
+          vid.pause()
       }
     },
     changeTime(){

@@ -729,7 +729,6 @@ mounted() {
               var start = entity.getAttribute('startTime')
               var end = entity.getAttribute('endTime')
               if ((this.time<start)||(this.time>end)) {
-                console.log(start);
                   entity.object3D.visible = false;
               }
             });
@@ -744,7 +743,6 @@ mounted() {
               var start = entity.getAttribute('startTime')
               var end = entity.getAttribute('endTime')
               if ((this.time<start)||(this.time>end)) {
-                console.log(start);
                   entity.object3D.visible = false;
               }
             });

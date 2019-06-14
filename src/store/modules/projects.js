@@ -224,9 +224,6 @@ const mutations = {
     }
 
   },
-  'ADD_PICTURE'(state,picture) {
-    state.pictures.splice(0,0,picture)
-  },
   'ADD_VIDEO'(state, video) {
     state.videos.splice(0, 0, video)
   },
@@ -328,7 +325,14 @@ const actions = {
     commit('ADD_ELEMENT',newElement)
   },
   addPicture: ({commit},picture)=>{
-    commit('ADD_PICTURE',picture)
+    return new Promise((resolve, reject) => {
+      commit('SET_LOADING', true)
+      projectService.addPicture(picture).then(() => {
+        commit('SET_LOADING', false)
+        resolve()
+      })
+    })
+
   },
   addVideo: ({commit},video)=>{
     commit('ADD_VIDEO',video)
